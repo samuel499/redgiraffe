@@ -11,7 +11,7 @@ const solutions = [
     description:
       "Unified AP & Payments: Ingests all invoices, Automates workflows, RedGiraffe acts as Merchant of Record (MOR), eliminating all supplier onboarding friction.",
     image:
-      "/placeholder.svg?height=400&width=600&text=Office+workspace+showing+payment+processing+on+laptop+and+mobile+device",
+      "/images/solutions1.svg",
     imageAlt: "Office workspace showing payment processing on laptop and mobile device",
   },
   {
@@ -20,7 +20,7 @@ const solutions = [
     title: "LeaseCore",
     description:
       "Centralized Lease Intelligence: Digitizes all property/asset leases, manages critical dates, and automates payments via the PayPulse engine.",
-    image: "/placeholder.svg?height=400&width=600&text=Property+management+visualization+with+red+house+shaped+objects",
+    image: "/images/solutions2.svg",
     imageAlt: "Property management visualization with house-shaped objects",
   },
   {
@@ -29,7 +29,7 @@ const solutions = [
     title: "ESG Horizon",
     description:
       "Automated Scope 3 Reporting: Automatically captures and maps emissions data from payment and utility flows, providing board-ready reports.",
-    image: "/placeholder.svg?height=400&width=600&text=ESG+sustainability+reporting+dashboard+with+charts+and+metrics",
+    image: "/images/solutions3.svg",
     imageAlt: "ESG sustainability reporting dashboard with various charts and metrics",
   },
   {
@@ -38,7 +38,7 @@ const solutions = [
     title: "FlowForge",
     description:
       "IoT-Driven Efficiency: Integrates with utility meters to identify waste, optimise consumption, and validate hard-dollar energy savings.",
-    image: "/placeholder.svg?height=400&width=600&text=Hands+working+on+electronic+components+and+circuit+boards",
+    image: "/images/solutions4.svg",
     imageAlt: "Hands working on electronic components and circuit boards for IoT solutions",
   },
 ]

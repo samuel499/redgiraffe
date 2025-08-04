@@ -201,7 +201,7 @@ export default function PurposeSection() {
                   <div className="purpose-image-section">
                     <div className="purpose-image-container">
                       <Image
-                        src="/placeholder.svg?height=200&width=200"
+                        src="/images/purpose1.svg"
                         alt="Bank Partnership"
                         width={200}
                         height={200}
@@ -239,7 +239,7 @@ export default function PurposeSection() {
                   <div className="purpose-image-section">
                     <div className="purpose-image-container">
                       <Image
-                        src="/placeholder.svg?height=200&width=200"
+                        src="/images/purpose2.svg"
                         alt="PSP Partnership"
                         width={200}
                         height={200}

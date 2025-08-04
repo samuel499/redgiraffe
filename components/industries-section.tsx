@@ -182,7 +182,7 @@ export default function IndustriesSection() {
                 {selectedIndustryData && (
                   <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-8 sm:left-full sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:ml-8 z-20 animate-scale-in">
                     <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-2 sm:left-0 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:-translate-x-2">
-                      <div className="w-0 h-0 border-l-8 border-r-8 border-b-12 border-l-transparent border-r-transparent border-b-white sm:border-t-8 sm:border-b-8 sm:border-r-12 sm:border-t-transparent sm:border-b-transparent sm:border-r-white sm:border-l-0 sm:border-r-white"></div>
+                      <div className="w-0 h-0 border-l-8 border-r-8 border-b-12 border-l-transparent border-r-transparent border-b-white sm:border-t-8 sm:border-b-8 sm:border-r-12 sm:border-t-transparent sm:border-b-transparent sm:border-r-white sm:border-l-0"></div>
                     </div>
 
                     <div className="industry-popup-compact">
