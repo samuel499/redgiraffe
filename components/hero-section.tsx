@@ -36,6 +36,7 @@ export default function HeroSection() {
         (document as any).msFullscreenElement
       )
       setIsFullscreen(isCurrentlyFullscreen)
+      console.log("Fullscreen state changed:", isCurrentlyFullscreen)
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
@@ -187,29 +188,51 @@ export default function HeroSection() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
-  const toggleFullscreen = async () => {
-    if (!containerRef.current) return
+  const toggleFullscreen = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    console.log("Fullscreen button clicked!")
+    console.log("Container ref:", containerRef.current)
+    console.log("Current fullscreen state:", isFullscreen)
+
+    if (!containerRef.current) {
+      console.log("No container ref found")
+      return
+    }
 
     try {
       if (!isFullscreen) {
+        console.log("Attempting to enter fullscreen...")
         if (containerRef.current.requestFullscreen) {
           await containerRef.current.requestFullscreen()
+          console.log("requestFullscreen called")
         } else if ((containerRef.current as any).webkitRequestFullscreen) {
           await (containerRef.current as any).webkitRequestFullscreen()
+          console.log("webkitRequestFullscreen called")
         } else if ((containerRef.current as any).mozRequestFullScreen) {
           await (containerRef.current as any).mozRequestFullScreen()
+          console.log("mozRequestFullScreen called")
         } else if ((containerRef.current as any).msRequestFullscreen) {
           await (containerRef.current as any).msRequestFullscreen()
+          console.log("msRequestFullscreen called")
+        } else {
+          console.log("No fullscreen API available")
         }
       } else {
+        console.log("Attempting to exit fullscreen...")
         if (document.exitFullscreen) {
           await document.exitFullscreen()
+          console.log("exitFullscreen called")
         } else if ((document as any).webkitExitFullscreen) {
           await (document as any).webkitExitFullscreen()
+          console.log("webkitExitFullscreen called")
         } else if ((document as any).mozCancelFullScreen) {
           await (document as any).mozCancelFullScreen()
+          console.log("mozCancelFullScreen called")
         } else if ((document as any).msExitFullscreen) {
           await (document as any).msExitFullscreen()
+          console.log("msExitFullscreen called")
         }
       }
     } catch (error) {
@@ -331,7 +354,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Video - Fixed for SSR and Duration */}
+            {/* Hero Video - Fixed Fullscreen Button */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -387,85 +410,96 @@ export default function HeroSection() {
                       playsInline
                     />
 
-                    {/* Video Controls Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {/* Top Controls */}
-                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-2">
-                        <button
-                          onClick={toggleFullscreen}
-                          className="w-8 sm:w-10 h-8 sm:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
-                          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-                        >
-                          {isFullscreen ? (
-                            <Minimize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          ) : (
-                            <Maximize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          )}
-                        </button>
-                      </div>
-
-                      {/* Center Play/Pause Button */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <button 
-                          onClick={togglePlayPause} 
-                          className="w-12 sm:w-16 h-12 sm:h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border-2 border-white/30"
-                        >
-                          {isPlaying ? (
-                            <Pause className="w-5 sm:w-8 h-5 sm:h-8 text-white" />
-                          ) : (
-                            <Play className="w-5 sm:w-8 h-5 sm:h-8 text-white ml-1" />
-                          )}
-                        </button>
-                      </div>
-
-                      {/* Bottom Controls */}
-                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
-                        {/* Progress Bar - Fixed */}
-                        <div
-                          className="w-full h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress"
-                          onClick={handleSeek}
-                        >
-                          <div
-                            className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
-                            style={{ 
-                              width: `${duration && duration > 0 ? (currentTime / duration) * 100 : 0}%`,
-                              maxWidth: '100%' 
+                    {/* Video Controls Overlay - Fixed Z-index and Pointer Events */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      {/* Background Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+                      
+                      {/* Controls Container - Enable pointer events only for controls */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        {/* Top Controls - Enable pointer events */}
+                        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-2 pointer-events-auto">
+                          <button
+                            onClick={toggleFullscreen}
+                            onMouseDown={(e) => {
+                              console.log("Mouse down on fullscreen button")
+                              e.preventDefault()
                             }}
-                          />
+                            className="w-8 sm:w-10 h-8 sm:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm z-50 relative"
+                            title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                            style={{ pointerEvents: 'auto' }}
+                          >
+                            {isFullscreen ? (
+                              <Minimize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                            ) : (
+                              <Maximize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                            )}
+                          </button>
                         </div>
 
-                        {/* Control Bar - Fixed time display */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 sm:gap-3">
-                            <button 
-                              onClick={togglePlayPause} 
-                              className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
-                            >
-                              {isPlaying ? (
-                                <Pause className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                              ) : (
-                                <Play className="w-3 sm:w-4 h-3 sm:h-4 text-white ml-0.5" />
-                              )}
-                            </button>
+                        {/* Center Play/Pause Button - Enable pointer events */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
+                          <button 
+                            onClick={togglePlayPause} 
+                            className="w-12 sm:w-16 h-12 sm:h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border-2 border-white/30"
+                          >
+                            {isPlaying ? (
+                              <Pause className="w-5 sm:w-8 h-5 sm:h-8 text-white" />
+                            ) : (
+                              <Play className="w-5 sm:w-8 h-5 sm:h-8 text-white ml-1" />
+                            )}
+                          </button>
+                        </div>
 
-                            <button 
-                              onClick={toggleMute} 
-                              className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
-                            >
-                              {isMuted ? (
-                                <VolumeX className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                              ) : (
-                                <Volume2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                              )}
-                            </button>
-
-                            <span className="text-white text-xs sm:text-sm font-medium">
-                              {formatTime(currentTime)} / {formatTime(duration)}
-                            </span>
+                        {/* Bottom Controls - Enable pointer events */}
+                        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 pointer-events-auto">
+                          {/* Progress Bar - Fixed */}
+                          <div
+                            className="w-full h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress"
+                            onClick={handleSeek}
+                          >
+                            <div
+                              className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
+                              style={{ 
+                                width: `${duration && duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                                maxWidth: '100%' 
+                              }}
+                            />
                           </div>
 
-                          <div className="text-white text-xs sm:text-sm font-medium hidden sm:block">
-                            RedGiraffe Commercial Card
+                          {/* Control Bar - Fixed time display */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <button 
+                                onClick={togglePlayPause} 
+                                className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
+                              >
+                                {isPlaying ? (
+                                  <Pause className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                                ) : (
+                                  <Play className="w-3 sm:w-4 h-3 sm:h-4 text-white ml-0.5" />
+                                )}
+                              </button>
+
+                              <button 
+                                onClick={toggleMute} 
+                                className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
+                              >
+                                {isMuted ? (
+                                  <VolumeX className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                                ) : (
+                                  <Volume2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                                )}
+                              </button>
+
+                              <span className="text-white text-xs sm:text-sm font-medium">
+                                {formatTime(currentTime)} / {formatTime(duration)}
+                              </span>
+                            </div>
+
+                            <div className="text-white text-xs sm:text-sm font-medium hidden sm:block">
+                              RedGiraffe Commercial Card
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -499,7 +533,7 @@ export default function HeroSection() {
                     )}
                   </div>
 
-                  {/* Hover Overlay */}
+                  {/* Hover Overlay - Ensure it doesn't block clicks */}
                   {!isFullscreen && (
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl pointer-events-none" />
                   )}
