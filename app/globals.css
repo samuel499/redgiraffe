@@ -992,17 +992,7 @@
     }
   }
 
-  /* 3D Industries Carousel Styles */
-  .industry-card-3d {
-    cursor: pointer;
-    outline: none;
-  }
-
-  .industry-card-3d:focus {
-    outline: 2px solid #209954;
-    outline-offset: 4px;
-  }
-
+  /* 3D Industries Styles */
   .industry-popup-3d {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
@@ -1015,20 +1005,62 @@
     transform-style: preserve-3d;
   }
 
-  /* Enhanced 3D perspective for better depth */
-  @media (min-width: 768px) {
-    .industry-card-3d:hover {
-      transform: scale(1.05) translateZ(30px) !important;
+  /* Tilted Plane/Deck Styles */
+  .tilted-industry-card {
+    cursor: pointer;
+    outline: none;
+    transform-style: preserve-3d;
+  }
+
+  .tilted-industry-card:focus {
+    outline: 2px solid #209954;
+    outline-offset: 4px;
+  }
+
+  .tilted-industry-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+  }
+
+  /* Floating 3D Cards Styles */
+  .floating-industry-card {
+    cursor: pointer;
+    outline: none;
+    transform-style: preserve-3d;
+  }
+
+  .floating-industry-card:focus {
+    outline: 2px solid #209954;
+    outline-offset: 4px;
+  }
+
+  /* Floating animations */
+  @keyframes floatingBob {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
     }
   }
 
-  /* Smooth rotation animation */
-  @keyframes rotate3D {
-    from {
-      transform: rotateY(0deg);
+  @keyframes floatingParticle {
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+      opacity: 0.3;
     }
-    to {
-      transform: rotateY(360deg);
+    50% {
+      transform: translateY(-20px) scale(1.2);
+      opacity: 0.8;
+    }
+  }
+
+  /* Enhanced 3D perspective for better depth */
+  @media (min-width: 768px) {
+    .tilted-industry-card:hover,
+    .floating-industry-card:hover {
+      filter: brightness(1.1);
     }
   }
 }
