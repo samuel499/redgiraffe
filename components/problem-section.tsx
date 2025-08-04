@@ -66,7 +66,7 @@ export default function ProblemSection() {
             <div className="w-full mt-16">
               <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
                 <Image
-                  src="/placeholder.svg?height=600&width=1200"
+                  src="/placeholder.svg?height=600&width=1200&text=Traditional+B2B+Payment+Problems"
                   alt="Traditional B2B payment problems visualization"
                   fill
                   className="object-cover rounded-2xl shadow-2xl"
