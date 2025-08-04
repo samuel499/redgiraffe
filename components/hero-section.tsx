@@ -1,18 +1,96 @@
 "use client"
 
-import { useState } from "react"
-import { MousePointer } from "lucide-react"
-import Image from "next/image"
+import type React from "react"
+
+import { useState, useRef } from "react"
+import { MousePointer, Play, Pause, Volume2, VolumeX, Maximize, AlertCircle } from "lucide-react"
 import { useScrollAnimations } from "../hooks/use-scroll-animations"
 
 export default function HeroSection() {
   const [activeToggle, setActiveToggle] = useState<"commercial" | "platforms">("commercial")
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })
 
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [videoError, setVideoError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
   const handleToggleChange = (value: "commercial" | "platforms") => {
     setActiveToggle(value)
     if (value === "platforms") {
       window.open("https://redgirraffe.com/in/b2b-saas", "_blank")
+    }
+  }
+
+  const togglePlayPause = () => {
+    if (videoRef.current && !videoError) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play().catch(() => {
+          setVideoError(true)
+        })
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted
+      setIsMuted(!isMuted)
+    }
+  }
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime)
+    }
+  }
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration)
+      setIsLoading(false)
+    }
+  }
+
+  const handleVideoError = () => {
+    setVideoError(true)
+    setIsLoading(false)
+  }
+
+  const handleCanPlay = () => {
+    setIsLoading(false)
+    setVideoError(false)
+  }
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (videoRef.current && !videoError) {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const clickX = e.clientX - rect.left
+      const newTime = (clickX / rect.width) * duration
+      videoRef.current.currentTime = newTime
+      setCurrentTime(newTime)
+    }
+  }
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+  const toggleFullscreen = () => {
+    if (videoRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+      } else {
+        videoRef.current.requestFullscreen()
+      }
     }
   }
 
@@ -131,7 +209,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Image */}
+            {/* Hero Video */}
             <div
               className={`relative mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -142,17 +220,119 @@ export default function HeroSection() {
             >
               <div className="relative w-full max-w-5xl mx-auto">
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group">
-                  <Image
-                    src="/placeholder.svg?height=600&width=1200"
-                    alt="Business professionals in meeting with RedGiraffe commercial card solution"
-                    width={1200}
-                    height={600}
-                    className="w-full"
-                    priority
-                  />
+                  {/* Video Container */}
+                  <div className="relative w-full aspect-video bg-gray-900 min-h-[400px] group/video">
+                    <video
+                      ref={videoRef}
+                      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                      className="absolute inset-0 w-full h-full object-cover bg-black rounded-2xl"
+                      onTimeUpdate={handleTimeUpdate}
+                      onLoadedMetadata={handleLoadedMetadata}
+                      onCanPlay={handleCanPlay}
+                      onPlay={() => setIsPlaying(true)}
+                      onPause={() => setIsPlaying(false)}
+                      onEnded={() => setIsPlaying(false)}
+                      onError={handleVideoError}
+                      crossOrigin="anonymous"
+                      preload="metadata"
+                      loop
+                      muted={isMuted}
+                      autoPlay
+                      playsInline
+                    />
+
+                    {/* Custom Video Controls Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300">
+                      {/* Top Controls */}
+                      <div className="absolute top-4 right-4 flex items-center gap-2">
+                        <button onClick={toggleFullscreen} className="hero-video-control-btn" title="Fullscreen">
+                          <Maximize className="w-4 h-4 text-white" />
+                        </button>
+                      </div>
+
+                      {/* Center Play/Pause Button */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <button onClick={togglePlayPause} className="hero-video-play-btn group/play">
+                          {isPlaying ? (
+                            <Pause className="w-8 h-8 text-white" />
+                          ) : (
+                            <Play className="w-8 h-8 text-white ml-1" />
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Bottom Controls */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        {/* Progress Bar */}
+                        <div
+                          className="w-full h-2 bg-white/20 rounded-full cursor-pointer mb-3 group/progress"
+                          onClick={handleSeek}
+                        >
+                          <div
+                            className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
+                            style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                          />
+                        </div>
+
+                        {/* Control Bar */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <button onClick={togglePlayPause} className="hero-video-small-btn">
+                              {isPlaying ? (
+                                <Pause className="w-4 h-4 text-white" />
+                              ) : (
+                                <Play className="w-4 h-4 text-white ml-0.5" />
+                              )}
+                            </button>
+
+                            <button onClick={toggleMute} className="hero-video-small-btn">
+                              {isMuted ? (
+                                <VolumeX className="w-4 h-4 text-white" />
+                              ) : (
+                                <Volume2 className="w-4 h-4 text-white" />
+                              )}
+                            </button>
+
+                            <span className="text-white text-sm font-medium">
+                              {formatTime(currentTime)} / {formatTime(duration)}
+                            </span>
+                          </div>
+
+                          <div className="text-white text-sm font-medium">RedGiraffe Commercial Card</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Loading State */}
+                    {isLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+                        <div className="flex items-center gap-3 text-white">
+                          <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Loading video...</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error State */}
+                    {videoError && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-red-900/20 rounded-2xl">
+                        <div className="text-center text-white p-8">
+                          <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-400" />
+                          <h3 className="text-xl font-bold mb-2">Video Unavailable</h3>
+                          <p className="text-sm opacity-90 mb-4">Unable to load video content</p>
+                          <button
+                            onClick={() => window.location.reload()}
+                            className="px-4 py-2 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
+                          >
+                            Reload Page
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
                 </div>
               </div>
             </div>

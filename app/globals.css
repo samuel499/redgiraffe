@@ -894,6 +894,60 @@
       transform: translateY(0);
     }
   }
+
+  /* Hero Video Controls */
+  .hero-video-control-btn {
+    @apply w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .hero-video-play-btn {
+    @apply w-16 h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .hero-video-play-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-video-small-btn {
+    @apply w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .hero-video-small-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Video Progress Bar Enhancements */
+  .group\/progress:hover .bg-primary {
+    background-color: #16a34a !important;
+    box-shadow: 0 0 20px rgba(32, 153, 84, 0.4);
+  }
+
+  /* Fullscreen Video Styles */
+  video:fullscreen {
+    object-fit: contain;
+  }
+
+  video:-webkit-full-screen {
+    object-fit: contain;
+  }
+
+  video:-moz-full-screen {
+    object-fit: contain;
+  }
+
+  video:-ms-fullscreen {
+    object-fit: contain;
+  }
 }
 
 @layer utilities {
