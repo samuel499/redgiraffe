@@ -47,8 +47,30 @@ const industries = [
 export default function IndustriesSection() {
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null)
   const [rotation, setRotation] = useState(0)
+  const [radius, setRadius] = useState(200) // Default radius
   const { ref, inView } = useScrollAnimations({ triggerOnce: false })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(3, 100)
+
+  // Handle window resize and set initial radius
+  useEffect(() => {
+    const updateRadius = () => {
+      if (typeof window !== "undefined") {
+        const width = window.innerWidth
+        if (width < 640) setRadius(120)
+        else if (width < 1024) setRadius(160)
+        else setRadius(200)
+      }
+    }
+
+    // Set initial radius
+    updateRadius()
+
+    // Add resize listener
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", updateRadius)
+      return () => window.removeEventListener("resize", updateRadius)
+    }
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,6 +85,9 @@ export default function IndustriesSection() {
   }
 
   const selectedIndustryData = industries.find((industry) => industry.id === selectedIndustry)
+
+  // Create duplicated array for seamless loop
+  const duplicatedIndustries = [...industries, ...industries]
 
   return (
     <section ref={ref} id="industries" className="relative py-24 overflow-hidden industries-gradient">
@@ -91,9 +116,9 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Circular Animation Container */}
+          {/* Desktop: Circular Animation Container */}
           <div
-            className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
+            className={`hidden md:block fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "100ms" }}
           >
             <div className="relative w-full max-w-5xl">
@@ -111,7 +136,6 @@ export default function IndustriesSection() {
                 {/* Rotating Industry Cards */}
                 {industries.map((industry, index) => {
                   const angle = (rotation + index * 60) * (Math.PI / 180)
-                  const radius = window.innerWidth < 640 ? 120 : window.innerWidth < 1024 ? 160 : 200
                   const x = Math.cos(angle) * radius
                   const y = Math.sin(angle) * radius
 
@@ -154,7 +178,7 @@ export default function IndustriesSection() {
                   )
                 })}
 
-                {/* Popup Card */}
+                {/* Desktop Popup Card */}
                 {selectedIndustryData && (
                   <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-8 sm:left-full sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:ml-8 z-20 animate-scale-in">
                     <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-2 sm:left-0 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:-translate-x-2">
@@ -172,6 +196,74 @@ export default function IndustriesSection() {
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile: Horizontal Scrolling Loop with Flippable Cards */}
+          <div
+            className={`block md:hidden w-full fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
+            style={{ transitionDelay: "100ms" }}
+          >
+            <div className="relative overflow-hidden">
+              {/* Scrolling Container */}
+              <div
+                className={`mobile-industries-scroll ${selectedIndustry ? "slowed" : ""}`}
+                style={{
+                  display: "flex",
+                  width: `${duplicatedIndustries.length * 140}px`,
+                }}
+              >
+                {duplicatedIndustries.map((industry, index) => (
+                  <div
+                    key={`${industry.id}-${index}`}
+                    className="mobile-industry-item"
+                    style={{
+                      width: "120px",
+                      height: "160px",
+                      margin: "0 10px",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <div className="flip-card">
+                      <div className={`flip-card-inner ${selectedIndustry === industry.id ? "flipped" : ""}`}>
+                        {/* Front of Card - Image */}
+                        <div className="flip-card-front">
+                          <button onClick={() => handleIndustryClick(industry.id)} className="mobile-industry-button">
+                            <div className="mobile-industry-image-container">
+                              <Image
+                                src={industry.image || "/placeholder.svg"}
+                                alt={industry.title}
+                                width={120}
+                                height={120}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="mobile-industry-overlay">
+                                <span className="mobile-industry-title">{industry.title}</span>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+
+                        {/* Back of Card - Content */}
+                        <div className="flip-card-back">
+                          <div className="flip-card-content">
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                                <div className="w-3 h-3 bg-white rounded-sm"></div>
+                              </div>
+                              <h4 className="text-sm font-bold text-gray-900 leading-tight">{industry.title}</h4>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed mb-4">{industry.description}</p>
+                            <button onClick={() => setSelectedIndustry(null)} className="flip-card-close-btn">
+                              ×
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
