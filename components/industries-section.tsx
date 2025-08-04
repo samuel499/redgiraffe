@@ -46,15 +46,25 @@ const industries = [
 
 export default function IndustriesSection() {
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<"tilted" | "floating">("tilted")
-  const [floatingAnimation, setFloatingAnimation] = useState(0)
+  const [viewMode, setViewMode] = useState<"spiral" | "layered">("spiral")
+  const [spiralRotation, setSpiralRotation] = useState(0)
+  const [layerAnimation, setLayerAnimation] = useState(0)
   const { ref, inView } = useScrollAnimations({ triggerOnce: false })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(4, 100)
 
-  // Floating animation for 3D cards
+  // Spiral animation
   useEffect(() => {
     const interval = setInterval(() => {
-      setFloatingAnimation((prev) => (prev + 0.5) % 360)
+      setSpiralRotation((prev) => (prev + 0.5) % 360)
+    }, 50)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Layer animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLayerAnimation((prev) => (prev + 0.3) % 360)
     }, 50)
 
     return () => clearInterval(interval)
@@ -104,28 +114,28 @@ export default function IndustriesSection() {
             <div className="glass-toggle">
               <div className="flex items-center relative">
                 <button
-                  onClick={() => setViewMode("tilted")}
+                  onClick={() => setViewMode("spiral")}
                   className={`px-6 py-2 text-sm font-semibold transition-all duration-300 ease-out hover:scale-105`}
                   style={{
                     borderRadius: "20px",
-                    backgroundColor: viewMode === "tilted" ? "#191A39" : "transparent",
-                    color: viewMode === "tilted" ? "white" : "rgba(0, 0, 0, 0.8)",
-                    boxShadow: viewMode === "tilted" ? "0 4px 20px rgba(25, 26, 57, 0.3)" : "none",
+                    backgroundColor: viewMode === "spiral" ? "#191A39" : "transparent",
+                    color: viewMode === "spiral" ? "white" : "rgba(0, 0, 0, 0.8)",
+                    boxShadow: viewMode === "spiral" ? "0 4px 20px rgba(25, 26, 57, 0.3)" : "none",
                   }}
                 >
-                  Tilted Deck
+                  Spiral Helix
                 </button>
                 <button
-                  onClick={() => setViewMode("floating")}
+                  onClick={() => setViewMode("layered")}
                   className={`px-6 py-2 text-sm font-semibold transition-all duration-300 ease-out hover:scale-105`}
                   style={{
                     borderRadius: "20px",
-                    backgroundColor: viewMode === "floating" ? "#191A39" : "transparent",
-                    color: viewMode === "floating" ? "white" : "rgba(0, 0, 0, 0.8)",
-                    boxShadow: viewMode === "floating" ? "0 4px 20px rgba(25, 26, 57, 0.3)" : "none",
+                    backgroundColor: viewMode === "layered" ? "#191A39" : "transparent",
+                    color: viewMode === "layered" ? "white" : "rgba(0, 0, 0, 0.8)",
+                    boxShadow: viewMode === "layered" ? "0 4px 20px rgba(25, 26, 57, 0.3)" : "none",
                   }}
                 >
-                  Floating Cards
+                  Layered Depth
                 </button>
               </div>
             </div>
@@ -136,113 +146,29 @@ export default function IndustriesSection() {
             className={`hidden md:block fade-in-up ${visibleItems.includes(2) ? "visible" : ""}`}
             style={{ transitionDelay: "200ms" }}
           >
-            {/* Tilted Plane/Deck View */}
-            {viewMode === "tilted" && (
-              <div className="relative w-full max-w-6xl mx-auto">
-                <div
-                  className="relative mx-auto"
-                  style={{
-                    height: "600px",
-                    perspective: "1500px",
-                    perspectiveOrigin: "center 30%",
-                  }}
-                >
-                  {/* Tilted Plane Container */}
-                  <div
-                    className="absolute inset-0 grid grid-cols-3 gap-8 p-8"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      transform: "rotateX(25deg) rotateY(-5deg)",
-                      transformOrigin: "center center",
-                    }}
-                  >
-                    {industries.map((industry, index) => {
-                      const row = Math.floor(index / 3)
-                      const col = index % 3
-                      const depth = row * 40 // Stagger depth for perspective
-                      const isSelected = selectedIndustry === industry.id
-
-                      return (
-                        <div
-                          key={industry.id}
-                          className="relative"
-                          style={{
-                            transform: `translateZ(${depth}px) ${isSelected ? "translateY(-20px) scale(1.05)" : ""}`,
-                            transformStyle: "preserve-3d",
-                            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          }}
-                        >
-                          <button
-                            onClick={() => handleIndustryClick(industry.id)}
-                            className="tilted-industry-card group relative w-full h-64"
-                          >
-                            {/* Card Container */}
-                            <div
-                              className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
-                              style={{
-                                background:
-                                  "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%)",
-                                backdropFilter: "blur(20px)",
-                                border: "1px solid rgba(255,255,255,0.3)",
-                                boxShadow: isSelected
-                                  ? "0 30px 80px rgba(0,0,0,0.3), 0 0 0 3px #209954"
-                                  : "0 20px 60px rgba(0,0,0,0.2)",
-                              }}
-                            >
-                              {/* Image Section */}
-                              <div className="relative h-3/5 overflow-hidden">
-                                <Image
-                                  src={industry.image || "/placeholder.svg"}
-                                  alt={industry.title}
-                                  width={300}
-                                  height={200}
-                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                              </div>
-
-                              {/* Content Section */}
-                              <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">{industry.title}</h3>
-                                <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
-                                  {industry.description}
-                                </p>
-                              </div>
-
-                              {/* Hover Overlay */}
-                              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-                            </div>
-                          </button>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Floating 3D Cards View */}
-            {viewMode === "floating" && (
+            {/* Spiral/Helix View */}
+            {viewMode === "spiral" && (
               <div className="relative w-full max-w-6xl mx-auto">
                 <div
                   className="relative mx-auto"
                   style={{
                     height: "700px",
-                    perspective: "1200px",
+                    perspective: "1500px",
                     perspectiveOrigin: "center center",
                   }}
                 >
-                  {/* Floating Cards Container */}
+                  {/* Spiral Container */}
                   <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
                     {industries.map((industry, index) => {
-                      const angle = (index * 60 + floatingAnimation) * (Math.PI / 180)
-                      const radiusX = 300 + Math.sin(floatingAnimation * 0.01) * 50
-                      const radiusY = 200 + Math.cos(floatingAnimation * 0.01) * 30
-                      const x = Math.cos(angle) * radiusX
-                      const y = Math.sin(angle) * radiusY
-                      const z = Math.sin(angle * 2) * 100 + Math.cos(floatingAnimation * 0.02) * 50
-                      const rotateY = angle * (180 / Math.PI)
-                      const rotateX = Math.sin(floatingAnimation * 0.01 + index) * 15
+                      // Spiral mathematics
+                      const t = (index / industries.length) * 4 * Math.PI + (spiralRotation * Math.PI) / 180
+                      const spiralRadius = 200 + index * 30
+                      const x = Math.cos(t) * spiralRadius
+                      const y = Math.sin(t) * spiralRadius
+                      const z = index * 80 - 200 + Math.sin(spiralRotation * 0.01 + index) * 50
+                      const rotateY = (t * 180) / Math.PI
+                      const rotateX = Math.sin(t) * 20
+                      const scale = 1 - Math.abs(z) / 800 // Scale based on depth
                       const isSelected = selectedIndustry === industry.id
 
                       return (
@@ -250,20 +176,22 @@ export default function IndustriesSection() {
                           key={industry.id}
                           className="absolute"
                           style={{
-                            transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) ${
-                              isSelected ? "scale(1.2)" : "scale(1)"
-                            }`,
+                            transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(${
+                              isSelected ? scale * 1.3 : scale
+                            })`,
                             transformStyle: "preserve-3d",
                             left: "50%",
                             top: "50%",
                             marginLeft: "-100px",
                             marginTop: "-120px",
-                            transition: isSelected ? "transform 0.4s ease" : "none",
+                            opacity: Math.max(0.3, 1 - Math.abs(z) / 600),
+                            transition: isSelected ? "all 0.4s ease" : "opacity 0.1s ease",
+                            zIndex: Math.round(1000 - Math.abs(z)),
                           }}
                         >
                           <button
                             onClick={() => handleIndustryClick(industry.id)}
-                            className="floating-industry-card group relative"
+                            className="spiral-industry-card group relative"
                             style={{
                               width: "200px",
                               height: "240px",
@@ -279,9 +207,8 @@ export default function IndustriesSection() {
                                 backdropFilter: "blur(20px)",
                                 border: "1px solid rgba(255,255,255,0.3)",
                                 boxShadow: isSelected
-                                  ? "0 25px 60px rgba(0,0,0,0.4), 0 0 0 3px #209954"
-                                  : "0 15px 40px rgba(0,0,0,0.2)",
-                                animation: `floatingBob 3s ease-in-out infinite ${index * 0.5}s`,
+                                  ? "0 30px 80px rgba(0,0,0,0.4), 0 0 0 3px #209954"
+                                  : "0 20px 60px rgba(0,0,0,0.3)",
                               }}
                             >
                               {/* Image Section */}
@@ -304,28 +231,200 @@ export default function IndustriesSection() {
                                 </p>
                               </div>
 
+                              {/* Spiral Trail Effect */}
+                              <div className="absolute inset-0 pointer-events-none">
+                                <div
+                                  className="absolute w-2 h-2 bg-primary/40 rounded-full"
+                                  style={{
+                                    top: "10%",
+                                    left: "10%",
+                                    animation: `spiralTrail 3s ease-in-out infinite ${index * 0.5}s`,
+                                  }}
+                                />
+                                <div
+                                  className="absolute w-1 h-1 bg-blue-400/40 rounded-full"
+                                  style={{
+                                    top: "80%",
+                                    right: "15%",
+                                    animation: `spiralTrail 4s ease-in-out infinite ${index * 0.7}s`,
+                                  }}
+                                />
+                              </div>
+
                               {/* Hover Overlay */}
                               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-
-                              {/* Floating Particles Effect */}
-                              <div className="absolute inset-0 pointer-events-none">
-                                {[...Array(3)].map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className="absolute w-1 h-1 bg-primary/30 rounded-full"
-                                    style={{
-                                      left: `${20 + i * 30}%`,
-                                      top: `${10 + i * 20}%`,
-                                      animation: `floatingParticle 4s ease-in-out infinite ${i * 1.5}s`,
-                                    }}
-                                  />
-                                ))}
-                              </div>
                             </div>
                           </button>
                         </div>
                       )
                     })}
+                  </div>
+
+                  {/* Spiral Center Core */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div
+                      className="w-16 h-16 bg-gradient-to-r from-primary to-blue-500 rounded-full shadow-2xl flex items-center justify-center"
+                      style={{
+                        transform: `translateZ(0px) rotateY(${spiralRotation}deg)`,
+                        transformStyle: "preserve-3d",
+                        animation: "spiralCore 8s ease-in-out infinite",
+                      }}
+                    >
+                      <div className="w-8 h-8 bg-white rounded-full opacity-80"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Layered Depth View */}
+            {viewMode === "layered" && (
+              <div className="relative w-full max-w-6xl mx-auto">
+                <div
+                  className="relative mx-auto"
+                  style={{
+                    height: "600px",
+                    perspective: "1200px",
+                    perspectiveOrigin: "center 40%",
+                  }}
+                >
+                  {/* Layered Container */}
+                  <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
+                    {industries.map((industry, index) => {
+                      // Layer mathematics - create depth layers
+                      const layer = Math.floor(index / 2) // 2 cards per layer
+                      const positionInLayer = index % 2 // Position within layer (0 or 1)
+                      const layerDepth = layer * 150 // Depth of each layer
+                      const layerRotation = layer * 15 + layerAnimation * 0.5 // Slight rotation per layer
+                      const x = (positionInLayer - 0.5) * 300 + Math.sin(layerAnimation * 0.01 + index) * 30
+                      const y = layer * -50 + Math.cos(layerAnimation * 0.01 + index) * 20
+                      const z = -layerDepth + Math.sin(layerAnimation * 0.02 + index) * 40
+                      const scale = Math.max(0.6, 1 - layer * 0.15) // Scale down with depth
+                      const opacity = Math.max(0.4, 1 - layer * 0.2) // Fade with depth
+                      const isSelected = selectedIndustry === industry.id
+
+                      return (
+                        <div
+                          key={industry.id}
+                          className="absolute"
+                          style={{
+                            transform: `translate3d(${x}px, ${y}px, ${z}px) rotateY(${layerRotation}deg) scale(${
+                              isSelected ? scale * 1.2 : scale
+                            })`,
+                            transformStyle: "preserve-3d",
+                            left: "50%",
+                            top: "50%",
+                            marginLeft: "-125px",
+                            marginTop: "-150px",
+                            opacity: isSelected ? 1 : opacity,
+                            transition: isSelected ? "all 0.4s ease" : "opacity 0.3s ease",
+                            zIndex: Math.round(1000 + layerDepth),
+                          }}
+                        >
+                          <button
+                            onClick={() => handleIndustryClick(industry.id)}
+                            className="layered-industry-card group relative"
+                            style={{
+                              width: "250px",
+                              height: "300px",
+                              transformStyle: "preserve-3d",
+                            }}
+                          >
+                            {/* Card Container */}
+                            <div
+                              className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
+                              style={{
+                                background: `linear-gradient(135deg, rgba(255,255,255,${
+                                  0.95 - layer * 0.1
+                                }) 0%, rgba(255,255,255,${0.8 - layer * 0.1}) 100%)`,
+                                backdropFilter: "blur(20px)",
+                                border: `1px solid rgba(255,255,255,${0.3 + layer * 0.1})`,
+                                boxShadow: isSelected
+                                  ? `0 ${30 + layer * 10}px ${80 + layer * 20}px rgba(0,0,0,${
+                                      0.4 + layer * 0.1
+                                    }), 0 0 0 3px #209954`
+                                  : `0 ${20 + layer * 5}px ${60 + layer * 10}px rgba(0,0,0,${0.3 + layer * 0.05})`,
+                              }}
+                            >
+                              {/* Layer Indicator */}
+                              <div
+                                className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                                style={{
+                                  background: `linear-gradient(45deg, hsl(${layer * 60}, 70%, 50%), hsl(${
+                                    layer * 60 + 30
+                                  }, 70%, 60%))`,
+                                }}
+                              >
+                                {layer + 1}
+                              </div>
+
+                              {/* Image Section */}
+                              <div className="relative h-3/5 overflow-hidden">
+                                <Image
+                                  src={industry.image || "/placeholder.svg"}
+                                  alt={industry.title}
+                                  width={250}
+                                  height={180}
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div
+                                  className="absolute inset-0 bg-gradient-to-t to-transparent"
+                                  style={{
+                                    background: `linear-gradient(to top, rgba(0,0,0,${
+                                      0.5 + layer * 0.1
+                                    }), transparent)`,
+                                  }}
+                                />
+                              </div>
+
+                              {/* Content Section */}
+                              <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">{industry.title}</h3>
+                                <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+                                  {industry.description}
+                                </p>
+                              </div>
+
+                              {/* Depth Particles */}
+                              <div className="absolute inset-0 pointer-events-none">
+                                {[...Array(3)].map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className="absolute rounded-full"
+                                    style={{
+                                      width: `${4 - layer}px`,
+                                      height: `${4 - layer}px`,
+                                      background: `hsl(${layer * 60 + i * 30}, 60%, 60%)`,
+                                      left: `${20 + i * 25}%`,
+                                      top: `${15 + i * 20}%`,
+                                      opacity: 0.6 - layer * 0.1,
+                                      animation: `layerParticle ${3 + i}s ease-in-out infinite ${(index + i) * 0.5}s`,
+                                    }}
+                                  />
+                                ))}
+                              </div>
+
+                              {/* Hover Overlay */}
+                              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                            </div>
+                          </button>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Layer Depth Indicators */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 pointer-events-none">
+                    {[...Array(Math.ceil(industries.length / 2))].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-3 h-3 rounded-full border-2 border-white/50"
+                        style={{
+                          background: `linear-gradient(45deg, hsl(${i * 60}, 70%, 50%), hsl(${i * 60 + 30}, 70%, 60%))`,
+                          animation: `layerIndicator 2s ease-in-out infinite ${i * 0.3}s`,
+                        }}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
