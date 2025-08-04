@@ -535,36 +535,14 @@
     }
   }
 
-  .industry-card {
-    @apply relative transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .industry-popup-compact {
-    @apply bg-white rounded-lg shadow-lg border border-gray-200 p-4 max-w-xs;
-    animation: slideInRight 0.3s ease-out;
-  }
-
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  /* Mobile Industries Horizontal Scroll Animation */
-  .mobile-industries-scroll {
-    animation: horizontalScroll 20s linear infinite;
+  /* Industries Horizontal Scroll Animation */
+  .industries-scroll {
+    animation: horizontalScroll 25s linear infinite;
     will-change: transform;
   }
 
-  .mobile-industries-scroll.slowed {
-    animation-duration: 40s;
+  .industries-scroll.slowed {
+    animation-duration: 50s;
   }
 
   @keyframes horizontalScroll {
@@ -576,7 +554,7 @@
     }
   }
 
-  .mobile-industry-item {
+  .industry-item {
     position: relative;
     animation: fadeInScale 0.6s ease-out both;
   }
@@ -584,8 +562,8 @@
   /* Flip Card Styles */
   .flip-card {
     background-color: transparent;
-    width: 120px;
-    height: 160px;
+    width: 180px;
+    height: 240px;
     perspective: 1000px;
     cursor: pointer;
   }
@@ -611,9 +589,9 @@
     height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   }
 
   .flip-card-front {
@@ -626,13 +604,13 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
     transform: rotateY(180deg);
   }
 
   .flip-card-content {
     position: relative;
-    padding: 12px;
+    padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -642,15 +620,15 @@
 
   .flip-card-close-btn {
     position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 20px;
-    height: 20px;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #6b7280;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -666,12 +644,12 @@
     transform: scale(1.1);
   }
 
-  .mobile-industry-button {
+  .industry-button {
     position: relative;
     width: 100%;
     height: 100%;
     transition: all 0.3s ease;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
     outline: none;
     border: none;
@@ -679,21 +657,21 @@
     cursor: pointer;
   }
 
-  .mobile-industry-button:hover {
+  .industry-button:hover {
     transform: scale(1.05);
   }
 
-  .mobile-industry-button:focus {
+  .industry-button:focus {
     outline: 2px solid #209954;
     outline-offset: 2px;
   }
 
-  .mobile-industry-image-container {
+  .industry-image-container {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 20px;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -701,24 +679,24 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
-  .mobile-industry-overlay {
+  .industry-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent, transparent);
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding: 8px;
+    padding: 16px;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
-  .mobile-industry-button:hover .mobile-industry-overlay {
+  .industry-button:hover .industry-overlay {
     opacity: 1;
   }
 
-  .mobile-industry-title {
-    font-size: 11px;
+  .industry-title {
+    font-size: 14px;
     font-weight: 700;
     color: white;
     text-align: center;
@@ -733,81 +711,6 @@
     to {
       opacity: 1;
       transform: scale(1);
-    }
-  }
-
-  .mobile-industry-selection-ring {
-    position: absolute;
-    inset: -4px;
-    border: 3px solid #209954;
-    border-radius: 20px;
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    box-shadow: 0 0 20px rgba(32, 153, 84, 0.4);
-  }
-
-  .mobile-industry-popup {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 16px;
-    z-index: 30;
-    animation: slideUpFade 0.4s ease-out;
-  }
-
-  .mobile-industry-popup-content {
-    position: relative;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    max-width: 320px;
-  }
-
-  .mobile-industry-close-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    font-size: 20px;
-    line-height: 1;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-
-  .mobile-industry-close-btn:hover {
-    color: #4b5563;
-    background-color: #f3f4f6;
-  }
-
-  @keyframes fadeInScale {
-    from {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes slideUpFade {
-    from {
-      opacity: 0;
-      transform: translateX(-50%) translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
   }
 
