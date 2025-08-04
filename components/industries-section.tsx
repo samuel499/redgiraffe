@@ -64,6 +64,9 @@ export default function IndustriesSection() {
 
   const selectedIndustryData = industries.find((industry) => industry.id === selectedIndustry)
 
+  // Create duplicated array for seamless loop
+  const duplicatedIndustries = [...industries, ...industries]
+
   return (
     <section ref={ref} id="industries" className="relative py-24 overflow-hidden industries-gradient">
       <div ref={contentRef} className="container-max section-padding">
@@ -176,61 +179,73 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Mobile: Card Grid Layout */}
+          {/* Mobile: Horizontal Scrolling Loop */}
           <div
             className={`block md:hidden w-full fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "100ms" }}
           >
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-              {industries.map((industry, index) => (
-                <div
-                  key={industry.id}
-                  className={`mobile-industry-card ${selectedIndustry === industry.id ? "selected" : ""}`}
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                  }}
-                >
-                  <button
-                    onClick={() => handleIndustryClick(industry.id)}
-                    className="w-full h-full p-4 text-center group"
+            <div className="relative overflow-hidden">
+              {/* Scrolling Container */}
+              <div
+                className={`mobile-industries-scroll ${selectedIndustry ? "slowed" : ""}`}
+                style={{
+                  display: "flex",
+                  width: `${duplicatedIndustries.length * 120}px`,
+                }}
+              >
+                {duplicatedIndustries.map((industry, index) => (
+                  <div
+                    key={`${industry.id}-${index}`}
+                    className="mobile-industry-item"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      margin: "0 10px",
+                      flexShrink: 0,
+                    }}
                   >
-                    {/* Image Container */}
-                    <div className="relative w-16 h-16 mx-auto mb-3 overflow-hidden rounded-xl">
-                      <Image
-                        src={industry.image || "/placeholder.svg"}
-                        alt={industry.title}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-
-                    {/* Title */}
-                    <h4 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors duration-300">
-                      {industry.title}
-                    </h4>
-
-                    {/* Short Description */}
-                    <p className="text-xs text-gray-600 leading-tight line-clamp-2">{industry.description}</p>
-                  </button>
-
-                  {/* Expanded Content */}
-                  {selectedIndustry === industry.id && (
-                    <div className="mobile-industry-expanded">
-                      <div className="p-4 bg-white/90 backdrop-blur-sm rounded-lg border border-primary/20">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                          </div>
-                          <span className="text-sm font-bold text-primary">{industry.title}</span>
+                    <button
+                      onClick={() => handleIndustryClick(industry.id)}
+                      className={`mobile-industry-button ${selectedIndustry === industry.id ? "selected" : ""}`}
+                    >
+                      {/* Image Container */}
+                      <div className="mobile-industry-image-container">
+                        <Image
+                          src={industry.image || "/placeholder.svg"}
+                          alt={industry.title}
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="mobile-industry-overlay">
+                          <span className="mobile-industry-title">{industry.title}</span>
                         </div>
-                        <p className="text-xs text-gray-700 leading-relaxed">{industry.description}</p>
                       </div>
+
+                      {/* Selection Ring */}
+                      {selectedIndustry === industry.id && <div className="mobile-industry-selection-ring"></div>}
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Popup Card */}
+              {selectedIndustryData && (
+                <div className="mobile-industry-popup">
+                  <div className="mobile-industry-popup-content">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-4 h-4 bg-white rounded-sm"></div>
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900">{selectedIndustryData.title}</h4>
                     </div>
-                  )}
+                    <p className="text-sm text-gray-600 leading-relaxed">{selectedIndustryData.description}</p>
+                    <button onClick={() => setSelectedIndustry(null)} className="mobile-industry-close-btn">
+                      ×
+                    </button>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 

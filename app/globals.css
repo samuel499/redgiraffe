@@ -557,38 +557,99 @@
     }
   }
 
-  /* Mobile Industries Section */
-  .mobile-industry-card {
-    @apply relative bg-white/80 backdrop-blur-sm border border-white/40 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105;
+  /* Mobile Industries Horizontal Scroll Animation */
+  .mobile-industries-scroll {
+    animation: horizontalScroll 20s linear infinite;
+    will-change: transform;
+  }
+
+  .mobile-industries-scroll.slowed {
+    animation-duration: 40s;
+  }
+
+  @keyframes horizontalScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .mobile-industry-item {
+    @apply relative;
+    animation: fadeInScale 0.6s ease-out both;
+  }
+
+  .mobile-industry-button {
+    @apply relative w-full h-full transition-all duration-300 hover:scale-110 focus:outline-none group;
     border-radius: 16px;
-    padding: 0;
-    overflow: visible;
-    animation: fadeInUp 0.6s ease-out both;
+    overflow: hidden;
   }
 
-  .mobile-industry-card.selected {
-    @apply border-primary/40 shadow-xl;
-    transform: scale(1.02);
+  .mobile-industry-button.selected {
+    transform: scale(1.15);
+    z-index: 10;
   }
 
-  .mobile-industry-card:hover {
+  .mobile-industry-image-container {
+    @apply relative w-full h-full overflow-hidden;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-4px) scale(1.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
-  .mobile-industry-expanded {
-    @apply absolute top-full left-0 right-0 mt-2 z-20;
-    animation: slideDown 0.3s ease-out;
+  .mobile-industry-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300;
   }
 
-  @keyframes fadeInUp {
+  .mobile-industry-title {
+    @apply text-xs font-bold text-white text-center;
+  }
+
+  .mobile-industry-selection-ring {
+    @apply absolute -inset-1 border-3 border-primary rounded-2xl animate-pulse;
+    box-shadow: 0 0 20px rgba(32, 153, 84, 0.4);
+  }
+
+  .mobile-industry-popup {
+    @apply absolute top-full left-1/2 transform -translate-x-1/2 mt-4 z-30;
+    animation: slideUpFade 0.4s ease-out;
+  }
+
+  .mobile-industry-popup-content {
+    @apply relative bg-white/95 backdrop-blur-lg border border-white/40 rounded-2xl p-6 shadow-2xl max-w-sm;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .mobile-industry-close-btn {
+    @apply absolute top-2 right-2 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  @keyframes fadeInScale {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: scale(0.8);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideUpFade {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
   }
 
