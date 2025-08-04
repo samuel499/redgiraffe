@@ -292,7 +292,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Video - Fully Responsive */}
+            {/* Hero Video - Fixed for SSR */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -301,16 +301,8 @@ export default function HeroSection() {
                 transitionDelay: "600ms",
               }}
             >
-              <div 
-                className="w-full mx-auto" 
-                style={{ 
-                  maxWidth: window?.innerWidth > 1536 ? '150rem' : 
-                            window?.innerWidth > 1280 ? '120rem' : 
-                            window?.innerWidth > 1024 ? '100rem' : 
-                            window?.innerWidth > 768 ? '90vw' : 
-                            'calc(100vw - 2rem)'
-                }}
-              >
+              {/* Use responsive Tailwind classes instead of window calculations */}
+              <div className="w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[150rem] mx-auto">
                 <div
                   ref={containerRef}
                   className={`relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all duration-500 ease-out group ${
