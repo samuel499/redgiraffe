@@ -141,9 +141,9 @@ export default function HeroSection() {
               }}
             >
               <div className="relative w-full max-w-5xl mx-auto">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group">
+                <div className="relative overflow-hidden rounded-2xl  transform hover:scale-105 transition-all duration-500 ease-out group">
                   <Image
-                    src="/placeholder.svg?height=600&width=1200"
+                    src="/images/heroImg.svg"
                     alt="Business professionals in meeting with RedGiraffe commercial card solution"
                     width={1200}
                     height={600}
