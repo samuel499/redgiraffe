@@ -73,6 +73,11 @@ export default function HowWeWorkSection() {
   // Multiple video sources to try
   const videoSources = [
     {
+      type: "placeholder" as const,
+      url: "",
+      label: "Demo Content",
+    },
+    {
       type: "mp4" as const,
       url: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
       label: "Sample Video",
@@ -252,14 +257,14 @@ export default function HowWeWorkSection() {
 
           {/* Enhanced Video Section */}
           {showVideo && (
-            <div className="fade-in-up bg-black rounded-2xl shadow-2xl overflow-hidden">
-              <div className="relative aspect-video bg-gray-900 group">
+            <div className="w-full bg-black rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+              <div className="relative w-full aspect-video bg-gray-900 min-h-[400px] group">
                 {/* MP4 Video Player */}
                 {currentVideo.type === "mp4" && (
                   <video
                     ref={videoRef}
                     src={currentVideo.url}
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover bg-black"
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
                     onCanPlay={handleCanPlay}
@@ -269,6 +274,7 @@ export default function HowWeWorkSection() {
                     onError={handleVideoError}
                     crossOrigin="anonymous"
                     preload="metadata"
+                    style={{ display: "block", visibility: "visible" }}
                   />
                 )}
 
@@ -276,16 +282,17 @@ export default function HowWeWorkSection() {
                 {currentVideo.type === "youtube" && !videoError && (
                   <iframe
                     src={currentVideo.url}
-                    className="w-full h-full"
+                    className="absolute inset-0 w-full h-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     onLoad={() => setIsLoading(false)}
+                    style={{ display: "block", visibility: "visible" }}
                   />
                 )}
 
                 {/* Placeholder/Demo Content */}
                 {(videoError || currentVideo.type === "placeholder") && (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center">
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center">
                     <div className="text-center text-white p-8">
                       <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Play className="w-12 h-12 text-white" />
