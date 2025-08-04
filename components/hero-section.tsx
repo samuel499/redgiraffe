@@ -71,6 +71,10 @@ export default function HeroSection() {
         if (video.readyState >= 3) {
           setIsLoading(false)
           setVideoError(false)
+          // Also set duration if available
+          if (video.duration && !isNaN(video.duration) && isFinite(video.duration)) {
+            setDuration(video.duration)
+          }
         }
       }
 
@@ -80,6 +84,11 @@ export default function HeroSection() {
       return () => clearInterval(interval)
     }
   }, [])
+
+  // Add debugging for duration
+  useEffect(() => {
+    console.log("Duration updated:", duration, "Current time:", currentTime)
+  }, [duration, currentTime])
 
   const togglePlayPause = () => {
     if (videoRef.current && !videoError) {
@@ -108,7 +117,9 @@ export default function HeroSection() {
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
-      setDuration(videoRef.current.duration)
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
       setIsLoading(false)
     }
   }
@@ -119,30 +130,58 @@ export default function HeroSection() {
   }
 
   const handleCanPlay = () => {
-    setIsLoading(false)
-    setVideoError(false)
+    if (videoRef.current) {
+      // Ensure duration is set when video can play
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+      setVideoError(false)
+    }
   }
 
   const handleVideoLoad = () => {
-    setIsLoading(false)
-    setVideoError(false)
+    if (videoRef.current) {
+      // Set duration when video loads
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+      setVideoError(false)
+    }
   }
 
   const handleVideoStart = () => {
-    setIsLoading(false)
+    if (videoRef.current) {
+      // Final check for duration when video starts playing
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+    }
   }
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (videoRef.current && !videoError) {
+    if (videoRef.current && !videoError && duration > 0) {
       const rect = e.currentTarget.getBoundingClientRect()
       const clickX = e.clientX - rect.left
-      const newTime = (clickX / rect.width) * duration
-      videoRef.current.currentTime = newTime
-      setCurrentTime(newTime)
+      const percentage = clickX / rect.width
+      const newTime = percentage * duration
+      
+      // Clamp the time between 0 and duration
+      const clampedTime = Math.max(0, Math.min(newTime, duration))
+      
+      try {
+        videoRef.current.currentTime = clampedTime
+        setCurrentTime(clampedTime)
+      } catch (error) {
+        console.error("Seek error:", error)
+      }
     }
   }
 
   const formatTime = (time: number) => {
+    if (isNaN(time) || !isFinite(time)) return "0:00"
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
@@ -292,7 +331,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Video - Fixed for SSR */}
+            {/* Hero Video - Fixed for SSR and Duration */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -325,11 +364,21 @@ export default function HeroSection() {
                       onPlay={() => {
                         setIsPlaying(true)
                         setIsLoading(false)
+                        // Also check duration on play
+                        if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+                          setDuration(videoRef.current.duration)
+                        }
                       }}
                       onPause={() => setIsPlaying(false)}
                       onEnded={() => setIsPlaying(false)}
                       onError={handleVideoError}
                       onWaiting={() => setIsLoading(true)}
+                      onDurationChange={() => {
+                        // Add this event handler for duration changes
+                        if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+                          setDuration(videoRef.current.duration)
+                        }
+                      }}
                       crossOrigin="anonymous"
                       preload="metadata"
                       loop
@@ -371,18 +420,21 @@ export default function HeroSection() {
 
                       {/* Bottom Controls */}
                       <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
-                        {/* Progress Bar */}
+                        {/* Progress Bar - Fixed */}
                         <div
                           className="w-full h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress"
                           onClick={handleSeek}
                         >
                           <div
                             className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
-                            style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                            style={{ 
+                              width: `${duration && duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                              maxWidth: '100%' 
+                            }}
                           />
                         </div>
 
-                        {/* Control Bar */}
+                        {/* Control Bar - Fixed time display */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 sm:gap-3">
                             <button 
