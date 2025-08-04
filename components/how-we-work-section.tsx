@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { Play, X } from "lucide-react"
+import type React from "react"
+
+import { useState, useRef, useEffect } from "react"
+import { Play, X, Pause, Volume2, VolumeX, Maximize, AlertCircle } from "lucide-react"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
 
 const processSteps = [
@@ -57,11 +59,137 @@ const processSteps = [
 export default function HowWeWorkSection() {
   const [showVideo, setShowVideo] = useState(false)
   const [activeStep, setActiveStep] = useState("01")
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [videoError, setVideoError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [videoType, setVideoType] = useState<"mp4" | "youtube" | "placeholder">("placeholder")
+  const videoRef = useRef<HTMLVideoElement>(null)
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(4, 200)
 
+  // Multiple video sources to try
+  const videoSources = [
+    {
+      type: "placeholder" as const,
+      url: "",
+      label: "Demo Content",
+    },
+    {
+      type: "mp4" as const,
+      url: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+      label: "Sample Video",
+    },
+    {
+      type: "youtube" as const,
+      url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=1",
+      label: "YouTube Demo",
+    },
+  ]
+
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const currentVideo = videoSources[currentVideoIndex]
+
+  useEffect(() => {
+    if (showVideo && currentVideo.type === "mp4") {
+      setIsLoading(true)
+      setVideoError(false)
+      setVideoType("mp4")
+    }
+  }, [showVideo, currentVideoIndex])
+
   const toggleVideo = () => {
     setShowVideo(!showVideo)
+    if (showVideo && videoRef.current) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+    }
+    if (!showVideo) {
+      setVideoError(false)
+      setIsLoading(true)
+    }
+  }
+
+  const switchVideoSource = () => {
+    const nextIndex = (currentVideoIndex + 1) % videoSources.length
+    setCurrentVideoIndex(nextIndex)
+    setVideoError(false)
+    setIsLoading(true)
+    if (videoRef.current) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+    }
+  }
+
+  const togglePlayPause = () => {
+    if (videoRef.current && !videoError) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play().catch(() => {
+          setVideoError(true)
+        })
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted
+      setIsMuted(!isMuted)
+    }
+  }
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime)
+    }
+  }
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration)
+      setIsLoading(false)
+    }
+  }
+
+  const handleVideoError = () => {
+    setVideoError(true)
+    setIsLoading(false)
+  }
+
+  const handleCanPlay = () => {
+    setIsLoading(false)
+    setVideoError(false)
+  }
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (videoRef.current && !videoError) {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const clickX = e.clientX - rect.left
+      const newTime = (clickX / rect.width) * duration
+      videoRef.current.currentTime = newTime
+      setCurrentTime(newTime)
+    }
+  }
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+  const toggleFullscreen = () => {
+    if (videoRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+      } else {
+        videoRef.current.requestFullscreen()
+      }
+    }
   }
 
   const handleStepClick = (stepId: string) => {
@@ -127,19 +255,196 @@ export default function HowWeWorkSection() {
             </div>
           </div>
 
-          {/* Video Section */}
+          {/* Enhanced Video Section */}
           {showVideo && (
-            <div className="fade-in-up bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="relative aspect-video bg-gray-900">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-white text-lg">Video Player Placeholder</div>
-                </div>
-                <button
-                  onClick={toggleVideo}
-                  className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
-                >
-                  <X className="w-4 h-4 text-white" />
-                </button>
+            <div className="w-full bg-black rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+              <div className="relative w-full aspect-video bg-gray-900 min-h-[400px] group">
+                {/* MP4 Video Player */}
+                {currentVideo.type === "mp4" && (
+                  <video
+                    ref={videoRef}
+                    src={currentVideo.url}
+                    className="absolute inset-0 w-full h-full object-cover bg-black"
+                    onTimeUpdate={handleTimeUpdate}
+                    onLoadedMetadata={handleLoadedMetadata}
+                    onCanPlay={handleCanPlay}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                    onEnded={() => setIsPlaying(false)}
+                    onError={handleVideoError}
+                    crossOrigin="anonymous"
+                    preload="metadata"
+                    style={{ display: "block", visibility: "visible" }}
+                  />
+                )}
+
+                {/* YouTube Embed */}
+                {currentVideo.type === "youtube" && !videoError && (
+                  <iframe
+                    src={currentVideo.url}
+                    className="absolute inset-0 w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    onLoad={() => setIsLoading(false)}
+                    style={{ display: "block", visibility: "visible" }}
+                  />
+                )}
+
+                {/* Placeholder/Demo Content */}
+                {(videoError || currentVideo.type === "placeholder") && (
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center">
+                    <div className="text-center text-white p-8">
+                      <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Play className="w-12 h-12 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-bold mb-4">RedGiraffe Demo Video</h3>
+                      <p className="text-lg opacity-90 mb-6">See how our platform transforms B2B payments</p>
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button
+                          onClick={switchVideoSource}
+                          className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-200"
+                        >
+                          Try Different Source
+                        </button>
+                        <button
+                          onClick={toggleVideo}
+                          className="px-6 py-3 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
+                        >
+                          Close Player
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Video Controls Overlay - Only for MP4 */}
+                {currentVideo.type === "mp4" && !videoError && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {/* Top Controls */}
+                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                      <button
+                        onClick={switchVideoSource}
+                        className="px-3 py-1 bg-black/50 hover:bg-black/70 rounded-full text-white text-xs transition-colors duration-200"
+                        title="Switch Source"
+                      >
+                        {currentVideo.label}
+                      </button>
+                      <button
+                        onClick={toggleFullscreen}
+                        className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
+                        title="Fullscreen"
+                      >
+                        <Maximize className="w-4 h-4 text-white" />
+                      </button>
+                      <button
+                        onClick={toggleVideo}
+                        className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
+                        title="Close"
+                      >
+                        <X className="w-4 h-4 text-white" />
+                      </button>
+                    </div>
+
+                    {/* Center Play/Pause Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <button
+                        onClick={togglePlayPause}
+                        className="w-16 h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                      >
+                        {isPlaying ? (
+                          <Pause className="w-8 h-8 text-white" />
+                        ) : (
+                          <Play className="w-8 h-8 text-white ml-1" />
+                        )}
+                      </button>
+                    </div>
+
+                    {/* Bottom Controls */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      {/* Progress Bar */}
+                      <div
+                        className="w-full h-2 bg-white/20 rounded-full cursor-pointer mb-3 group/progress"
+                        onClick={handleSeek}
+                      >
+                        <div
+                          className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
+                          style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                        />
+                      </div>
+
+                      {/* Control Bar */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={togglePlayPause}
+                            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
+                          >
+                            {isPlaying ? (
+                              <Pause className="w-4 h-4 text-white" />
+                            ) : (
+                              <Play className="w-4 h-4 text-white ml-0.5" />
+                            )}
+                          </button>
+
+                          <button
+                            onClick={toggleMute}
+                            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
+                          >
+                            {isMuted ? (
+                              <VolumeX className="w-4 h-4 text-white" />
+                            ) : (
+                              <Volume2 className="w-4 h-4 text-white" />
+                            )}
+                          </button>
+
+                          <span className="text-white text-sm font-medium">
+                            {formatTime(currentTime)} / {formatTime(duration)}
+                          </span>
+                        </div>
+
+                        <div className="text-white text-sm">How RedGiraffe Works</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Close button for YouTube/other embeds */}
+                {currentVideo.type !== "mp4" && !videoError && (
+                  <button
+                    onClick={toggleVideo}
+                    className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200 z-10"
+                    title="Close"
+                  >
+                    <X className="w-4 h-4 text-white" />
+                  </button>
+                )}
+
+                {/* Loading State */}
+                {isLoading && !videoError && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <div className="flex items-center gap-3 text-white">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Loading video...</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Error State */}
+                {videoError && currentVideo.type === "mp4" && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-red-900/20">
+                    <div className="text-center text-white p-8">
+                      <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-400" />
+                      <h3 className="text-xl font-bold mb-2">Video Unavailable</h3>
+                      <p className="text-sm opacity-90 mb-4">Unable to load video from current source</p>
+                      <button
+                        onClick={switchVideoSource}
+                        className="px-4 py-2 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
+                      >
+                        Try Another Source
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
