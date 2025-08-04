@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { Play, X } from "lucide-react"
+import type React from "react"
+
+import { useState, useRef } from "react"
+import { Play, X, Pause, Volume2, VolumeX, Maximize } from "lucide-react"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
 
 const processSteps = [
@@ -57,11 +59,79 @@ const processSteps = [
 export default function HowWeWorkSection() {
   const [showVideo, setShowVideo] = useState(false)
   const [activeStep, setActiveStep] = useState("01")
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(4, 200)
 
+  // Video URL - you can change this to any video URL
+  const videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+
   const toggleVideo = () => {
     setShowVideo(!showVideo)
+    if (showVideo && videoRef.current) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+    }
+  }
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play()
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted
+      setIsMuted(!isMuted)
+    }
+  }
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime)
+    }
+  }
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration)
+    }
+  }
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (videoRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const clickX = e.clientX - rect.left
+      const newTime = (clickX / rect.width) * duration
+      videoRef.current.currentTime = newTime
+      setCurrentTime(newTime)
+    }
+  }
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+  const toggleFullscreen = () => {
+    if (videoRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+      } else {
+        videoRef.current.requestFullscreen()
+      }
+    }
   }
 
   const handleStepClick = (stepId: string) => {
@@ -127,19 +197,113 @@ export default function HowWeWorkSection() {
             </div>
           </div>
 
-          {/* Video Section */}
+          {/* Enhanced Video Section */}
           {showVideo && (
-            <div className="fade-in-up bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="relative aspect-video bg-gray-900">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-white text-lg">Video Player Placeholder</div>
+            <div className="fade-in-up bg-black rounded-2xl shadow-2xl overflow-hidden">
+              <div className="relative aspect-video bg-gray-900 group">
+                <video
+                  ref={videoRef}
+                  src={videoUrl}
+                  className="w-full h-full object-cover"
+                  onTimeUpdate={handleTimeUpdate}
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                  onEnded={() => setIsPlaying(false)}
+                  poster="/placeholder.svg?height=400&width=800&text=Video+Thumbnail"
+                />
+
+                {/* Video Controls Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* Top Controls */}
+                  <div className="absolute top-4 right-4 flex items-center gap-2">
+                    <button
+                      onClick={toggleFullscreen}
+                      className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
+                      title="Fullscreen"
+                    >
+                      <Maximize className="w-4 h-4 text-white" />
+                    </button>
+                    <button
+                      onClick={toggleVideo}
+                      className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
+                      title="Close"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+
+                  {/* Center Play/Pause Button */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      onClick={togglePlayPause}
+                      className="w-16 h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-8 h-8 text-white" />
+                      ) : (
+                        <Play className="w-8 h-8 text-white ml-1" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Bottom Controls */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    {/* Progress Bar */}
+                    <div
+                      className="w-full h-2 bg-white/20 rounded-full cursor-pointer mb-3 group/progress"
+                      onClick={handleSeek}
+                    >
+                      <div
+                        className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
+                        style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                      />
+                    </div>
+
+                    {/* Control Bar */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={togglePlayPause}
+                          className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
+                        >
+                          {isPlaying ? (
+                            <Pause className="w-4 h-4 text-white" />
+                          ) : (
+                            <Play className="w-4 h-4 text-white ml-0.5" />
+                          )}
+                        </button>
+
+                        <button
+                          onClick={toggleMute}
+                          className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
+                        >
+                          {isMuted ? (
+                            <VolumeX className="w-4 h-4 text-white" />
+                          ) : (
+                            <Volume2 className="w-4 h-4 text-white" />
+                          )}
+                        </button>
+
+                        <span className="text-white text-sm font-medium">
+                          {formatTime(currentTime)} / {formatTime(duration)}
+                        </span>
+                      </div>
+
+                      <div className="text-white text-sm">How RedGiraffe Works</div>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  onClick={toggleVideo}
-                  className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
-                >
-                  <X className="w-4 h-4 text-white" />
-                </button>
+
+                {/* Loading State */}
+                {duration === 0 && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <div className="flex items-center gap-3 text-white">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Loading video...</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
