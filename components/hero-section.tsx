@@ -106,19 +106,19 @@ export default function HeroSection() {
   }
 
   const toggleFullscreen = async () => {
-    if (!containerRef.current) return
+    if (!videoRef.current) return
 
     try {
       if (!isFullscreen) {
-        // Enter fullscreen
-        if (containerRef.current.requestFullscreen) {
-          await containerRef.current.requestFullscreen()
-        } else if ((containerRef.current as any).webkitRequestFullscreen) {
-          await (containerRef.current as any).webkitRequestFullscreen()
-        } else if ((containerRef.current as any).mozRequestFullScreen) {
-          await (containerRef.current as any).mozRequestFullScreen()
-        } else if ((containerRef.current as any).msRequestFullscreen) {
-          await (containerRef.current as any).msRequestFullscreen()
+        // Enter fullscreen on the video element
+        if (videoRef.current.requestFullscreen) {
+          await videoRef.current.requestFullscreen()
+        } else if ((videoRef.current as any).webkitRequestFullscreen) {
+          await (videoRef.current as any).webkitRequestFullscreen()
+        } else if ((videoRef.current as any).mozRequestFullScreen) {
+          await (videoRef.current as any).mozRequestFullScreen()
+        } else if ((videoRef.current as any).msRequestFullscreen) {
+          await (videoRef.current as any).msRequestFullscreen()
         }
       } else {
         // Exit fullscreen
@@ -156,7 +156,7 @@ export default function HeroSection() {
               <div className="flex items-center relative">
                 <button
                   onClick={() => handleToggleChange("commercial")}
-                  className={`px-8 py-3 text-base font-semibold transition-all duration-300 ease-out hover:scale-105`}
+                  className={`px-4 sm:px-8 py-3 text-sm sm:text-base font-semibold transition-all duration-300 ease-out hover:scale-105`}
                   style={{
                     borderRadius: "20px",
                     backgroundColor: activeToggle === "commercial" ? "#191A39" : "transparent",
@@ -168,7 +168,7 @@ export default function HeroSection() {
                 </button>
                 <button
                   onClick={() => handleToggleChange("platforms")}
-                  className={`px-8 py-3 text-base font-semibold transition-all duration-300 ease-out hover:scale-105`}
+                  className={`px-4 sm:px-8 py-3 text-sm sm:text-base font-semibold transition-all duration-300 ease-out hover:scale-105`}
                   style={{
                     borderRadius: "20px",
                     backgroundColor: activeToggle === "platforms" ? "#191A39" : "transparent",
@@ -196,11 +196,11 @@ export default function HeroSection() {
       {/* Hero Content */}
       <div className="relative z-10 flex-1 flex items-center justify-center">
         <div className="container-max section-padding pb-24">
-          <div className="flex flex-col items-center text-center space-y-8">
+          <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8">
             {/* Headlines */}
-            <div className="space-y-4">
+            <div className="space-y-2 sm:space-y-4 px-2 sm:px-0">
               <h1
-                className={`text-hero lg:text-hero-lg font-bold transition-all duration-1000 ease-out ${
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-1000 ease-out leading-tight ${
                   inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                 }`}
                 style={{
@@ -211,7 +211,7 @@ export default function HeroSection() {
                 RedGiraffe Global
               </h1>
               <h2
-                className={`text-hero lg:text-hero-lg font-bold text-white transition-all duration-1000 ease-out ${
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white transition-all duration-1000 ease-out leading-tight ${
                   inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                 }`}
                 style={{
@@ -224,7 +224,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <p
-              className={`text-lg sm:text-xl text-white/90 max-w-2xl leading-relaxed transition-all duration-1000 ease-out ${
+              className={`text-base sm:text-lg md:text-xl text-white/90 max-w-xs sm:max-w-2xl leading-relaxed transition-all duration-1000 ease-out px-2 sm:px-0 ${
                 inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
               }`}
               style={{
@@ -252,28 +252,26 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Video - Made Wider */}
+            {/* Hero Video - Fully Responsive */}
             <div
-              className={`relative mt-12 w-full transition-all duration-1200 ease-out ${
+              className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
               }`}
               style={{
                 transitionDelay: "600ms",
               }}
             >
-              <div className="relative w-full max-w-7xl mx-auto">
+              <div className="relative w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
                 <div
                   ref={containerRef}
-                  className={`relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group ${
-                    isFullscreen ? "hero-video-fullscreen" : ""
-                  }`}
+                  className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group"
                 >
                   {/* Video Container */}
-                  <div className="relative w-full aspect-video bg-gray-900 min-h-[500px] group/video">
+                  <div className="relative w-full aspect-video bg-gray-900 group/video">
                     <video
                       ref={videoRef}
                       src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                      className="absolute inset-0 w-full h-full object-cover bg-black rounded-2xl"
+                      className="absolute inset-0 w-full h-full object-cover bg-black rounded-xl sm:rounded-2xl"
                       onTimeUpdate={handleTimeUpdate}
                       onLoadedMetadata={handleLoadedMetadata}
                       onCanPlay={handleCanPlay}
@@ -292,16 +290,16 @@ export default function HeroSection() {
                     {/* Custom Video Controls Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300">
                       {/* Top Controls */}
-                      <div className="absolute top-4 right-4 flex items-center gap-2">
+                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-2">
                         <button
                           onClick={toggleFullscreen}
                           className="hero-video-control-btn"
                           title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
                         >
                           {isFullscreen ? (
-                            <Minimize className="w-4 h-4 text-white" />
+                            <Minimize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           ) : (
-                            <Maximize className="w-4 h-4 text-white" />
+                            <Maximize className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           )}
                         </button>
                       </div>
@@ -310,18 +308,18 @@ export default function HeroSection() {
                       <div className="absolute inset-0 flex items-center justify-center">
                         <button onClick={togglePlayPause} className="hero-video-play-btn group/play">
                           {isPlaying ? (
-                            <Pause className="w-8 h-8 text-white" />
+                            <Pause className="w-6 sm:w-8 h-6 sm:h-8 text-white" />
                           ) : (
-                            <Play className="w-8 h-8 text-white ml-1" />
+                            <Play className="w-6 sm:w-8 h-6 sm:h-8 text-white ml-1" />
                           )}
                         </button>
                       </div>
 
                       {/* Bottom Controls */}
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
                         {/* Progress Bar */}
                         <div
-                          className="w-full h-2 bg-white/20 rounded-full cursor-pointer mb-3 group/progress"
+                          className="w-full h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress"
                           onClick={handleSeek}
                         >
                           <div
@@ -332,53 +330,55 @@ export default function HeroSection() {
 
                         {/* Control Bar */}
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 sm:gap-3">
                             <button onClick={togglePlayPause} className="hero-video-small-btn">
                               {isPlaying ? (
-                                <Pause className="w-4 h-4 text-white" />
+                                <Pause className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                               ) : (
-                                <Play className="w-4 h-4 text-white ml-0.5" />
+                                <Play className="w-3 sm:w-4 h-3 sm:h-4 text-white ml-0.5" />
                               )}
                             </button>
 
                             <button onClick={toggleMute} className="hero-video-small-btn">
                               {isMuted ? (
-                                <VolumeX className="w-4 h-4 text-white" />
+                                <VolumeX className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                               ) : (
-                                <Volume2 className="w-4 h-4 text-white" />
+                                <Volume2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                               )}
                             </button>
 
-                            <span className="text-white text-sm font-medium">
+                            <span className="text-white text-xs sm:text-sm font-medium">
                               {formatTime(currentTime)} / {formatTime(duration)}
                             </span>
                           </div>
 
-                          <div className="text-white text-sm font-medium">RedGiraffe Commercial Card</div>
+                          <div className="text-white text-xs sm:text-sm font-medium hidden sm:block">
+                            RedGiraffe Commercial Card
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Loading State */}
                     {isLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl sm:rounded-2xl">
                         <div className="flex items-center gap-3 text-white">
-                          <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>Loading video...</span>
+                          <div className="w-5 sm:w-6 h-5 sm:h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span className="text-sm sm:text-base">Loading video...</span>
                         </div>
                       </div>
                     )}
 
                     {/* Error State */}
                     {videoError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-red-900/20 rounded-2xl">
-                        <div className="text-center text-white p-8">
-                          <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-400" />
-                          <h3 className="text-xl font-bold mb-2">Video Unavailable</h3>
+                      <div className="absolute inset-0 flex items-center justify-center bg-red-900/20 rounded-xl sm:rounded-2xl">
+                        <div className="text-center text-white p-6 sm:p-8">
+                          <AlertCircle className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-4 text-red-400" />
+                          <h3 className="text-lg sm:text-xl font-bold mb-2">Video Unavailable</h3>
                           <p className="text-sm opacity-90 mb-4">Unable to load video content</p>
                           <button
                             onClick={() => window.location.reload()}
-                            className="px-4 py-2 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
+                            className="px-4 py-2 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200 text-sm sm:text-base"
                           >
                             Reload Page
                           </button>
@@ -388,7 +388,7 @@ export default function HeroSection() {
                   </div>
 
                   {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl pointer-events-none" />
                 </div>
               </div>
             </div>
