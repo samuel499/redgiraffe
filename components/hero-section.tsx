@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import { MousePointer, Play, Pause, Volume2, VolumeX, Maximize, Minimize, AlertCircle } from "lucide-react"
 import { useScrollAnimations } from "../hooks/use-scroll-animations"
@@ -30,7 +29,13 @@ export default function HeroSection() {
   // Fullscreen event listeners
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      )
+      setIsFullscreen(isCurrentlyFullscreen)
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
@@ -46,6 +51,45 @@ export default function HeroSection() {
     }
   }, [])
 
+  // Timeout fallback for loading state
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading) {
+        console.log("Clearing loading state via timeout fallback")
+        setIsLoading(false)
+      }
+    }, 5000)
+
+    return () => clearTimeout(timeout)
+  }, [isLoading])
+
+  // Check video ready state
+  useEffect(() => {
+    const video = videoRef.current
+    if (video) {
+      const checkVideoReady = () => {
+        if (video.readyState >= 3) {
+          setIsLoading(false)
+          setVideoError(false)
+          // Also set duration if available
+          if (video.duration && !isNaN(video.duration) && isFinite(video.duration)) {
+            setDuration(video.duration)
+          }
+        }
+      }
+
+      checkVideoReady()
+      const interval = setInterval(checkVideoReady, 500)
+
+      return () => clearInterval(interval)
+    }
+  }, [])
+
+  // Add debugging for duration
+  useEffect(() => {
+    console.log("Duration updated:", duration, "Current time:", currentTime)
+  }, [duration, currentTime])
+
   const togglePlayPause = () => {
     if (videoRef.current && !videoError) {
       if (isPlaying) {
@@ -55,7 +99,6 @@ export default function HeroSection() {
           setVideoError(true)
         })
       }
-      setIsPlaying(!isPlaying)
     }
   }
 
@@ -74,7 +117,9 @@ export default function HeroSection() {
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
-      setDuration(videoRef.current.duration)
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
       setIsLoading(false)
     }
   }
@@ -85,43 +130,78 @@ export default function HeroSection() {
   }
 
   const handleCanPlay = () => {
-    setIsLoading(false)
-    setVideoError(false)
+    if (videoRef.current) {
+      // Ensure duration is set when video can play
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+      setVideoError(false)
+    }
+  }
+
+  const handleVideoLoad = () => {
+    if (videoRef.current) {
+      // Set duration when video loads
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+      setVideoError(false)
+    }
+  }
+
+  const handleVideoStart = () => {
+    if (videoRef.current) {
+      // Final check for duration when video starts playing
+      if (videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration)
+      }
+      setIsLoading(false)
+    }
   }
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (videoRef.current && !videoError) {
+    if (videoRef.current && !videoError && duration > 0) {
       const rect = e.currentTarget.getBoundingClientRect()
       const clickX = e.clientX - rect.left
-      const newTime = (clickX / rect.width) * duration
-      videoRef.current.currentTime = newTime
-      setCurrentTime(newTime)
+      const percentage = clickX / rect.width
+      const newTime = percentage * duration
+      
+      // Clamp the time between 0 and duration
+      const clampedTime = Math.max(0, Math.min(newTime, duration))
+      
+      try {
+        videoRef.current.currentTime = clampedTime
+        setCurrentTime(clampedTime)
+      } catch (error) {
+        console.error("Seek error:", error)
+      }
     }
   }
 
   const formatTime = (time: number) => {
+    if (isNaN(time) || !isFinite(time)) return "0:00"
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
   const toggleFullscreen = async () => {
-    if (!videoRef.current) return
+    if (!containerRef.current) return
 
     try {
       if (!isFullscreen) {
-        // Enter fullscreen on the video element
-        if (videoRef.current.requestFullscreen) {
-          await videoRef.current.requestFullscreen()
-        } else if ((videoRef.current as any).webkitRequestFullscreen) {
-          await (videoRef.current as any).webkitRequestFullscreen()
-        } else if ((videoRef.current as any).mozRequestFullScreen) {
-          await (videoRef.current as any).mozRequestFullScreen()
-        } else if ((videoRef.current as any).msRequestFullscreen) {
-          await (videoRef.current as any).msRequestFullscreen()
+        if (containerRef.current.requestFullscreen) {
+          await containerRef.current.requestFullscreen()
+        } else if ((containerRef.current as any).webkitRequestFullscreen) {
+          await (containerRef.current as any).webkitRequestFullscreen()
+        } else if ((containerRef.current as any).mozRequestFullScreen) {
+          await (containerRef.current as any).mozRequestFullScreen()
+        } else if ((containerRef.current as any).msRequestFullscreen) {
+          await (containerRef.current as any).msRequestFullscreen()
         }
       } else {
-        // Exit fullscreen
         if (document.exitFullscreen) {
           await document.exitFullscreen()
         } else if ((document as any).webkitExitFullscreen) {
@@ -179,7 +259,6 @@ export default function HeroSection() {
                   Platforms
                 </button>
 
-                {/* Smooth Background Slider */}
                 <div
                   className="absolute top-1 bottom-1 bg-gradient-to-r from-primary to-blue-500 rounded-2xl transition-all duration-500 ease-out opacity-10"
                   style={{
@@ -195,7 +274,7 @@ export default function HeroSection() {
 
       {/* Hero Content */}
       <div className="relative z-10 flex-1 flex items-center justify-center">
-        <div className="container-max section-padding pb-24">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pb-24">
           <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8">
             {/* Headlines */}
             <div className="space-y-2 sm:space-y-4 px-2 sm:px-0">
@@ -243,16 +322,16 @@ export default function HeroSection() {
                 transitionDelay: "500ms",
               }}
             >
-              <button className="btn-primary text-base px-8 py-4 hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-out">
+              <button className="btn-primary text-base px-8 py-4 hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-out w-full sm:w-auto">
                 <MousePointer className="w-5 h-5" />
                 Request Demo
               </button>
-              <button className="btn-secondary text-base px-8 py-4 hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-out">
+              <button className="btn-secondary text-base px-8 py-4 hover:shadow-lg transform hover:scale-105 transition-all duration-200 ease-out w-full sm:w-auto">
                 Contact Sales
               </button>
             </div>
 
-            {/* Hero Video - Fully Responsive */}
+            {/* Hero Video - Fixed for SSR and Duration */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -261,24 +340,45 @@ export default function HeroSection() {
                 transitionDelay: "600ms",
               }}
             >
-              <div className="relative w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
+              {/* Use responsive Tailwind classes instead of window calculations */}
+              <div className="w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[150rem] mx-auto">
                 <div
                   ref={containerRef}
-                  className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group"
+                  className={`relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all duration-500 ease-out group ${
+                    isFullscreen ? "fixed inset-0 z-50 !rounded-none !transform-none !max-w-none w-screen h-screen bg-black" : ""
+                  }`}
                 >
-                  {/* Video Container */}
-                  <div className="relative w-full aspect-video bg-gray-900 group/video">
+                  <div className={`relative w-full bg-gray-900 ${isFullscreen ? "h-screen" : "aspect-video"}`}>
                     <video
                       ref={videoRef}
                       src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                      className="absolute inset-0 w-full h-full object-cover bg-black rounded-xl sm:rounded-2xl"
+                      className={`absolute inset-0 w-full h-full bg-black ${
+                        isFullscreen ? "object-contain" : "object-cover rounded-xl sm:rounded-2xl"
+                      }`}
                       onTimeUpdate={handleTimeUpdate}
                       onLoadedMetadata={handleLoadedMetadata}
                       onCanPlay={handleCanPlay}
-                      onPlay={() => setIsPlaying(true)}
+                      onLoadedData={handleVideoLoad}
+                      onLoadStart={() => setIsLoading(true)}
+                      onPlaying={handleVideoStart}
+                      onPlay={() => {
+                        setIsPlaying(true)
+                        setIsLoading(false)
+                        // Also check duration on play
+                        if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+                          setDuration(videoRef.current.duration)
+                        }
+                      }}
                       onPause={() => setIsPlaying(false)}
                       onEnded={() => setIsPlaying(false)}
                       onError={handleVideoError}
+                      onWaiting={() => setIsLoading(true)}
+                      onDurationChange={() => {
+                        // Add this event handler for duration changes
+                        if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
+                          setDuration(videoRef.current.duration)
+                        }
+                      }}
                       crossOrigin="anonymous"
                       preload="metadata"
                       loop
@@ -287,13 +387,13 @@ export default function HeroSection() {
                       playsInline
                     />
 
-                    {/* Custom Video Controls Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300">
+                    {/* Video Controls Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {/* Top Controls */}
                       <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-2">
                         <button
                           onClick={toggleFullscreen}
-                          className="hero-video-control-btn"
+                          className="w-8 sm:w-10 h-8 sm:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
                           title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
                         >
                           {isFullscreen ? (
@@ -306,32 +406,41 @@ export default function HeroSection() {
 
                       {/* Center Play/Pause Button */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <button onClick={togglePlayPause} className="hero-video-play-btn group/play">
+                        <button 
+                          onClick={togglePlayPause} 
+                          className="w-12 sm:w-16 h-12 sm:h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border-2 border-white/30"
+                        >
                           {isPlaying ? (
-                            <Pause className="w-6 sm:w-8 h-6 sm:h-8 text-white" />
+                            <Pause className="w-5 sm:w-8 h-5 sm:h-8 text-white" />
                           ) : (
-                            <Play className="w-6 sm:w-8 h-6 sm:h-8 text-white ml-1" />
+                            <Play className="w-5 sm:w-8 h-5 sm:h-8 text-white ml-1" />
                           )}
                         </button>
                       </div>
 
                       {/* Bottom Controls */}
                       <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
-                        {/* Progress Bar */}
+                        {/* Progress Bar - Fixed */}
                         <div
                           className="w-full h-1.5 sm:h-2 bg-white/20 rounded-full cursor-pointer mb-2 sm:mb-3 group/progress"
                           onClick={handleSeek}
                         >
                           <div
                             className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
-                            style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                            style={{ 
+                              width: `${duration && duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                              maxWidth: '100%' 
+                            }}
                           />
                         </div>
 
-                        {/* Control Bar */}
+                        {/* Control Bar - Fixed time display */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 sm:gap-3">
-                            <button onClick={togglePlayPause} className="hero-video-small-btn">
+                            <button 
+                              onClick={togglePlayPause} 
+                              className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
+                            >
                               {isPlaying ? (
                                 <Pause className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                               ) : (
@@ -339,7 +448,10 @@ export default function HeroSection() {
                               )}
                             </button>
 
-                            <button onClick={toggleMute} className="hero-video-small-btn">
+                            <button 
+                              onClick={toggleMute} 
+                              className="w-6 sm:w-8 h-6 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 backdrop-blur-sm"
+                            >
                               {isMuted ? (
                                 <VolumeX className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                               ) : (
@@ -387,8 +499,10 @@ export default function HeroSection() {
                     )}
                   </div>
 
-                  {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl pointer-events-none" />
+                  {/* Hover Overlay */}
+                  {!isFullscreen && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl pointer-events-none" />
+                  )}
                 </div>
               </div>
             </div>
