@@ -116,87 +116,140 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Desktop: Circular Animation Container */}
+          {/* Desktop & Tablet: 3D Cylindrical Carousel */}
           <div
             className={`hidden md:block fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "100ms" }}
           >
-            <div className="relative w-full max-w-5xl">
-              <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px] mx-auto">
-                {/* Center Circle */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-white rounded-full shadow-lg border-4 border-primary/20 flex items-center justify-center">
+            <div className="relative w-full max-w-6xl mx-auto">
+              <div
+                className="relative mx-auto"
+                style={{
+                  height: "500px",
+                  perspective: "1200px",
+                  perspectiveOrigin: "center center",
+                }}
+              >
+                {/* 3D Cylinder Container */}
+                <div
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{
+                    transformStyle: "preserve-3d",
+                    transform: `rotateY(${rotation}deg)`,
+                    transition: "transform 0.1s linear",
+                  }}
+                >
+                  {industries.map((industry, index) => {
+                    const angle = index * 60 * (Math.PI / 180) // 60 degrees apart
+                    const translateZ = 280 // Radius of cylinder
+                    const rotateY = index * 60 // Rotation for each card
+
+                    return (
+                      <div
+                        key={industry.id}
+                        className="absolute"
+                        style={{
+                          transform: `rotateY(${rotateY}deg) translateZ(${translateZ}px)`,
+                          transformStyle: "preserve-3d",
+                          width: "200px",
+                          height: "280px",
+                          left: "50%",
+                          top: "50%",
+                          marginLeft: "-100px",
+                          marginTop: "-140px",
+                        }}
+                      >
+                        <button
+                          onClick={() => handleIndustryClick(industry.id)}
+                          className="industry-card-3d group relative w-full h-full"
+                          style={{
+                            transformStyle: "preserve-3d",
+                            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                            transform: selectedIndustry === industry.id ? "scale(1.1) translateZ(50px)" : "scale(1)",
+                          }}
+                        >
+                          {/* Card Container */}
+                          <div
+                            className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl"
+                            style={{
+                              background:
+                                "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)",
+                              backdropFilter: "blur(20px)",
+                              border: "1px solid rgba(255,255,255,0.3)",
+                              boxShadow:
+                                selectedIndustry === industry.id
+                                  ? "0 25px 60px rgba(0,0,0,0.3), 0 0 0 3px #209954"
+                                  : "0 15px 40px rgba(0,0,0,0.2)",
+                            }}
+                          >
+                            {/* Image Section */}
+                            <div className="relative h-3/5 overflow-hidden">
+                              <Image
+                                src={industry.image || "/placeholder.svg"}
+                                alt={industry.title}
+                                width={200}
+                                height={168}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            </div>
+
+                            {/* Content Section */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                              <h3 className="text-lg font-bold text-gray-900 mb-2">{industry.title}</h3>
+                              <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">
+                                {industry.description}
+                              </p>
+                            </div>
+
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                          </div>
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Center Hub */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div
+                    className="w-20 h-20 bg-white rounded-full shadow-lg border-4 border-primary/20 flex items-center justify-center"
+                    style={{
+                      transform: "translateZ(100px)",
+                      transformStyle: "preserve-3d",
+                    }}
+                  >
                     <div className="text-center">
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-primary rounded-full mx-auto mb-2"></div>
-                      <span className="text-xs sm:text-sm font-semibold text-gray-700">Industries</span>
+                      <div className="w-8 h-8 bg-primary rounded-full mx-auto mb-1"></div>
+                      <span className="text-xs font-semibold text-gray-700">Industries</span>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Rotating Industry Cards */}
-                {industries.map((industry, index) => {
-                  const angle = (rotation + index * 60) * (Math.PI / 180)
-                  const x = Math.cos(angle) * radius
-                  const y = Math.sin(angle) * radius
-
-                  return (
-                    <div
-                      key={industry.id}
-                      className="absolute transition-all duration-300"
-                      style={{
-                        left: `calc(50% + ${x}px - 60px)`,
-                        top: `calc(50% + ${y}px - 60px)`,
-                        transform: selectedIndustry === industry.id ? "scale(1.1)" : "scale(1)",
-                        width: "120px",
-                        height: "120px",
-                      }}
-                    >
+              {/* Desktop Popup Card */}
+              {selectedIndustryData && (
+                <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-8 z-20 animate-scale-in">
+                  <div className="industry-popup-3d">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-4 h-4 bg-white rounded-sm"></div>
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900">{selectedIndustryData.title}</h4>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4">{selectedIndustryData.description}</p>
+                    <div className="flex justify-center">
                       <button
-                        onClick={() => handleIndustryClick(industry.id)}
-                        className="industry-card group relative w-full h-full"
+                        onClick={() => setSelectedIndustry(null)}
+                        className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors duration-200"
                       >
-                        <div className="relative overflow-hidden rounded-xl w-full h-full">
-                          <Image
-                            src={industry.image || "/placeholder.svg"}
-                            alt={industry.title}
-                            width={120}
-                            height={120}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span className="text-xs font-bold text-white text-center px-1">{industry.title}</span>
-                          </div>
-                        </div>
-
-                        {/* Selection Ring */}
-                        {selectedIndustry === industry.id && (
-                          <div className="absolute -inset-2 border-3 border-primary rounded-xl animate-pulse"></div>
-                        )}
+                        Close
                       </button>
                     </div>
-                  )
-                })}
-
-                {/* Desktop Popup Card */}
-                {selectedIndustryData && (
-                  <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-8 sm:left-full sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:ml-8 z-20 animate-scale-in">
-                    <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-2 sm:left-0 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:-translate-x-2">
-                      <div className="w-0 h-0 border-l-8 border-r-8 border-b-12 border-l-transparent border-r-transparent border-b-white sm:border-t-8 sm:border-b-8 sm:border-r-12 sm:border-t-transparent sm:border-b-transparent sm:border-r-white sm:border-l-0 sm:border-r-white"></div>
-                    </div>
-
-                    <div className="industry-popup-compact">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                          <div className="w-3 h-3 bg-white rounded-sm"></div>
-                        </div>
-                        <h4 className="text-sm font-bold text-gray-900">{selectedIndustryData.title}</h4>
-                      </div>
-                      <p className="text-xs text-gray-600 leading-relaxed">{selectedIndustryData.description}</p>
-                    </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
 

@@ -991,6 +991,46 @@
       transform: translateY(0);
     }
   }
+
+  /* 3D Industries Carousel Styles */
+  .industry-card-3d {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .industry-card-3d:focus {
+    outline: 2px solid #209954;
+    outline-offset: 4px;
+  }
+
+  .industry-popup-3d {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    transform-style: preserve-3d;
+  }
+
+  /* Enhanced 3D perspective for better depth */
+  @media (min-width: 768px) {
+    .industry-card-3d:hover {
+      transform: scale(1.05) translateZ(30px) !important;
+    }
+  }
+
+  /* Smooth rotation animation */
+  @keyframes rotate3D {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
 }
 
 @layer utilities {
