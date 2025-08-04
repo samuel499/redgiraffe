@@ -58,21 +58,15 @@ export default function ProblemSection() {
             </button>
           </div>
 
-          {/* Full Width Image */}
-          <div
-            className={`fade-in-up ${visibleItems.includes(3) ? "visible" : ""}`}
-            style={{ transitionDelay: "800ms" }}
-          >
-            <div className="w-full mt-16">
-              <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
-                <Image
-                  src="/images/problemImg.svg"
-                  alt="Traditional B2B payment problems visualization"
-                  fill
-                  className="object-cover rounded-2xl shadow-2xl"
-                  priority
-                />
-              </div>
+          <div className="w-full animate-scale-in animation-delay-400 m t-[-8%]">
+            <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
+              <Image
+                src="/images/problemImg.svg"
+                alt="RedGiraffe features and platform capabilities"
+                fill
+                className="object-contain rounded-2xl shadow-2xl"
+                priority
+              />
             </div>
           </div>
         </div>

@@ -38,20 +38,33 @@ export default function FeaturesSection() {
           </div>
 
           {/* Full Width Image */}
-          <div
-            className={`fade-in-up ${visibleItems.includes(2) ? "visible" : ""}`}
+          {/* <div
+            className={`fade-in-up visible ${visibleItems.includes(2) ? "visible" : ""}`}
             style={{ transitionDelay: "400ms" }}
           >
             <div className="w-full mt-16">
               <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
                 <Image
-                  src="/placeholder.svg?height=600&width=1200"
+                  src="/images/featuresImg.svg"
                   alt="RedGiraffe features and platform capabilities"
                   fill
                   className="object-cover rounded-2xl shadow-2xl"
                   priority
                 />
               </div>
+            </div>
+          </div> */}
+
+          {/* Full Width Image */}
+          <div className="w-full animate-scale-in animation-delay-400 mt-[-8%]">
+            <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
+              <Image
+                src="/images/featuresImg.svg"
+                alt="RedGiraffe features and platform capabilities"
+                fill
+                className="object-contain rounded-2xl shadow-2xl"
+                priority
+              />
             </div>
           </div>
 
