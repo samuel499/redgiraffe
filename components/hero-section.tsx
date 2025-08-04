@@ -2,8 +2,8 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
-import { MousePointer, Play, Pause, Volume2, VolumeX, Maximize, AlertCircle } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { MousePointer, Play, Pause, Volume2, VolumeX, Maximize, Minimize, AlertCircle } from "lucide-react"
 import { useScrollAnimations } from "../hooks/use-scroll-animations"
 
 export default function HeroSection() {
@@ -16,7 +16,9 @@ export default function HeroSection() {
   const [duration, setDuration] = useState(0)
   const [videoError, setVideoError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const handleToggleChange = (value: "commercial" | "platforms") => {
     setActiveToggle(value)
@@ -24,6 +26,25 @@ export default function HeroSection() {
       window.open("https://redgirraffe.com/in/b2b-saas", "_blank")
     }
   }
+
+  // Fullscreen event listeners
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange)
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange)
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange)
+      document.removeEventListener("mozfullscreenchange", handleFullscreenChange)
+      document.removeEventListener("MSFullscreenChange", handleFullscreenChange)
+    }
+  }, [])
 
   const togglePlayPause = () => {
     if (videoRef.current && !videoError) {
@@ -84,13 +105,35 @@ export default function HeroSection() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
-  const toggleFullscreen = () => {
-    if (videoRef.current) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen()
+  const toggleFullscreen = async () => {
+    if (!containerRef.current) return
+
+    try {
+      if (!isFullscreen) {
+        // Enter fullscreen
+        if (containerRef.current.requestFullscreen) {
+          await containerRef.current.requestFullscreen()
+        } else if ((containerRef.current as any).webkitRequestFullscreen) {
+          await (containerRef.current as any).webkitRequestFullscreen()
+        } else if ((containerRef.current as any).mozRequestFullScreen) {
+          await (containerRef.current as any).mozRequestFullScreen()
+        } else if ((containerRef.current as any).msRequestFullscreen) {
+          await (containerRef.current as any).msRequestFullscreen()
+        }
       } else {
-        videoRef.current.requestFullscreen()
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen()
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen()
+        } else if ((document as any).mozCancelFullScreen) {
+          await (document as any).mozCancelFullScreen()
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen()
+        }
       }
+    } catch (error) {
+      console.error("Fullscreen error:", error)
     }
   }
 
@@ -209,7 +252,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* Hero Video */}
+            {/* Hero Video - Made Wider */}
             <div
               className={`relative mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -218,10 +261,15 @@ export default function HeroSection() {
                 transitionDelay: "600ms",
               }}
             >
-              <div className="relative w-full max-w-5xl mx-auto">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group">
+              <div className="relative w-full max-w-7xl mx-auto">
+                <div
+                  ref={containerRef}
+                  className={`relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500 ease-out group ${
+                    isFullscreen ? "hero-video-fullscreen" : ""
+                  }`}
+                >
                   {/* Video Container */}
-                  <div className="relative w-full aspect-video bg-gray-900 min-h-[400px] group/video">
+                  <div className="relative w-full aspect-video bg-gray-900 min-h-[500px] group/video">
                     <video
                       ref={videoRef}
                       src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -245,8 +293,16 @@ export default function HeroSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300">
                       {/* Top Controls */}
                       <div className="absolute top-4 right-4 flex items-center gap-2">
-                        <button onClick={toggleFullscreen} className="hero-video-control-btn" title="Fullscreen">
-                          <Maximize className="w-4 h-4 text-white" />
+                        <button
+                          onClick={toggleFullscreen}
+                          className="hero-video-control-btn"
+                          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                        >
+                          {isFullscreen ? (
+                            <Minimize className="w-4 h-4 text-white" />
+                          ) : (
+                            <Maximize className="w-4 h-4 text-white" />
+                          )}
                         </button>
                       </div>
 
