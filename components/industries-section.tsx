@@ -10,37 +10,37 @@ const industries = [
     id: "fintech",
     title: "FinTech",
     description: "Digital payment solutions for modern financial technology.",
-    image: "/placeholder.svg?height=300&width=300&text=FinTech+Digital+Banking",
+    image: "/images/industries3.jpg",
   },
   {
     id: "healthcare",
     title: "Healthcare",
     description: "Secure HIPAA-compliant payment processing.",
-    image: "/placeholder.svg?height=300&width=300&text=Healthcare+Medical+Technology",
+    image: "/images/industries1.jpg",
   },
   {
     id: "datacentre",
     title: "Data Centre",
     description: "Automated billing for global data operations.",
-    image: "/placeholder.svg?height=300&width=300&text=Data+Center+Technology",
+    image: "/images/industries2.jpg",
   },
   {
     id: "ecommerce",
     title: "E-Commerce",
     description: "Multi-currency solutions for online retailers.",
-    image: "/placeholder.svg?height=300&width=300&text=E-Commerce+Online+Shopping",
+    image: "/images/industries1.jpg",
   },
   {
     id: "realestate",
     title: "Real Estate",
     description: "Streamlined property payment processing.",
-    image: "/placeholder.svg?height=300&width=300&text=Real+Estate+Property",
+    image: "/images/industries3.jpg",
   },
   {
     id: "manufacturing",
     title: "Manufacturing",
     description: "B2B payment automation for supply chains.",
-    image: "/placeholder.svg?height=300&width=300&text=Manufacturing+Industry",
+    image: "/images/industries1.jpg",
   },
 ]
 
