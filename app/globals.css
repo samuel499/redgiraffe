@@ -972,18 +972,126 @@
     object-fit: contain;
   }
 
+  /* Video Responsive Styles - Add to globals.css */
+@media (max-width: 640px) {
+  .hero-video-container {
+    max-width: calc(100vw - 2rem) !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-video-container {
+    max-width: 90vw !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hero-video-container {
+    max-width: min(95vw, 1400px) !important;
+  }
+}
+
+/* Fullscreen styles */
+*:fullscreen {
+  background: black !important;
+}
+
+*:-webkit-full-screen {
+  background: black !important;
+}
+
+*:-moz-full-screen {
+  background: black !important;
+}
+
+*:-ms-fullscreen {
+  background: black !important;
+}
+
+/* Ensure fullscreen video uses full space */
+.fullscreen-video {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain !important;
+}
+
+/* Add this to the end of your globals.css file */
+
+/* Enhanced Video Responsiveness */
+.hero-video-ultra-wide {
+  width: 100%;
+  max-width: none !important;
+}
+
+@media (min-width: 1024px) {
+  .hero-video-ultra-wide {
+    max-width: 100rem !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-video-ultra-wide {
+    max-width: 120rem !important;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-video-ultra-wide {
+    max-width: 150rem !important;
+  }
+}
+
+/* Better fullscreen handling */
+.fullscreen-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: black !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  max-width: none !important;
+}
+
+.fullscreen-container video {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Mobile video fixes */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .hero-video-ultra-wide {
+    max-width: calc(100vw - 1rem) !important;
+    margin: 0 0.5rem;
+  }
+}
+
   /* Wider Video Container */
   @media (min-width: 1024px) {
     .max-w-7xl {
-      max-width: 90rem; /* Even wider on large screens */
+      max-width: 100rem; /* Even wider on large screens */
     }
   }
 
   @media (min-width: 1280px) {
     .max-w-7xl {
-      max-width: 100rem; /* Maximum width on extra large screens */
+      max-width: 120rem; /* Maximum width on extra large screens */
     }
   }
+
+  @media (min-width: 1536px) {
+  .max-w-\[150rem\] {
+    max-width: 150rem !important;
+  }
+}
 }
 
 @layer utilities {
