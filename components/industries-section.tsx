@@ -179,7 +179,7 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Mobile: Horizontal Scrolling Loop */}
+          {/* Mobile: Horizontal Scrolling Loop with Flippable Cards */}
           <div
             className={`block md:hidden w-full fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "100ms" }}
@@ -190,7 +190,7 @@ export default function IndustriesSection() {
                 className={`mobile-industries-scroll ${selectedIndustry ? "slowed" : ""}`}
                 style={{
                   display: "flex",
-                  width: `${duplicatedIndustries.length * 120}px`,
+                  width: `${duplicatedIndustries.length * 140}px`,
                 }}
               >
                 {duplicatedIndustries.map((industry, index) => (
@@ -198,54 +198,52 @@ export default function IndustriesSection() {
                     key={`${industry.id}-${index}`}
                     className="mobile-industry-item"
                     style={{
-                      width: "100px",
-                      height: "100px",
+                      width: "120px",
+                      height: "160px",
                       margin: "0 10px",
                       flexShrink: 0,
                     }}
                   >
-                    <button
-                      onClick={() => handleIndustryClick(industry.id)}
-                      className={`mobile-industry-button ${selectedIndustry === industry.id ? "selected" : ""}`}
-                    >
-                      {/* Image Container */}
-                      <div className="mobile-industry-image-container">
-                        <Image
-                          src={industry.image || "/placeholder.svg"}
-                          alt={industry.title}
-                          width={80}
-                          height={80}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        <div className="mobile-industry-overlay">
-                          <span className="mobile-industry-title">{industry.title}</span>
+                    <div className="flip-card">
+                      <div className={`flip-card-inner ${selectedIndustry === industry.id ? "flipped" : ""}`}>
+                        {/* Front of Card - Image */}
+                        <div className="flip-card-front">
+                          <button onClick={() => handleIndustryClick(industry.id)} className="mobile-industry-button">
+                            <div className="mobile-industry-image-container">
+                              <Image
+                                src={industry.image || "/placeholder.svg"}
+                                alt={industry.title}
+                                width={120}
+                                height={120}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="mobile-industry-overlay">
+                                <span className="mobile-industry-title">{industry.title}</span>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+
+                        {/* Back of Card - Content */}
+                        <div className="flip-card-back">
+                          <div className="flip-card-content">
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                                <div className="w-3 h-3 bg-white rounded-sm"></div>
+                              </div>
+                              <h4 className="text-sm font-bold text-gray-900 leading-tight">{industry.title}</h4>
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed mb-4">{industry.description}</p>
+                            <button onClick={() => setSelectedIndustry(null)} className="flip-card-close-btn">
+                              ×
+                            </button>
+                          </div>
                         </div>
                       </div>
-
-                      {/* Selection Ring */}
-                      {selectedIndustry === industry.id && <div className="mobile-industry-selection-ring"></div>}
-                    </button>
+                    </div>
                   </div>
                 ))}
               </div>
-
-              {/* Mobile Popup Card */}
-              {selectedIndustryData && (
-                <div className="mobile-industry-popup">
-                  <div className="mobile-industry-popup-content">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                        <div className="w-4 h-4 bg-white rounded-sm"></div>
-                      </div>
-                      <h4 className="text-lg font-bold text-gray-900">{selectedIndustryData.title}</h4>
-                    </div>
-                    <p className="text-sm text-gray-600 leading-relaxed">{selectedIndustryData.description}</p>
-                    <button onClick={() => setSelectedIndustry(null)} className="mobile-industry-close-btn">
-                      ×
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
