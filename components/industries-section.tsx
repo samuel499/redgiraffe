@@ -47,8 +47,30 @@ const industries = [
 export default function IndustriesSection() {
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null)
   const [rotation, setRotation] = useState(0)
+  const [radius, setRadius] = useState(200) // Default radius
   const { ref, inView } = useScrollAnimations({ triggerOnce: false })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(3, 100)
+
+  // Handle window resize and set initial radius
+  useEffect(() => {
+    const updateRadius = () => {
+      if (typeof window !== "undefined") {
+        const width = window.innerWidth
+        if (width < 640) setRadius(120)
+        else if (width < 1024) setRadius(160)
+        else setRadius(200)
+      }
+    }
+
+    // Set initial radius
+    updateRadius()
+
+    // Add resize listener
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", updateRadius)
+      return () => window.removeEventListener("resize", updateRadius)
+    }
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -114,7 +136,6 @@ export default function IndustriesSection() {
                 {/* Rotating Industry Cards */}
                 {industries.map((industry, index) => {
                   const angle = (rotation + index * 60) * (Math.PI / 180)
-                  const radius = window.innerWidth < 640 ? 120 : window.innerWidth < 1024 ? 160 : 200
                   const x = Math.cos(angle) * radius
                   const y = Math.sin(angle) * radius
 
