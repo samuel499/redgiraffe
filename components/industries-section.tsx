@@ -91,9 +91,9 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Circular Animation Container */}
+          {/* Desktop: Circular Animation Container */}
           <div
-            className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
+            className={`hidden md:block fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "100ms" }}
           >
             <div className="relative w-full max-w-5xl">
@@ -154,7 +154,7 @@ export default function IndustriesSection() {
                   )
                 })}
 
-                {/* Popup Card */}
+                {/* Desktop Popup Card */}
                 {selectedIndustryData && (
                   <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-8 sm:left-full sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:ml-8 z-20 animate-scale-in">
                     <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-2 sm:left-0 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:-translate-x-2">
@@ -173,6 +173,64 @@ export default function IndustriesSection() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+
+          {/* Mobile: Card Grid Layout */}
+          <div
+            className={`block md:hidden w-full fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
+            style={{ transitionDelay: "100ms" }}
+          >
+            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+              {industries.map((industry, index) => (
+                <div
+                  key={industry.id}
+                  className={`mobile-industry-card ${selectedIndustry === industry.id ? "selected" : ""}`}
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                  }}
+                >
+                  <button
+                    onClick={() => handleIndustryClick(industry.id)}
+                    className="w-full h-full p-4 text-center group"
+                  >
+                    {/* Image Container */}
+                    <div className="relative w-16 h-16 mx-auto mb-3 overflow-hidden rounded-xl">
+                      <Image
+                        src={industry.image || "/placeholder.svg"}
+                        alt={industry.title}
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors duration-300">
+                      {industry.title}
+                    </h4>
+
+                    {/* Short Description */}
+                    <p className="text-xs text-gray-600 leading-tight line-clamp-2">{industry.description}</p>
+                  </button>
+
+                  {/* Expanded Content */}
+                  {selectedIndustry === industry.id && (
+                    <div className="mobile-industry-expanded">
+                      <div className="p-4 bg-white/90 backdrop-blur-sm rounded-lg border border-primary/20">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-sm font-bold text-primary">{industry.title}</span>
+                        </div>
+                        <p className="text-xs text-gray-700 leading-relaxed">{industry.description}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
