@@ -64,11 +64,11 @@ export default function IndustriesSection() {
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
               {/* Glass Badge */}
-              <div className="inline-flex">
+              {/* <div className="inline-flex">
                 <div className="glass-badge">
                   <span className="text-sm font-medium text-gray-600">Industries We Serve</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Title */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">

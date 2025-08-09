@@ -9,15 +9,15 @@ export default function ProblemSection() {
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(4, 200)
 
   return (
-    <section ref={ref} className="relative bg-white py-24 overflow-hidden">
+    <section ref={ref} className="relative bg-white py-12 md:py-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center text-center space-y-12">
           {/* Glass Badge */}
-          <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
+          {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="glass-badge">
               <span className="text-sm font-medium text-gray-600">What We Fix</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Headline */}
           <div
@@ -58,16 +58,15 @@ export default function ProblemSection() {
             </button>
           </div>
 
-          <div className="w-full animate-scale-in animation-delay-400 m t-[-8%]">
-            <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
-              <Image
-                src="/images/problemImg.svg"
-                alt="RedGiraffe features and platform capabilities"
-                fill
-                className="object-contain rounded-2xl shadow-2xl"
-                priority
-              />
-            </div>
+
+          <div className="relative w-screen h-60 sm:h-[500px]">
+            <Image
+              src="/images/problemImg.svg"
+              alt="RedGirraffe features"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
         </div>
       </div>

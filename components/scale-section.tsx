@@ -58,10 +58,10 @@ export default function ScaleSection() {
                     </div>
 
                     {/* Number */}
-                    <div className="text-4xl lg:text-5xl font-bold text-gray-900">{stat.number}</div>
+                    <div className="text-5xl lg:text-6xl font-bold text-gray-900">{stat.number}</div>
 
                     {/* Label */}
-                    <div className="text-base text-gray-600 font-medium">{stat.label}</div>
+                    <div className="text-2xl text-gray-600 font-medium">{stat.label}</div>
                   </div>
                 )
               })}

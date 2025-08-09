@@ -11,7 +11,7 @@ export default function ContactSection() {
     name: "",
     email: "",
     message: "",
-    agreeToTerms: false,
+    agreeToTerms: true,
   })
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(2, 200)
@@ -37,16 +37,16 @@ export default function ContactSection() {
   }
 
   return (
-    <section ref={ref} id="contact" className="relative bg-gray-50 py-24 overflow-hidden">
+    <section ref={ref} id="contact" className="relative bg-gray-50 py-6 pb-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center space-y-16">
           {/* Header Content */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
               <div className="inline-flex">
-                <div className="glass-badge">
+                {/* <div className="glass-badge">
                   <span className="text-sm font-medium text-gray-600">Contact</span>
-                </div>
+                </div> */}
               </div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Contact us</h2>
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
@@ -128,7 +128,7 @@ export default function ContactSection() {
                     {/* Terms Checkbox and Submit Button */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
                       {/* Terms Checkbox */}
-                      <div className="flex items-center gap-3">
+                      {/* <div className="flex items-center gap-3">
                         <div className="relative">
                           <input
                             type="checkbox"
@@ -154,7 +154,7 @@ export default function ContactSection() {
                         <label htmlFor="agreeToTerms-mobile" className="text-sm text-gray-600">
                           I agree to the Terms and Condition
                         </label>
-                      </div>
+                      </div> */}
 
                       {/* Submit Button */}
                       <button type="submit" disabled={!formData.agreeToTerms} className="contact-submit-btn group">
@@ -334,35 +334,6 @@ export default function ContactSection() {
 
                     {/* Terms Checkbox and Submit Button - Full Width */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 mt-8 border-t border-gray-200">
-                      {/* Terms Checkbox */}
-                      <div className="flex items-center gap-3">
-                        <div className="relative">
-                          <input
-                            type="checkbox"
-                            id="agreeToTerms"
-                            name="agreeToTerms"
-                            checked={formData.agreeToTerms}
-                            onChange={handleCheckboxChange}
-                            className="contact-checkbox"
-                            required
-                          />
-                          {formData.agreeToTerms && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-                        <label htmlFor="agreeToTerms" className="text-sm text-gray-600">
-                          I agree to the Terms and Condition
-                        </label>
-                      </div>
-
                       {/* Submit Button */}
                       <button type="submit" disabled={!formData.agreeToTerms} className="contact-submit-btn group">
                         <span className="text-sm font-semibold">Send a Message</span>

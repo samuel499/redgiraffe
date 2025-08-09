@@ -203,13 +203,13 @@ export default function HowWeWorkSection() {
           {/* Header Section */}
           <div className="space-y-8">
             {/* How It Works Button - Centered */}
-            <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
+            {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
               <div className="flex justify-center">
                 <button className="glass-badge hover:bg-white/90 transition-all duration-300 hover:scale-105">
                   <span className="text-sm font-medium text-gray-700">How It Works</span>
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Badge */}
             <div
@@ -217,7 +217,7 @@ export default function HowWeWorkSection() {
               style={{ transitionDelay: "100ms" }}
             >
               <div className="inline-flex">
-                <div className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
+                <div className="bg-primary text-white px-4 py-2 rounded-full text-lg font-medium">
                   Our Seamless Process
                 </div>
               </div>
@@ -230,224 +230,17 @@ export default function HowWeWorkSection() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                  <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
                     How do we work?
                   </h2>
-                  <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl">
+                  <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed max-w-2xl">
                     We collaborate closely, prioritize your business goals, and deliver real-time support, ensuring a
                     frictionless, future-ready payment experience.
                   </p>
                 </div>
-
-                {/* Play Button with Large Circular Border */}
-                <div className="relative ml-8">
-                  <div className="w-24 h-24 border border-gray-900 rounded-full flex items-center justify-center hover:border-primary transition-colors duration-300">
-                    <button
-                      onClick={toggleVideo}
-                      className="flex items-center gap-2 text-gray-900 hover:text-primary transition-colors duration-200"
-                    >
-                      <Play className="w-5 h-5 fill-current" />
-                      <span className="text-sm font-medium">PLAY</span>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-
-          {/* Enhanced Video Section */}
-          {showVideo && (
-            <div className="w-full bg-black rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
-              <div className="relative w-full aspect-video bg-gray-900 min-h-[400px] group">
-                {/* MP4 Video Player */}
-                {currentVideo.type === "mp4" && (
-                  <video
-                    ref={videoRef}
-                    src={currentVideo.url}
-                    className="absolute inset-0 w-full h-full object-cover bg-black"
-                    onTimeUpdate={handleTimeUpdate}
-                    onLoadedMetadata={handleLoadedMetadata}
-                    onCanPlay={handleCanPlay}
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                    onEnded={() => setIsPlaying(false)}
-                    onError={handleVideoError}
-                    crossOrigin="anonymous"
-                    preload="metadata"
-                    style={{ display: "block", visibility: "visible" }}
-                  />
-                )}
-
-                {/* YouTube Embed */}
-                {currentVideo.type === "youtube" && !videoError && (
-                  <iframe
-                    src={currentVideo.url}
-                    className="absolute inset-0 w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    onLoad={() => setIsLoading(false)}
-                    style={{ display: "block", visibility: "visible" }}
-                  />
-                )}
-
-                {/* Placeholder/Demo Content */}
-                {(videoError || currentVideo.type === "placeholder") && (
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center">
-                    <div className="text-center text-white p-8">
-                      <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Play className="w-12 h-12 text-white" />
-                      </div>
-                      <h3 className="text-2xl font-bold mb-4">RedGiraffe Demo Video</h3>
-                      <p className="text-lg opacity-90 mb-6">See how our platform transforms B2B payments</p>
-                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button
-                          onClick={switchVideoSource}
-                          className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-200"
-                        >
-                          Try Different Source
-                        </button>
-                        <button
-                          onClick={toggleVideo}
-                          className="px-6 py-3 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
-                        >
-                          Close Player
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Video Controls Overlay - Only for MP4 */}
-                {currentVideo.type === "mp4" && !videoError && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {/* Top Controls */}
-                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                      <button
-                        onClick={switchVideoSource}
-                        className="px-3 py-1 bg-black/50 hover:bg-black/70 rounded-full text-white text-xs transition-colors duration-200"
-                        title="Switch Source"
-                      >
-                        {currentVideo.label}
-                      </button>
-                      <button
-                        onClick={toggleFullscreen}
-                        className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
-                        title="Fullscreen"
-                      >
-                        <Maximize className="w-4 h-4 text-white" />
-                      </button>
-                      <button
-                        onClick={toggleVideo}
-                        className="w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200"
-                        title="Close"
-                      >
-                        <X className="w-4 h-4 text-white" />
-                      </button>
-                    </div>
-
-                    {/* Center Play/Pause Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <button
-                        onClick={togglePlayPause}
-                        className="w-16 h-16 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                      >
-                        {isPlaying ? (
-                          <Pause className="w-8 h-8 text-white" />
-                        ) : (
-                          <Play className="w-8 h-8 text-white ml-1" />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Bottom Controls */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      {/* Progress Bar */}
-                      <div
-                        className="w-full h-2 bg-white/20 rounded-full cursor-pointer mb-3 group/progress"
-                        onClick={handleSeek}
-                      >
-                        <div
-                          className="h-full bg-primary rounded-full transition-all duration-150 group-hover/progress:bg-primary-400"
-                          style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                        />
-                      </div>
-
-                      {/* Control Bar */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={togglePlayPause}
-                            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
-                          >
-                            {isPlaying ? (
-                              <Pause className="w-4 h-4 text-white" />
-                            ) : (
-                              <Play className="w-4 h-4 text-white ml-0.5" />
-                            )}
-                          </button>
-
-                          <button
-                            onClick={toggleMute}
-                            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
-                          >
-                            {isMuted ? (
-                              <VolumeX className="w-4 h-4 text-white" />
-                            ) : (
-                              <Volume2 className="w-4 h-4 text-white" />
-                            )}
-                          </button>
-
-                          <span className="text-white text-sm font-medium">
-                            {formatTime(currentTime)} / {formatTime(duration)}
-                          </span>
-                        </div>
-
-                        <div className="text-white text-sm">How RedGiraffe Works</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Close button for YouTube/other embeds */}
-                {currentVideo.type !== "mp4" && !videoError && (
-                  <button
-                    onClick={toggleVideo}
-                    className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors duration-200 z-10"
-                    title="Close"
-                  >
-                    <X className="w-4 h-4 text-white" />
-                  </button>
-                )}
-
-                {/* Loading State */}
-                {isLoading && !videoError && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                    <div className="flex items-center gap-3 text-white">
-                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Loading video...</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Error State */}
-                {videoError && currentVideo.type === "mp4" && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-red-900/20">
-                    <div className="text-center text-white p-8">
-                      <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-400" />
-                      <h3 className="text-xl font-bold mb-2">Video Unavailable</h3>
-                      <p className="text-sm opacity-90 mb-4">Unable to load video from current source</p>
-                      <button
-                        onClick={switchVideoSource}
-                        className="px-4 py-2 bg-primary hover:bg-primary-600 rounded-lg transition-colors duration-200"
-                      >
-                        Try Another Source
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
 
           {/* Process Steps */}
           <div
@@ -534,12 +327,12 @@ export default function HowWeWorkSection() {
                       {activeStep === step.id && (
                         <div className="absolute inset-0 bg-white/95 backdrop-blur-sm p-4 flex flex-col justify-center animate-fade-in overflow-y-auto">
                           <div className="space-y-3 text-left max-h-full">
-                            <div className="text-xs font-bold text-primary mb-1">{step.id}</div>
-                            <h3 className="text-sm font-bold text-gray-900 mb-2 leading-tight">{step.title}</h3>
-                            <p className="text-xs text-gray-900 leading-relaxed mb-2 line-clamp-4">
+                            <div className="text-lg font-bold text-primary mb-1">{step.id}</div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">{step.title}</h3>
+                            <p className="text-lg text-gray-900 leading-relaxed mb-2 line-clamp-4">
                               {step.content.title}
                             </p>
-                            <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
+                            <p className="text-lg text-gray-600 leading-relaxed line-clamp-3">
                               {step.content.description}
                             </p>
                           </div>

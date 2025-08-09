@@ -354,6 +354,10 @@ export default function HeroSection() {
               </button>
             </div>
 
+            <p className="text-2xl">
+              <span className="font-bold">$20B+</span> processed annually
+            </p>
+
             {/* Hero Video - Fixed Fullscreen Button */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${

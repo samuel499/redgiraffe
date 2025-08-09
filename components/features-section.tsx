@@ -13,19 +13,19 @@ export default function FeaturesSection() {
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center text-center space-y-12">
           {/* Glass Badge */}
-          <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
+          {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="glass-badge">
               <span className="text-sm font-medium text-gray-600">Features</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Description with Bold Black Text */}
           <div
-            className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
+            className={`mb-[-40px] fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "200ms" }}
           >
             <p className="text-lg sm:text-xl text-gray-600 max-w-4xl leading-relaxed">
-              <span className="font-bold text-black">At RedGiraffe, we're reimagining</span> the future of enterprise
+              <span className="font-bold text-black">At RedGirraffe, we're reimagining</span> the future of enterprise
               payments.
               <br />
               <br />
@@ -37,35 +37,14 @@ export default function FeaturesSection() {
             </p>
           </div>
 
-          {/* Full Width Image */}
-          {/* <div
-            className={`fade-in-up visible ${visibleItems.includes(2) ? "visible" : ""}`}
-            style={{ transitionDelay: "400ms" }}
-          >
-            <div className="w-full mt-16">
-              <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
-                <Image
-                  src="/images/featuresImg.svg"
-                  alt="RedGiraffe features and platform capabilities"
-                  fill
-                  className="object-cover rounded-2xl shadow-2xl"
-                  priority
-                />
-              </div>
-            </div>
-          </div> */}
-
-          {/* Full Width Image */}
-          <div className="w-full animate-scale-in animation-delay-400 mt-[-8%]">
-            <div className="relative w-full h-96 sm:h-[500px] lg:h-[600px]">
-              <Image
-                src="/images/featuresImg.svg"
-                alt="RedGiraffe features and platform capabilities"
-                fill
-                className="object-contain rounded-2xl shadow-2xl"
-                priority
-              />
-            </div>
+          <div className="relative w-screen h-56 sm:h-[500px]">
+            <Image
+              src="/images/featuresImg.svg"
+              alt="RedGirraffe features"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
 
           {/* Request Demo Button */}
