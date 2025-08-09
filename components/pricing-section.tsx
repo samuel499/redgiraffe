@@ -55,11 +55,11 @@ export default function PricingSection() {
           {/* Header Content */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6">
-              <div className="inline-flex">
+              {/* <div className="inline-flex">
                 <div className="glass-badge">
                   <span className="text-sm font-medium text-gray-600">Pricing Plans</span>
                 </div>
-              </div>
+              </div> */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Flexible Pricing to Fit
                 <br />
@@ -91,10 +91,10 @@ export default function PricingSection() {
                         {/* Title and Price */}
                         <div className="mb-4">
                           <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight">{plan.title}</h3>
-                          <div className="flex items-baseline gap-1">
+                          {/* <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
                             <span className="text-base text-gray-600">{plan.period}</span>
-                          </div>
+                          </div> */}
                         </div>
 
                         {/* Description */}

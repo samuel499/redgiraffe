@@ -50,14 +50,14 @@ export default function SmarterPaymentsSection() {
           </div>
 
           {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full max-w-7xl items-stretch">
             {/* Bank Card */}
             <div
               className={`fade-in-left ${visibleItems.includes(1) ? "visible" : ""}`}
               style={{ transitionDelay: "200ms" }}
             >
-              <div className="payment-card group">
-                <div className="card-content">
+              <div className="payment-card group h-full flex flex-col">
+                <div className="card-content flex flex-col flex-1">
                   {/* Card Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="text-2xl">✨</div>
@@ -71,13 +71,13 @@ export default function SmarterPaymentsSection() {
                         <div className="feature-check flex-shrink-0">
                           <Check className="w-4 h-4 text-white" />
                         </div>
-                        <span className="text-sm text-gray-700 leading-relaxed text-left">{feature}</span>
+                        <span className="text-lg text-gray-700 leading-relaxed text-left">{feature}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Get Started Button */}
-                  <button className="get-started-btn group/btn">
+                  <button className="get-started-btn group/btn mt-auto">
                     <Rocket className="w-5 h-5 text-white transition-transform duration-300 group-hover/btn:translate-y-[-2px] group-hover/btn:rotate-12" />
                     Get Started
                   </button>
@@ -90,8 +90,8 @@ export default function SmarterPaymentsSection() {
               className={`fade-in-right ${visibleItems.includes(2) ? "visible" : ""}`}
               style={{ transitionDelay: "400ms" }}
             >
-              <div className="payment-card group">
-                <div className="card-content">
+              <div className="payment-card group h-full flex flex-col">
+                <div className="card-content flex flex-col flex-1">
                   {/* Card Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="text-2xl">✨</div>
@@ -105,13 +105,13 @@ export default function SmarterPaymentsSection() {
                         <div className="feature-check flex-shrink-0">
                           <Check className="w-4 h-4 text-white" />
                         </div>
-                        <span className="text-sm text-gray-700 leading-relaxed text-left">{feature}</span>
+                        <span className="text-lg text-gray-700 leading-relaxed text-left">{feature}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Get Started Button */}
-                  <button className="get-started-btn group/btn">
+                  <button className="get-started-btn group/btn mt-auto">
                     <Rocket className="w-5 h-5 text-white transition-transform duration-300 group-hover/btn:translate-y-[-2px] group-hover/btn:rotate-12" />
                     Get Started
                   </button>
@@ -119,6 +119,7 @@ export default function SmarterPaymentsSection() {
               </div>
             </div>
           </div>
+
 
           {/* Request Demo Button */}
           <div
