@@ -247,6 +247,21 @@ export default function HeroSection() {
         <div className="hero-gradient-animated absolute inset-0" />
       </div>
 
+      {/* Animated Video Background */}
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      <video
+        className="h-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        src="/bg-gradient.mp4"
+      />
+        {/* Optional overlay tint */}
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 pointer-events-none" /> */}
+      </div>
+
       {/* Toggle Section */}
       <div className="relative z-10 pt-32 pb-8">
         <div className="container-max section-padding">
@@ -326,7 +341,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <p
-              className={`text-base sm:text-lg md:text-xl text-white/90 max-w-xs sm:max-w-2xl leading-relaxed transition-all duration-1000 ease-out px-2 sm:px-0 ${
+              className={`text-base sm:text-lg md:text-xl text-black/90 max-w-xs sm:max-w-2xl leading-relaxed transition-all duration-1000 ease-out px-2 sm:px-0 ${
                 inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
               }`}
               style={{
