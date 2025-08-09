@@ -310,7 +310,7 @@ export default function HeroSection() {
                   transitionDelay: "200ms",
                 }}
               >
-                RedGiraffe Global
+                RedGirraffe Global
               </h1>
               <h2
                 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white transition-all duration-1000 ease-out leading-tight ${

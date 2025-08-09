@@ -98,15 +98,15 @@ export default function Header() {
       >
         <div className="flex justify-center pt-4 px-4">
           {/* Centered Glass Navigation Bar */}
-          <div className="glass-nav px-8 py-4 w-full max-w-4xl lg:max-w-3xl">
+          <div className="glass-nav px-8 py-4 w-full max-w-4xl">
             <div className="flex items-center justify-between">
               {/* Logo */}
-              <button onClick={() => handleNavClick("#home", "Home")} className="flex items-center group lg:ml-[4%]">
+              <button onClick={() => handleNavClick("#home", "Home")} className="flex items-center group lg:mr-[4%]">
                 <div
                   className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary"
                   style={{ color: "#191A39" }}
                 >
-                  RedGiraffe
+                  RedGirraffe
                 </div>
               </button>
 
@@ -120,7 +120,7 @@ export default function Header() {
                       <button
                         key={item.name}
                         onClick={() => handleNavClick(item.href, item.name)}
-                        className={`text-sm font-medium transition-all duration-200 relative group cursor-pointer whitespace-nowrap ${
+                        className={`text-xl font-medium transition-all duration-200 relative group cursor-pointer whitespace-nowrap ${
                           isActive ? "text-primary font-semibold" : "text-gray-700 hover:text-primary"
                         }`}
                       >
@@ -165,7 +165,7 @@ export default function Header() {
                 WebkitBackdropFilter: "blur(24px)",
                 border: "1px solid rgba(255, 255, 255, 0.4)",
               }}
-            >
+            > 
               <nav className="p-6">
                 <div className="space-y-4">
                   {navigationItems.map((item, index) => {
