@@ -20,6 +20,8 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const END_OF_VIDEO_THRESHOLD = 0.3
+
   const handleToggleChange = (value: "commercial" | "platforms") => {
     setActiveToggle(value)
     if (value === "platforms") {
@@ -140,7 +142,7 @@ export default function HeroSection() {
       setCurrentTime(newCurrentTime)
       
       // Check if video has reached the end and auto-exit fullscreen
-      if (duration > 0 && Math.abs(newCurrentTime - duration) < 0.3 && isFullscreen && !hasAutoExited) {
+      if (duration > 0 && Math.abs(newCurrentTime - duration) < END_OF_VIDEO_THRESHOLD && isFullscreen && !hasAutoExited) {
         console.log("Video reached end, auto-exiting fullscreen")
         setHasAutoExited(true) // Prevent multiple calls
         exitFullscreen()
