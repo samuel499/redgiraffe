@@ -248,16 +248,16 @@ export default function HeroSection() {
       </div>
 
       {/* Animated Video Background */}
-    <div className="absolute inset-0 z-0 overflow-hidden">
-      <video
-        className="h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        src="/bg-gradient.mp4"
-      />
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          className="h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          src="/bg-gradient.mp4"
+        />
         {/* Optional overlay tint */}
         {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 pointer-events-none" /> */}
       </div>
