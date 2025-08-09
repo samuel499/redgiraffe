@@ -20,6 +20,8 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const END_OF_VIDEO_THRESHOLD = 0.3
+
   const handleToggleChange = (value: "commercial" | "platforms") => {
     setActiveToggle(value)
     if (value === "platforms") {
