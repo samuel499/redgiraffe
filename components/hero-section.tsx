@@ -16,6 +16,7 @@ export default function HeroSection() {
   const [videoError, setVideoError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [hasAutoExited, setHasAutoExited] = useState(false) // Prevent multiple auto-exits
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -37,6 +38,11 @@ export default function HeroSection() {
       )
       setIsFullscreen(isCurrentlyFullscreen)
       console.log("Fullscreen state changed:", isCurrentlyFullscreen)
+      
+      // Reset auto-exit flag when entering fullscreen
+      if (isCurrentlyFullscreen) {
+        setHasAutoExited(false)
+      }
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
@@ -110,9 +116,35 @@ export default function HeroSection() {
     }
   }
 
+  // Extract fullscreen exit logic into separate function
+  const exitFullscreen = async () => {
+    console.log("Auto-exiting fullscreen...")
+    try {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen()
+      } else if ((document as any).webkitExitFullscreen) {
+        await (document as any).webkitExitFullscreen()
+      } else if ((document as any).mozCancelFullScreen) {
+        await (document as any).mozCancelFullScreen()
+      } else if ((document as any).msExitFullscreen) {
+        await (document as any).msExitFullscreen()
+      }
+    } catch (error) {
+      console.error("Auto-exit fullscreen error:", error)
+    }
+  }
+
   const handleTimeUpdate = () => {
     if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime)
+      const newCurrentTime = videoRef.current.currentTime
+      setCurrentTime(newCurrentTime)
+      
+      // Check if video has reached the end and auto-exit fullscreen
+      if (duration > 0 && Math.abs(newCurrentTime - duration) < END_OF_VIDEO_THRESHOLD && isFullscreen && !hasAutoExited) {
+        console.log("Video reached end, auto-exiting fullscreen")
+        setHasAutoExited(true) // Prevent multiple calls
+        exitFullscreen()
+      }
     }
   }
 
@@ -175,6 +207,8 @@ export default function HeroSection() {
       try {
         videoRef.current.currentTime = clampedTime
         setCurrentTime(clampedTime)
+        // Reset auto-exit flag when seeking
+        setHasAutoExited(false)
       } catch (error) {
         console.error("Seek error:", error)
       }
@@ -204,6 +238,9 @@ export default function HeroSection() {
     try {
       if (!isFullscreen) {
         console.log("Attempting to enter fullscreen...")
+        // Reset auto-exit flag when manually entering fullscreen
+        setHasAutoExited(false)
+        
         if (containerRef.current.requestFullscreen) {
           await containerRef.current.requestFullscreen()
           console.log("requestFullscreen called")
@@ -221,19 +258,7 @@ export default function HeroSection() {
         }
       } else {
         console.log("Attempting to exit fullscreen...")
-        if (document.exitFullscreen) {
-          await document.exitFullscreen()
-          console.log("exitFullscreen called")
-        } else if ((document as any).webkitExitFullscreen) {
-          await (document as any).webkitExitFullscreen()
-          console.log("webkitExitFullscreen called")
-        } else if ((document as any).mozCancelFullScreen) {
-          await (document as any).mozCancelFullScreen()
-          console.log("mozCancelFullScreen called")
-        } else if ((document as any).msExitFullscreen) {
-          await (document as any).msExitFullscreen()
-          console.log("msExitFullscreen called")
-        }
+        await exitFullscreen()
       }
     } catch (error) {
       console.error("Fullscreen error:", error)
@@ -258,8 +283,6 @@ export default function HeroSection() {
           preload="auto"
           src="/bg-gradient.mp4"
         />
-        {/* Optional overlay tint */}
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 pointer-events-none" /> */}
       </div>
 
       {/* Toggle Section */}
@@ -373,7 +396,7 @@ export default function HeroSection() {
               <span className="font-bold">$20B+</span> processed annually
             </p>
 
-            {/* Hero Video - Fixed Fullscreen Button */}
+            {/* Hero Video */}
             <div
               className={`relative mt-8 sm:mt-12 w-full transition-all duration-1200 ease-out ${
                 inView ? "translate-y-0 opacity-100 scale-100" : "translate-y-16 opacity-0 scale-95"
@@ -406,6 +429,8 @@ export default function HeroSection() {
                       onPlay={() => {
                         setIsPlaying(true)
                         setIsLoading(false)
+                        // Reset auto-exit flag when video starts playing
+                        setHasAutoExited(false)
                         // Also check duration on play
                         if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration) && isFinite(videoRef.current.duration)) {
                           setDuration(videoRef.current.duration)

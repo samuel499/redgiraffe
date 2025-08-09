@@ -59,7 +59,7 @@ export default function ProblemSection() {
           </div>
 
 
-          <div className="relative w-screen h-60 sm:h-[500px]">
+          <div className="hidden relative w-screen h-60 sm:h-[500px] md:block">
             <Image
               src="/images/problemImg.svg"
               alt="RedGirraffe features"
