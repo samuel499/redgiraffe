@@ -38,7 +38,7 @@ const solutions = [
     title: "FlowForge",
     description:
       "IoT-Driven Efficiency: Integrates with utility meters to identify waste, optimise consumption, and validate hard-dollar energy savings.",
-    image: "/images/solutions4.svg",
+    image: "/images/flowforge.jpg",
     imageAlt: "Hands working on electronic components and circuit boards for IoT solutions",
   },
 ]
@@ -141,7 +141,7 @@ export default function SolutionsSection() {
                                   src={solution.image || "/placeholder.svg"}
                                   alt={solution.imageAlt}
                                   width={600}
-                                  height={400}
+                                  height={200}
                                   className="solutions-image"
                                   priority={index < 2}
                                 />
@@ -157,7 +157,7 @@ export default function SolutionsSection() {
                                   src={solution.image || "/placeholder.svg"}
                                   alt={solution.imageAlt}
                                   width={600}
-                                  height={400}
+                                  height={200}
                                   className="solutions-image"
                                   priority={index < 2}
                                 />

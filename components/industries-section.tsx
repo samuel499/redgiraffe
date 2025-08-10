@@ -10,13 +10,13 @@ const industries = [
     id: "fintech",
     title: "FinTech",
     description: "Digital payment solutions for modern financial technology.",
-    image: "/images/industries3.jpg",
+    image: "/images/fintech.jpg",
   },
   {
     id: "healthcare",
     title: "Healthcare",
     description: "Secure HIPAA-compliant payment processing.",
-    image: "/images/industries1.jpg",
+    image: "/images/healthcare.jpg",
   },
   {
     id: "datacentre",
@@ -28,19 +28,19 @@ const industries = [
     id: "ecommerce",
     title: "E-Commerce",
     description: "Multi-currency solutions for online retailers.",
-    image: "/images/industries1.jpg",
+    image: "/images/ecommerce.jpg",
   },
   {
     id: "realestate",
     title: "Real Estate",
     description: "Streamlined property payment processing.",
-    image: "/images/industries3.jpg",
+    image: "/images/real-estate.jpg",
   },
   {
     id: "manufacturing",
     title: "Manufacturing",
     description: "B2B payment automation for supply chains.",
-    image: "/images/industries1.jpg",
+    image: "/images/manufacturing.jpg",
   },
 ]
 
