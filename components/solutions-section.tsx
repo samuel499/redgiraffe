@@ -10,8 +10,7 @@ const solutions = [
     title: "PayPulse",
     description:
       "Unified AP & Payments: Ingests all invoices, Automates workflows, RedGiraffe acts as Merchant of Record (MOR), eliminating all supplier onboarding friction.",
-    image:
-      "/images/solutions1.svg",
+    image: "/images/pay1.png",
     imageAlt: "Office workspace showing payment processing on laptop and mobile device",
   },
   {
@@ -20,7 +19,7 @@ const solutions = [
     title: "LeaseCore",
     description:
       "Centralized Lease Intelligence: Digitizes all property/asset leases, manages critical dates, and automates payments via the PayPulse engine.",
-    image: "/images/solutions2.svg",
+    image: "/images/lease-core.png",
     imageAlt: "Property management visualization with house-shaped objects",
   },
   {
@@ -29,7 +28,7 @@ const solutions = [
     title: "ESG Horizon",
     description:
       "Automated Scope 3 Reporting: Automatically captures and maps emissions data from payment and utility flows, providing board-ready reports.",
-    image: "/images/solutions3.svg",
+    image: "/images/horizon.png",
     imageAlt: "ESG sustainability reporting dashboard with various charts and metrics",
   },
   {
@@ -38,8 +37,8 @@ const solutions = [
     title: "FlowForge",
     description:
       "IoT-Driven Efficiency: Integrates with utility meters to identify waste, optimise consumption, and validate hard-dollar energy savings.",
-    image: "/images/flowforge.jpg",
-    imageAlt: "Hands working on electronic components and circuit boards for IoT solutions",
+    image: "/images/flowforge3.png",
+    imageAlt: "IOT devices on a surface",
   },
 ]
 
@@ -82,7 +81,7 @@ export default function SolutionsSection() {
                     <h3 className="text-2xl font-bold text-gray-900">{solution.title}</h3>
 
                     {/* Image */}
-                    <div className="solutions-image-container">
+                    <div className="solutions-image-container md:border-4 md:border-white md:rounded-2xl">
                       <Image
                         src={solution.image || "/placeholder.svg"}
                         alt={solution.imageAlt}
@@ -120,7 +119,6 @@ export default function SolutionsSection() {
 
                       {/* Content Container */}
                       <div className="grid grid-cols-2 gap-16 items-center">
-                        {/* Left Side Content */}
                         {isLeft ? (
                           <>
                             {/* Text Content - Left */}
@@ -136,13 +134,13 @@ export default function SolutionsSection() {
 
                             {/* Image - Right */}
                             <div className="pl-8">
-                              <div className="solutions-image-container">
+                              <div className="solutions-image-container md:border-8 md:border-white md:rounded-2xl">
                                 <Image
                                   src={solution.image || "/placeholder.svg"}
                                   alt={solution.imageAlt}
                                   width={600}
-                                  height={200}
-                                  className="solutions-image"
+                                  height={400}
+                                  className="solutions-image p-4"
                                   priority={index < 2}
                                 />
                               </div>
@@ -152,13 +150,13 @@ export default function SolutionsSection() {
                           <>
                             {/* Image - Left */}
                             <div className="pr-8">
-                              <div className="solutions-image-container">
+                              <div className="solutions-image-container md:border-8 md:border-white md:rounded-2xl">
                                 <Image
                                   src={solution.image || "/placeholder.svg"}
                                   alt={solution.imageAlt}
                                   width={600}
-                                  height={200}
-                                  className="solutions-image"
+                                  height={400}
+                                  className="solutions-image p-4"
                                   priority={index < 2}
                                 />
                               </div>

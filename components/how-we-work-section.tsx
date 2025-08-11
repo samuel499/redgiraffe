@@ -248,7 +248,7 @@ export default function HowWeWorkSection() {
             style={{ transitionDelay: "400ms" }}
           >
             {/* Mobile Layout - Keep existing accordion */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {processSteps.map((step, index) => (
                   <div key={step.id}>
@@ -290,9 +290,9 @@ export default function HowWeWorkSection() {
             </div>
 
             {/* Desktop/Tablet Layout - Horizontal Stack with Internal Content */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <div className="flex min-h-96">
+                <div className="flex min-h-[34rem]">
                   {processSteps.map((step, index) => (
                     <div
                       key={step.id}
@@ -329,10 +329,10 @@ export default function HowWeWorkSection() {
                           <div className="space-y-3 text-left max-h-full">
                             <div className="text-lg font-bold text-primary mb-1">{step.id}</div>
                             <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">{step.title}</h3>
-                            <p className="text-lg text-gray-900 leading-relaxed mb-2 line-clamp-4">
+                            <p className="text-lg text-gray-900 leading-relaxed mb-2">
                               {step.content.title}
                             </p>
-                            <p className="text-lg text-gray-600 leading-relaxed line-clamp-3">
+                            <p className="text-lg text-gray-600 leading-relaxed">
                               {step.content.description}
                             </p>
                           </div>
