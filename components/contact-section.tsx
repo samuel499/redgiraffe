@@ -1,7 +1,7 @@
+// ContactSection.tsx
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Phone, MessageCircle, Mail, ArrowRight } from "lucide-react"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
@@ -36,18 +36,41 @@ export default function ContactSection() {
     console.log("Form submitted:", formData)
   }
 
+  function InfoCard({
+    icon,
+    title,
+    children,
+  }: {
+    icon: React.ReactNode
+    title: string
+    children: React.ReactNode
+  }) {
+    return (
+      <div className="contact-info-card flex items-start gap-4 bg-white/10 p-4 rounded-lg">
+        <div className="contact-info-icon flex-shrink-0 w-10 h-10 rounded-md bg-white/20 flex items-center justify-center">
+          <span className="w-5 h-5 text-white">{icon}</span>
+        </div>
+        <div>
+          <div className="text-sm font-medium text-emerald-50 mb-1">{title}</div>
+          <div className="text-base font-semibold text-white">{children}</div>
+        </div>
+      </div>
+    )
+  }
+
+  const inputClass =
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-white text-emerald-900 placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-white/40"
+
+  const textareaClass =
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-white text-emerald-900 placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
+
   return (
     <section ref={ref} id="contact" className="relative bg-gray-50 py-6 pb-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center space-y-16">
-          {/* Header Content */}
+          {/* Header */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
-              <div className="inline-flex">
-                {/* <div className="glass-badge">
-                  <span className="text-sm font-medium text-gray-600">Contact</span>
-                </div> */}
-              </div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Contact us</h2>
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
                 We're here to help—share your thoughts or inquiries with us, and we'll get back to you soon!
@@ -55,22 +78,15 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Contact Content */}
-          <div
-            className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
-            style={{ transitionDelay: "200ms" }}
-          >
+          {/* Content */}
+          <div className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`} style={{ transitionDelay: "200ms" }}>
             <div className="w-full max-w-6xl">
-              {/* Mobile Layout */}
+              {/* Mobile */}
               <div className="block md:hidden">
-                <div className="bg-white rounded-2xl shadow-lg p-8">
+                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8">
                   <form onSubmit={handleSubmit} className="space-y-4 mb-8">
-                    {/* Name Field */}
                     <div className="space-y-2">
-                      <label
-                        htmlFor="name-mobile"
-                        className="text-sm font-medium text-gray-700 uppercase tracking-wide"
-                      >
+                      <label htmlFor="name-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                         NAME
                       </label>
                       <input
@@ -79,18 +95,14 @@ export default function ContactSection() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="contact-input"
+                        className={inputClass}
                         placeholder="Enter your name"
                         required
                       />
                     </div>
 
-                    {/* Email Field */}
                     <div className="space-y-2">
-                      <label
-                        htmlFor="email-mobile"
-                        className="text-sm font-medium text-gray-700 uppercase tracking-wide"
-                      >
+                      <label htmlFor="email-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                         EMAIL
                       </label>
                       <input
@@ -99,18 +111,14 @@ export default function ContactSection() {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="contact-input"
+                        className={inputClass}
                         placeholder="Enter your email"
                         required
                       />
                     </div>
 
-                    {/* Message Field */}
                     <div className="space-y-2">
-                      <label
-                        htmlFor="message-mobile"
-                        className="text-sm font-medium text-gray-700 uppercase tracking-wide"
-                      >
+                      <label htmlFor="message-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                         MESSAGE
                       </label>
                       <textarea
@@ -119,116 +127,50 @@ export default function ContactSection() {
                         value={formData.message}
                         onChange={handleInputChange}
                         rows={6}
-                        className="contact-textarea"
+                        className={textareaClass}
                         placeholder="Enter your message"
                         required
                       />
                     </div>
 
-                    {/* Terms Checkbox and Submit Button */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
-                      {/* Terms Checkbox */}
-                      {/* <div className="flex items-center gap-3">
-                        <div className="relative">
-                          <input
-                            type="checkbox"
-                            id="agreeToTerms-mobile"
-                            name="agreeToTerms"
-                            checked={formData.agreeToTerms}
-                            onChange={handleCheckboxChange}
-                            className="contact-checkbox"
-                            required
-                          />
-                          {formData.agreeToTerms && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-                        <label htmlFor="agreeToTerms-mobile" className="text-sm text-gray-600">
-                          I agree to the Terms and Condition
-                        </label>
-                      </div> */}
-
-                      {/* Submit Button */}
-                      <button type="submit" disabled={!formData.agreeToTerms} className="contact-submit-btn group">
+                    <div className="flex flex-col text-center sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
+                      <button
+                        type="submit"
+                        disabled={!formData.agreeToTerms}
+                        className="group inline-flex items-center justify-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
+                      >
                         <span className="text-sm font-semibold">Send a Message</span>
-                        <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
                       </button>
                     </div>
                   </form>
 
-                  {/* Contact Information Cards - Mobile */}
                   <div className="space-y-4">
-                    {/* Contact Phone */}
-                    <div className="contact-info-card">
-                      <div className="contact-info-icon">
-                        <Phone className="w-5 h-5 text-gray-600" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-500 mb-1">Contact Phone</div>
-                        <a
-                          href="tel:+443301131707"
-                          className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                        >
-                          +44 330 113 1707
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* WhatsApp */}
-                    <div className="contact-info-card">
-                      <div className="contact-info-icon">
-                        <MessageCircle className="w-5 h-5 text-gray-600" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-500 mb-1">WhatsApp</div>
-                        <a
-                          href="https://wa.me/918010191019"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                        >
-                          +91 80 1019 1019
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Email */}
-                    <div className="contact-info-card">
-                      <div className="contact-info-icon">
-                        <Mail className="w-5 h-5 text-gray-600" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-500 mb-1">Email</div>
-                        <a
-                          href="mailto:connect@RedGiraffe.com"
-                          className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                        >
-                          connect@RedGiraffe.com
-                        </a>
-                      </div>
-                    </div>
+                    <InfoCard icon={<Phone className="w-5 h-5" />} title="Contact Phone">
+                      <a href="tel:+443301131707" className="hover:opacity-90">+44 330 113 1707</a>
+                    </InfoCard>
+                    <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="WhatsApp">
+                      <a href="https://wa.me/918010191019" target="_blank" rel="noopener noreferrer" className="hover:opacity-90">
+                        +91 80 1019 1019
+                      </a>
+                    </InfoCard>
+                    <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
+                      <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90">
+                        connect@RedGiraffe.com
+                      </a>
+                    </InfoCard>
                   </div>
                 </div>
               </div>
 
-              {/* Desktop/Tablet Layout */}
+              {/* Desktop */}
               <div className="hidden md:block">
-                <div className="bg-white rounded-2xl shadow-lg p-8">
+                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8">
                   <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-3 gap-8">
-                      {/* Left Section - Name and Email (1 column) */}
                       <div className="space-y-4">
-                        {/* Name Field */}
                         <div className="space-y-2">
-                          <label htmlFor="name" className="text-sm font-medium text-gray-700 uppercase tracking-wide">
+                          <label htmlFor="name" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                             NAME
                           </label>
                           <input
@@ -237,15 +179,13 @@ export default function ContactSection() {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="contact-input"
+                            className={inputClass}
                             placeholder="Enter your name"
                             required
                           />
                         </div>
-
-                        {/* Email Field */}
                         <div className="space-y-2">
-                          <label htmlFor="email" className="text-sm font-medium text-gray-700 uppercase tracking-wide">
+                          <label htmlFor="email" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                             EMAIL
                           </label>
                           <input
@@ -254,16 +194,15 @@ export default function ContactSection() {
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className="contact-input"
+                            className={inputClass}
                             placeholder="Enter your email"
                             required
                           />
                         </div>
                       </div>
 
-                      {/* Middle Section - Message (1 column) */}
                       <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium text-gray-700 uppercase tracking-wide">
+                        <label htmlFor="message" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
                           MESSAGE
                         </label>
                         <textarea
@@ -272,72 +211,37 @@ export default function ContactSection() {
                           value={formData.message}
                           onChange={handleInputChange}
                           rows={8}
-                          className="contact-textarea"
+                          className={textareaClass}
                           placeholder="Enter your message"
                           required
                         />
                       </div>
 
-                      {/* Right Section - Contact Information (1 column) */}
                       <div className="space-y-4">
-                        {/* Contact Phone */}
-                        <div className="contact-info-card">
-                          <div className="contact-info-icon">
-                            <Phone className="w-5 h-5 text-gray-600" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-gray-500 mb-1">Contact Phone</div>
-                            <a
-                              href="tel:+443301131707"
-                              className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                            >
-                              +44 330 113 1707
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* WhatsApp */}
-                        <div className="contact-info-card">
-                          <div className="contact-info-icon">
-                            <MessageCircle className="w-5 h-5 text-gray-600" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-gray-500 mb-1">WhatsApp</div>
-                            <a
-                              href="https://wa.me/918010191019"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                            >
-                              +91 80 1019 1019
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Email */}
-                        <div className="contact-info-card">
-                          <div className="contact-info-icon">
-                            <Mail className="w-5 h-5 text-gray-600" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-gray-500 mb-1">Email</div>
-                            <a
-                              href="mailto:connect@RedGiraffe.com"
-                              className="text-base font-semibold text-gray-900 hover:text-primary transition-colors"
-                            >
-                              connect@RedGiraffe.com
-                            </a>
-                          </div>
-                        </div>
+                        <InfoCard icon={<Phone className="w-5 h-5" />} title="Contact Phone">
+                          <a href="tel:+443301131707" className="hover:opacity-90">+44 330 113 1707</a>
+                        </InfoCard>
+                        <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="WhatsApp">
+                          <a href="https://wa.me/918010191019" target="_blank" rel="noopener noreferrer" className="hover:opacity-90">
+                            +91 80 1019 1019
+                          </a>
+                        </InfoCard>
+                        <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
+                          <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90">
+                            connect@RedGiraffe.com
+                          </a>
+                        </InfoCard>
                       </div>
                     </div>
 
-                    {/* Terms Checkbox and Submit Button - Full Width */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 mt-8 border-t border-gray-200">
-                      {/* Submit Button */}
-                      <button type="submit" disabled={!formData.agreeToTerms} className="contact-submit-btn group">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 mt-8 border-t border-white/30">
+                      <button
+                        type="submit"
+                        disabled={!formData.agreeToTerms}
+                        className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
+                      >
                         <span className="text-sm font-semibold">Send a Message</span>
-                        <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
                       </button>
                     </div>
                   </form>
