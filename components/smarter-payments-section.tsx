@@ -42,9 +42,8 @@ export default function SmarterPaymentsSection() {
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Smarter Payments. Designed for scale.
               </h2>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-4xl leading-relaxed">
-                RedGiraffe helps banks and enterprises automate recurring payments, eliminate inefficiencies and unlock
-                new levels of operational control.
+              <p className="text-lg sm:text-xl text-gray-600 max-w-4xl leading-relaxed text-center">
+                RedGiraffe enables banks and enterprises to automate recurring payments, remove merchant acceptance-related inefficiencies and gain greater operational control.
               </p>
             </div>
           </div>
