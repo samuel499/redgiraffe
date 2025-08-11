@@ -133,11 +133,11 @@ export default function ContactSection() {
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
+                    <div className="flex flex-col text-center sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
                       <button
                         type="submit"
                         disabled={!formData.agreeToTerms}
-                        className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
+                        className="group inline-flex items-center justify-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
                       >
                         <span className="text-sm font-semibold">Send a Message</span>
                         <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
