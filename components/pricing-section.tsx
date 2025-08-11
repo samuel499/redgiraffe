@@ -49,7 +49,7 @@ export default function PricingSection() {
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(3, 200)
 
   return (
-    <section ref={ref} id="pricing" className="relative bg-gray-50 py-24 overflow-hidden ">
+    <section ref={ref} id="pricing" className="relative bg-gray-50 py-24 overflow-hidden w-full">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center space-y-16">
           {/* Header Content */}
