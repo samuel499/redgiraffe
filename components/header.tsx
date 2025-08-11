@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { Menu, X } from "lucide-react"
+import Image from "next/image"
 
 const navigationItems = [
   { name: "Home", href: "#home" },
@@ -101,12 +102,28 @@ export default function Header() {
           <div className="glass-nav px-8 py-4 w-full max-w-4xl">
             <div className="flex items-center justify-between">
               {/* Logo */}
-              <button onClick={() => handleNavClick("#home", "Home")} className="flex items-center group lg:mr-[4%]">
+              <button onClick={() => handleNavClick("#home", "Home")} className="flex lg:hidden items-center group lg:mr-[4%]">
                 <div
                   className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary"
                   style={{ color: "#191A39" }}
                 >
                   RedGirraffe
+                </div>
+              </button>
+
+              <button onClick={() => handleNavClick("#home", "Home")} className="hidden lg:block fl ex items-center group lg:mr-[4%]">
+                <div
+                  className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary"
+                  style={{ color: "#191A39" }}
+                >
+                  <div>
+                    <Image 
+                      src="/images/flags2.svg"
+                      alt="RedGirraffe"
+                      width={200}
+                      height={200}
+                    />
+                  </div>
                 </div>
               </button>
 
