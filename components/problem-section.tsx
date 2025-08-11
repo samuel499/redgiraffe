@@ -36,11 +36,10 @@ export default function ProblemSection() {
           >
             <div className="space-y-6">
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">
-                RedGiraffe eliminates the delay, complexity and manual inefficiency that plague enterprise B2B payouts.
+                RedGiraffe removes the delays, complexity, and inefficiencies in enterprise B2B payouts. 
               </p>
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">
-                By acting as Merchants of Record, we unify AP, lease, and utility payment into one intelligent platform
-                - built for speed, control and scale.
+                As Merchants of Record, we unify AP, lease, and utility payments - removing global merchant acceptance barriers while delivering speed, control and scale.
               </p>
             </div>
           </div>

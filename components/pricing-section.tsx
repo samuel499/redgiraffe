@@ -9,7 +9,7 @@ const pricingPlans = [
     title: "Bank Partnership",
     price: "$499",
     period: "/mo",
-    description: "Engage in the B2B high-value global product partnership",
+    description: "Reach out to RedGirraffe to engage in the B2B high-value global product partnership",
     features: ["Existing banking relationship", "Negotiated commercial rates", "Regulatory compliance"],
     isActive: false,
     buttonText: "Request Demo",
@@ -36,7 +36,7 @@ const pricingPlans = [
     title: "Authorised PSPs",
     price: "$1,999",
     period: "/mo",
-    description: "Unlock large-scale high-value recurring product across geographies where you operate",
+    description: "Partner with RedGirraffe to unlock large-scale high-value recurring product across geographies where you operate",
     features: ["Tier 1 PSPs only", "Competitive interchange", "Local market expertise"],
     isActive: false,
     buttonText: "Request Demo",
@@ -81,12 +81,12 @@ export default function PricingSection() {
                       {/* Inner bordered section */}
                       <div className={`pricing-inner-section ${plan.isActive ? "pricing-inner-active" : ""}`}>
                         {/* Header with Star and Premium Badge */}
-                        <div className="flex items-center justify-between mb-4">
+                        {/* <div className="flex items-center justify-between mb-4">
                           <div className="pricing-star-icon">
                             <Star className="w-5 h-5 text-orange-500 fill-current" />
                           </div>
                           <div className="pricing-premium-badge">Premium</div>
-                        </div>
+                        </div> */}
 
                         {/* Title and Price */}
                         <div className="mb-4">
@@ -98,7 +98,7 @@ export default function PricingSection() {
                         </div>
 
                         {/* Description */}
-                        <p className="text-sm text-gray-600 leading-relaxed">{plan.description}</p>
+                        <p className="text-lg text-gray-600 leading-relaxed">{plan.description}</p>
                       </div>
 
                       {/* Features List */}
@@ -108,7 +108,7 @@ export default function PricingSection() {
                             <div className="pricing-feature-check flex-shrink-0">
                               <Check className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-sm text-gray-700 leading-relaxed">{feature}</span>
+                            <span className="text-lg text-gray-700 leading-relaxed">{feature}</span>
                           </div>
                         ))}
                       </div>

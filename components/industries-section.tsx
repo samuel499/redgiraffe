@@ -77,8 +77,8 @@ export default function IndustriesSection() {
 
               {/* Subtitle */}
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
-                RedGiraffe powers secure, scalable payment automation for global enterprises across finance, real
-                estate, energy and more.
+                RedGiraffe delivers secure, scalable payment automation for global enterprises in finance, real
+                estate, energy, aviation and beyond.
               </p>
             </div>
           </div>

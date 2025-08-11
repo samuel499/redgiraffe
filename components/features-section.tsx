@@ -29,10 +29,10 @@ export default function FeaturesSection() {
               payments.
               <br />
               <br />
-              <span className="font-bold text-black">Our mission is to simplify</span> recurring B2B transactions{" "}
-              <span className="font-bold text-black">through</span> intelligent automation,{" "}
-              <span className="font-bold text-black">eliminating friction,</span> accelerating cash flow, and giving
-              businesses complete control{" "}
+              <span className="font-bold text-black">We simplify</span> recurring B2B transactions{" "}
+              <span className="font-bold text-black">with</span> intelligent automation - {" "}
+              <span className="font-bold text-black">removing global merchant acceptance barriers,</span> speeding cash flow, and giving
+              businesses full control{" "}
               <span className="font-bold text-black">over how they pay, track, and scale.</span>
             </p>
           </div>
