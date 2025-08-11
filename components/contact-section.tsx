@@ -154,7 +154,7 @@ export default function ContactSection() {
                       </a>
                     </InfoCard>
                     <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
-                      <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90">
+                      <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90 break-all">
                         connect@RedGiraffe.com
                       </a>
                     </InfoCard>
@@ -164,7 +164,7 @@ export default function ContactSection() {
 
               {/* Desktop - Full Width */}
               <div className="hidden md:block">
-                <div className="bg-gradient-to-br from-emerald-600 to-green-600 shadow-lg p-8 lg:p-12 xl:p-16">
+                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8 lg:p-12 xl:p-16">
                   <div className="max-w-none mx-auto">
                     <form onSubmit={handleSubmit}>
                       <div className="grid grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
