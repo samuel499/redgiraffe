@@ -1,9 +1,8 @@
-// ContactSection.tsx
 "use client"
 
 import type React from "react"
 import { useState } from "react"
-import { Phone, MessageCircle, Mail, ArrowRight } from "lucide-react"
+import { Phone, MessageCircle, Mail, ArrowRight } from 'lucide-react'
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
 
 export default function ContactSection() {
@@ -65,8 +64,8 @@ export default function ContactSection() {
     "w-full rounded-lg py-3 px-4 border border-white/30 bg-white text-emerald-900 placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
 
   return (
-    <section ref={ref} id="contact" className="relative bg-gray-50 py-6 pb-24 overflow-hidden">
-      <div ref={contentRef} className="container-max section-padding">
+    <section ref={ref} id="contact" className="relative bg-gray-50 py-6 pb-24 overflow-hidden w-full">
+      <div ref={contentRef} className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center space-y-16">
           {/* Header */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
@@ -78,12 +77,12 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Content */}
-          <div className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`} style={{ transitionDelay: "200ms" }}>
-            <div className="w-full max-w-6xl">
+          {/* Content - Full Width */}
+          <div className={`fade-in-up w-full ${visibleItems.includes(1) ? "visible" : ""}`} style={{ transitionDelay: "200ms" }}>
+            <div className="w-full">
               {/* Mobile */}
               <div className="block md:hidden">
-                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8">
+                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8 mx-4">
                   <form onSubmit={handleSubmit} className="space-y-4 mb-8">
                     <div className="space-y-2">
                       <label htmlFor="name-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
@@ -163,88 +162,90 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Desktop */}
+              {/* Desktop - Full Width */}
               <div className="hidden md:block">
-                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8">
-                  <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-3 gap-8">
-                      <div className="space-y-4">
+                <div className="bg-gradient-to-br from-emerald-600 to-green-600 shadow-lg p-8 lg:p-12 xl:p-16">
+                  <div className="max-w-none mx-auto">
+                    <form onSubmit={handleSubmit}>
+                      <div className="grid grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
+                        <div className="space-y-4">
+                          <div className="space-y-2">
+                            <label htmlFor="name" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                              NAME
+                            </label>
+                            <input
+                              type="text"
+                              id="name"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              className={inputClass}
+                              placeholder="Enter your name"
+                              required
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label htmlFor="email" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                              EMAIL
+                            </label>
+                            <input
+                              type="email"
+                              id="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleInputChange}
+                              className={inputClass}
+                              placeholder="Enter your email"
+                              required
+                            />
+                          </div>
+                        </div>
+
                         <div className="space-y-2">
-                          <label htmlFor="name" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
-                            NAME
+                          <label htmlFor="message" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                            MESSAGE
                           </label>
-                          <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
+                          <textarea
+                            id="message"
+                            name="message"
+                            value={formData.message}
                             onChange={handleInputChange}
-                            className={inputClass}
-                            placeholder="Enter your name"
+                            rows={8}
+                            className={textareaClass}
+                            placeholder="Enter your message"
                             required
                           />
                         </div>
-                        <div className="space-y-2">
-                          <label htmlFor="email" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
-                            EMAIL
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            className={inputClass}
-                            placeholder="Enter your email"
-                            required
-                          />
+
+                        <div className="space-y-4">
+                          <InfoCard icon={<Phone className="w-5 h-5" />} title="Contact Phone">
+                            <a href="tel:+443301131707" className="hover:opacity-90">+44 330 113 1707</a>
+                          </InfoCard>
+                          <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="WhatsApp">
+                            <a href="https://wa.me/918010191019" target="_blank" rel="noopener noreferrer" className="hover:opacity-90">
+                              +91 80 1019 1019
+                            </a>
+                          </InfoCard>
+                          <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
+                            <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90">
+                              connect@RedGiraffe.com
+                            </a>
+                          </InfoCard>
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
-                          MESSAGE
-                        </label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={8}
-                          className={textareaClass}
-                          placeholder="Enter your message"
-                          required
-                        />
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 mt-8 border-t border-white/30">
+                        <button
+                          type="submit"
+                          disabled={!formData.agreeToTerms}
+                          className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
+                        >
+                          <span className="text-sm font-semibold">Send a Message</span>
+                          <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
+                        </button>
                       </div>
-
-                      <div className="space-y-4">
-                        <InfoCard icon={<Phone className="w-5 h-5" />} title="Contact Phone">
-                          <a href="tel:+443301131707" className="hover:opacity-90">+44 330 113 1707</a>
-                        </InfoCard>
-                        <InfoCard icon={<MessageCircle className="w-5 h-5" />} title="WhatsApp">
-                          <a href="https://wa.me/918010191019" target="_blank" rel="noopener noreferrer" className="hover:opacity-90">
-                            +91 80 1019 1019
-                          </a>
-                        </InfoCard>
-                        <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
-                          <a href="mailto:connect@RedGiraffe.com" className="hover:opacity-90">
-                            connect@RedGiraffe.com
-                          </a>
-                        </InfoCard>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 mt-8 border-t border-white/30">
-                      <button
-                        type="submit"
-                        disabled={!formData.agreeToTerms}
-                        className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
-                      >
-                        <span className="text-sm font-semibold">Send a Message</span>
-                        <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
-                      </button>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
