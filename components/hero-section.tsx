@@ -268,9 +268,9 @@ export default function HeroSection() {
   }
 
   return (
-    <section ref={ref} id="home" className="relative min-h-screen flex flex-col overflow-hidden">
+    <section ref={ref} id="home" className="relative min-h-screen flex flex-col overflow-hidden bg-gradient-to-br from-indigo-100 via-purple-50 to-amber-50">
       {/* Animated Gradient Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 ">
         <div className="hero-gradient-animated absolute inset-0" />
       </div>
 
@@ -283,7 +283,7 @@ export default function HeroSection() {
           loop
           playsInline
           preload="auto"
-          src="/bg-gradient.mp4"
+          src="/gradient1.mp4"
         />
       </div>
 
@@ -350,17 +350,17 @@ export default function HeroSection() {
                   transitionDelay: "200ms",
                 }}
               >
-                RedGirraffe Global
+                The Operating System 
               </h1>
               <h2
-                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white transition-all duration-1000 ease-out leading-tight ${
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-700 transition-all duration-1000 ease-out leading-tight ${
                   inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                 }`}
                 style={{
                   transitionDelay: "300ms",
                 }}
               >
-                Commercial Card
+                for Enterprise Commerce
               </h2>
             </div>
 

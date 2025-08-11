@@ -45,21 +45,16 @@ const pricingPlans = [
 ]
 
 export default function PricingSection() {
-  const { ref, inView } = useScrollAnimations({ triggerOnce: true })
+  const { ref } = useScrollAnimations({ triggerOnce: true })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(3, 200)
 
   return (
     <section ref={ref} id="pricing" className="relative bg-gray-50 py-24 overflow-hidden">
-      <div ref={contentRef} className="container-max section-padding">
+      <div ref={contentRef} className="contai ner-max section-padding">
         <div className="flex flex-col items-center space-y-16">
           {/* Header Content */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6">
-              {/* <div className="inline-flex">
-                <div className="glass-badge">
-                  <span className="text-sm font-medium text-gray-600">Pricing Plans</span>
-                </div>
-              </div> */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Flexible Pricing to Fit
                 <br />
@@ -80,21 +75,10 @@ export default function PricingSection() {
                     <div className="pricing-card-content">
                       {/* Inner bordered section */}
                       <div className={`pricing-inner-section ${plan.isActive ? "pricing-inner-active" : ""}`}>
-                        {/* Header with Star and Premium Badge */}
-                        {/* <div className="flex items-center justify-between mb-4">
-                          <div className="pricing-star-icon">
-                            <Star className="w-5 h-5 text-orange-500 fill-current" />
-                          </div>
-                          <div className="pricing-premium-badge">Premium</div>
-                        </div> */}
 
                         {/* Title and Price */}
                         <div className="mb-4">
                           <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight">{plan.title}</h3>
-                          {/* <div className="flex items-baseline gap-1">
-                            <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
-                            <span className="text-base text-gray-600">{plan.period}</span>
-                          </div> */}
                         </div>
 
                         {/* Description */}
