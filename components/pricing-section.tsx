@@ -58,7 +58,7 @@ export default function PricingSection() {
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 RedGirraffe Global 
                 <br />
-                <span className="text-gray-400">Commercial Card Pricing</span>
+                <span className="text-primary-600">Commercial Card Pricing</span>
               </h2>
 
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-5xl">

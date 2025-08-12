@@ -84,7 +84,7 @@ export default function ContactSection() {
             <div className="w-full">
               {/* Mobile */}
               <div className="block md:hidden">
-                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 rounded-2xl shadow-lg p-8 mx-4">
+                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 border-primary-600 border rounded-2xl shadow-lg p-8 mx-4">
                   <form onSubmit={handleSubmit} className="space-y-4 mb-8">
                     <div className="space-y-2">
                       <label htmlFor="name-mobile" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
@@ -166,7 +166,7 @@ export default function ContactSection() {
 
               {/* Desktop - Full Width */}
               <div className="hidden md:block">
-                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 rounded-2xl shadow-lg p-8 lg:p-12 xl:p-16">
+                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 border-2 rounded-2xl shadow-lg p-8 lg:p-12 xl:p-16">
                   <div className="max-w-none mx-auto">
                     <form onSubmit={handleSubmit}>
                       <div className="grid grid-cols-3 gap-8 lg:gap-12 xl:gap-16">

@@ -53,7 +53,9 @@ export default function SolutionsSection() {
           {/* Header Content */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Our Solutions</h2>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Our 
+                <span className="text-primary-600">&nbsp;Solutions</span>
+              </h2>
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
                 Four integrated modules that transform your enterprise operations through a unified platform.
               </p>

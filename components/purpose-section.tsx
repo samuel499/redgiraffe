@@ -177,9 +177,9 @@ export default function PurposeSection() {
             <div className="text-center space-y-6">
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 <span className="font-bold text-black">Purpose</span>
-                <span className="text-gray-400">-Built</span>
+                <span className="text-primary-600">-Built</span>
                 <br />
-                <span className="text-gray-400">Payment</span>
+                <span className="text-primary-600">Payment</span>
                 <span className="font-bold text-black"> Intelligence</span>
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">

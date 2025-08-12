@@ -350,19 +350,26 @@ export default function HeroSection() {
                   transitionDelay: "200ms",
                 }}
               >
-                The Operating System 
+                The 
+                <span className="text-primary-600">
+                  &nbsp;Operating
+                </span> 
+                &nbsp;System 
               </h1>
               <h2
-                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-700 transition-all duration-1000 ease-out leading-tight ${
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold transition-all duration-1000 ease-out leading-tight ${
                   inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                 }`}
                 style={{
                   transitionDelay: "300ms",
                 }}
               >
-                for
-                <span className="text-primary-600">
-                  &nbsp;Enterprise Commerce
+                <span className="text-gray-600">
+                  for&nbsp;
+                </span>
+                Enterprise
+                <span className="text-gray-600"> 
+                  &nbsp;Commerce
                 </span>
               </h2>
             </div>

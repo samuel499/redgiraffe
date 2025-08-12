@@ -57,141 +57,10 @@ const processSteps = [
 ]
 
 export default function HowWeWorkSection() {
-  const [showVideo, setShowVideo] = useState(false)
   const [activeStep, setActiveStep] = useState("01")
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [videoError, setVideoError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [videoType, setVideoType] = useState<"mp4" | "youtube" | "placeholder">("placeholder")
-  const videoRef = useRef<HTMLVideoElement>(null)
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(4, 200)
-
-  // Multiple video sources to try
-  const videoSources = [
-    {
-      type: "placeholder" as const,
-      url: "",
-      label: "Demo Content",
-    },
-    {
-      type: "mp4" as const,
-      url: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-      label: "Sample Video",
-    },
-    {
-      type: "youtube" as const,
-      url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=1",
-      label: "YouTube Demo",
-    },
-  ]
-
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-  const currentVideo = videoSources[currentVideoIndex]
-
-  useEffect(() => {
-    if (showVideo && currentVideo.type === "mp4") {
-      setIsLoading(true)
-      setVideoError(false)
-      setVideoType("mp4")
-    }
-  }, [showVideo, currentVideoIndex])
-
-  const toggleVideo = () => {
-    setShowVideo(!showVideo)
-    if (showVideo && videoRef.current) {
-      videoRef.current.pause()
-      setIsPlaying(false)
-    }
-    if (!showVideo) {
-      setVideoError(false)
-      setIsLoading(true)
-    }
-  }
-
-  const switchVideoSource = () => {
-    const nextIndex = (currentVideoIndex + 1) % videoSources.length
-    setCurrentVideoIndex(nextIndex)
-    setVideoError(false)
-    setIsLoading(true)
-    if (videoRef.current) {
-      videoRef.current.pause()
-      setIsPlaying(false)
-    }
-  }
-
-  const togglePlayPause = () => {
-    if (videoRef.current && !videoError) {
-      if (isPlaying) {
-        videoRef.current.pause()
-      } else {
-        videoRef.current.play().catch(() => {
-          setVideoError(true)
-        })
-      }
-      setIsPlaying(!isPlaying)
-    }
-  }
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
-    }
-  }
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime)
-    }
-  }
-
-  const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration)
-      setIsLoading(false)
-    }
-  }
-
-  const handleVideoError = () => {
-    setVideoError(true)
-    setIsLoading(false)
-  }
-
-  const handleCanPlay = () => {
-    setIsLoading(false)
-    setVideoError(false)
-  }
-
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (videoRef.current && !videoError) {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const clickX = e.clientX - rect.left
-      const newTime = (clickX / rect.width) * duration
-      videoRef.current.currentTime = newTime
-      setCurrentTime(newTime)
-    }
-  }
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
-
-  const toggleFullscreen = () => {
-    if (videoRef.current) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen()
-      } else {
-        videoRef.current.requestFullscreen()
-      }
-    }
-  }
-
+  
   const handleStepClick = (stepId: string) => {
     setActiveStep(activeStep === stepId ? "" : stepId)
   }
@@ -216,10 +85,16 @@ export default function HowWeWorkSection() {
               className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
               style={{ transitionDelay: "100ms" }}
             >
-              <div className="inline-flex">
+              {/* <div className="inline-flex">
                 <div className="bg-primary text-white px-4 py-2 rounded-full text-lg font-medium">
                   Our Seamless Process
                 </div>
+              </div> */}
+
+              <div className="inline-flex">
+                <button className="glass-badge hover:bg-white/90 transition-all duration-300 hover:scale-105">
+                  <span className="text-sm font-medium text-gray-700">Our Seamless Process</span>
+                </button>
               </div>
             </div>
 
@@ -231,7 +106,8 @@ export default function HowWeWorkSection() {
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6">
-                    How do we work?
+                    How do
+                    <span className="text-primary-600"> we work?</span>
                   </h2>
                   <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed max-w-2xl">
                     We collaborate closely, prioritize your business goals, and deliver real-time support, ensuring a
