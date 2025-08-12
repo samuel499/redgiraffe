@@ -40,7 +40,7 @@ export default function SmarterPaymentsSection() {
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="space-y-6">
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Smarter Payments. Designed for scale.
+                Smarter Payments. <span className="text-primary-600">Designed for scale.</span>
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 max-w-4xl leading-relaxed text-center">
                 RedGirraffe enables banks and enterprises to automate recurring payments, remove merchant acceptance-related inefficiencies and gain greater operational control.

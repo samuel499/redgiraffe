@@ -12,20 +12,16 @@ export default function ProblemSection() {
     <section ref={ref} className="relative bg-white py-12 md:py-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center text-center space-y-12">
-          {/* Glass Badge */}
-          {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
-            <div className="glass-badge">
-              <span className="text-sm font-medium text-gray-600">What We Fix</span>
-            </div>
-          </div> */}
-
           {/* Headline */}
           <div
             className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "200ms" }}
           >
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Traditional B2B Payments Are Broken
+              Traditional 
+              <span className="text-primary-600">
+                  &nbsp;B2B Payments
+              </span> Are Broken
             </h2>
           </div>
 

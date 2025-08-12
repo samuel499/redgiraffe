@@ -360,7 +360,10 @@ export default function HeroSection() {
                   transitionDelay: "300ms",
                 }}
               >
-                for Enterprise Commerce
+                for
+                <span className="text-primary-600">
+                  &nbsp;Enterprise Commerce
+                </span>
               </h2>
             </div>
 

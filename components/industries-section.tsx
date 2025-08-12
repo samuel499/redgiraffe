@@ -57,7 +57,7 @@ export default function IndustriesSection() {
   const duplicatedIndustries = [...industries, ...industries]
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} id="industries" className="relative py-24 overflow-hidden industries-gradient">
+    <section ref={ref as React.RefObject<HTMLElement>} id="industries" className="relative py-24 overflow-hidden  bg-gradient-to-br from-indigo-100 via-purple-50 to-amber-50">
       <div ref={contentRef as React.RefObject<HTMLDivElement>} className="container-max section-padding">
         <div className="flex flex-col items-center space-y-16">
           {/* Header Content */}
@@ -72,7 +72,11 @@ export default function IndustriesSection() {
 
               {/* Title */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Industries We Serve
+                Industries 
+                <span className="text-primary-600">
+                  &nbsp;We
+                </span> 
+                &nbsp;Serve
               </h2>
 
               {/* Subtitle */}
