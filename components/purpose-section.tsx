@@ -26,7 +26,7 @@ const bankAdvantages = [
 
 const pspAdvantages = [
   "Leverage our platform to offer secure, scalable payment solutions to enterprises worldwide",
-  "Expand Market Reach: Tap into RedGiraffe's global network of 97+ countries",
+  "Expand Market Reach: Tap into RedGirraffe's global network of 97+ countries",
   "Reduce Operational Costs: Streamline Payment Processing with integrated APIs",
 ]
 
@@ -183,7 +183,7 @@ export default function PurposeSection() {
                 <span className="font-bold text-black"> Intelligence</span>
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">
-                RedGiraffe empowers banks and PSPs with smart infrastructure to drive growth and trust.
+                RedGirraffe empowers banks and PSPs with smart infrastructure to drive growth and trust.
               </p>
             </div>
           </div>

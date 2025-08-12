@@ -71,7 +71,7 @@ export default function ScaleSection() {
                 Built to Scale with You
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
-                RedGiraffe supports 97+ countries and 150+ currencies—ensuring 99.9% uptime and $20B+ in secure annual
+                RedGirraffe supports 97+ countries and 150+ currencies—ensuring 99.9% uptime and $20B+ in secure annual
                 processing
               </p>
             </div>

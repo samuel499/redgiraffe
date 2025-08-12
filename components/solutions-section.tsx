@@ -9,7 +9,7 @@ const solutions = [
     category: "Payment Solution",
     title: "PayPulse",
     description:
-      "Unified AP & Payments: Ingests all invoices, Automates workflows, RedGiraffe acts as Merchant of Record (MOR), eliminating all supplier onboarding friction.",
+      "Unified AP & Payments: Ingests all invoices, Automates workflows, RedGirraffe acts as Merchant of Record (MOR), eliminating all supplier onboarding friction.",
     image: "/images/pay1.png",
     imageAlt: "Office workspace showing payment processing on laptop and mobile device",
   },
