@@ -10,6 +10,7 @@ const navigationItems = [
   { name: "Industries", href: "#industries" },
   { name: "How it works", href: "#how-it-works" },
   { name: "Pricing", href: "#pricing" },
+  { name: "Solutions", href: "#solutions" },
   { name: "Contact Us", href: "#contact" },
 ]
 

@@ -47,7 +47,7 @@ export default function SolutionsSection() {
   const { ref: contentRef, visibleItems } = useStaggeredAnimation(6, 200)
 
   return (
-    <section ref={ref} className="relative bg-white py-24 overflow-hidden">
+    <section id="solutions" ref={ref} className="relative bg-white py-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center space-y-16">
           {/* Header Content */}
