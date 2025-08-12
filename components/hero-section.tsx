@@ -275,7 +275,7 @@ export default function HeroSection() {
       </div>
 
       {/* Animated Video Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* <div className="absolute inset-0 z-0 overflow-hidden">
         <video
           className="h-full object-cover"
           autoPlay
@@ -285,7 +285,7 @@ export default function HeroSection() {
           preload="auto"
           src="/gradient1.mp4"
         />
-      </div>
+      </div> */}
 
       {/* Toggle Section */}
       <div className="relative z-10 pt-32 pb-8">
