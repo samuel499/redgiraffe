@@ -544,7 +544,7 @@ export default function HeroSection() {
                             </div>
 
                             <div className="text-white text-xs sm:text-sm font-medium hidden sm:block">
-                              RedGiraffe Commercial Card
+                              RedGirraffe Commercial Card
                             </div>
                           </div>
                         </div>

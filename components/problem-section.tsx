@@ -36,7 +36,7 @@ export default function ProblemSection() {
           >
             <div className="space-y-6">
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">
-                RedGiraffe removes the delays, complexity, and inefficiencies in enterprise B2B payouts. 
+                RedGirraffe removes the delays, complexity, and inefficiencies in enterprise B2B payouts. 
               </p>
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl leading-relaxed">
                 As Merchants of Record, we unify AP, lease, and utility payments - removing global merchant acceptance barriers while delivering speed, control and scale.

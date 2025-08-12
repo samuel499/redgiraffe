@@ -43,7 +43,7 @@ export default function SmarterPaymentsSection() {
                 Smarter Payments. Designed for scale.
               </h2>
               <p className="text-lg sm:text-xl text-gray-600 max-w-4xl leading-relaxed text-center">
-                RedGiraffe enables banks and enterprises to automate recurring payments, remove merchant acceptance-related inefficiencies and gain greater operational control.
+                RedGirraffe enables banks and enterprises to automate recurring payments, remove merchant acceptance-related inefficiencies and gain greater operational control.
               </p>
             </div>
           </div>

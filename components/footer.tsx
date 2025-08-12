@@ -243,7 +243,7 @@ export default function Footer() {
               </a>
             </div>
             <div className="text-lg text-gray-300">
-              Copyright © 2025-2026 | RedGiraffe™. All rights reserved.
+              Copyright © 2025-2026 | RedGirraffe™. All rights reserved.
             </div>
           </div>
         </div>

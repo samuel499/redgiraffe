@@ -11,7 +11,7 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: "RedGiraffe Global - Commercial Card Solutions",
+  title: "RedGirraffe Global - Commercial Card Solutions",
   description: "Simplify recurring B2B payments, cut costs, and optimize cash flow in 97+ countries",
     generator: 'v0.dev'
 }
