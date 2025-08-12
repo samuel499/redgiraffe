@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Mail, MapPin, Link, Shield, Briefcase } from "lucide-react"
+import { Link, Shield, Briefcase } from "lucide-react"
 
 export const footerSections = [
   {
