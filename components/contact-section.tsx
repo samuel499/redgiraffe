@@ -45,8 +45,8 @@ export default function ContactSection() {
     children: React.ReactNode
   }) {
     return (
-      <div className="contact-info-card flex items-start gap-4 bg-white/10 p-4 rounded-lg">
-        <div className="contact-info-icon flex-shrink-0 w-10 h-10 rounded-md bg-white/20 flex items-center justify-center">
+      <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 rounded-lg">
+        <div className="flex-shrink-0 w-10 h-10 rounded-md bg-primary-600 flex items-center justify-center">
           <span className="w-5 h-5 text-white">{icon}</span>
         </div>
         <div>
@@ -58,10 +58,10 @@ export default function ContactSection() {
   }
 
   const inputClass =
-    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-primary-600/40"
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-primary-600/40"
 
   const textareaClass =
-    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-primary-600/40 resize-none"
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-primary-600/40 resize-none"
 
   return (
     <section ref={ref} id="contact" className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-6 pb-24 overflow-hidden w-full">
@@ -229,8 +229,8 @@ export default function ContactSection() {
                             </a>
                           </InfoCard>
                           <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
-                            <a href="mailto:connect@RedGirraffe.com" className="hover:opacity-90">
-                              connect@RedGirraffe.com
+                            <a href="mailto:connect@redgirraffe.com" className="hover:opacity-90">
+                              connect@redgirraffe.com
                             </a>
                           </InfoCard>
                         </div>
