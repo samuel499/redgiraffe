@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
-import Image from "next/image"
 
 const navigationItems = [
   { name: "Home", href: "#home" },
@@ -128,7 +127,7 @@ export default function Header() {
             </nav>
 
             {/* Desktop Country Dropdown */}
-            <div className="hidden lg:block relative" ref={dropdownRef}>
+            <div className="relative hidden lg:block" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center gap-1 text-lg font-medium text-gray-700 hover:text-primary transition-colors duration-200"
@@ -156,14 +155,45 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              className="lg:hidden p-2 hover:bg-white/20 transition-colors duration-200 rounded-3xl"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
-            </button>
+            <div className="lg:hidden flex items-center gap-4">
+              <div className="relative " ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-1 text-lg font-medium text-gray-700 hover:text-primary transition-colors duration-200"
+                >
+                  {selectedCountry.code}
+                  <ChevronDown size={16} />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-36 rounded-lg shadow-lg bg-white border border-gray-200 overflow-hidden z-50">
+                    {countryOptions.map((country) => (
+                      <a
+                        key={country.code}
+                        href={country.href}
+                        onClick={() => {
+                          setSelectedCountry(country)
+                          setIsDropdownOpen(false)
+                        }}
+                        className="flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-100 text-sm font-medium"
+                      >
+                        <span>{country.flag}</span>
+                        <span>{country.code}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            
+              {/* Mobile Menu Button */}
+              <button
+                onClick={toggleMenu}
+                className="lg:hidden p-2 hover:bg-white/20 transition-colors duration-200 rounded-3xl"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+              </button>
+            </div>
+            
           </div>
         </div>
       </header>
