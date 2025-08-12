@@ -169,7 +169,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed top-[88px] left-0 right-0 bg-white/95 backdrop-blur-lg shadow-lg border-t border-gray-200 transition-all duration-300 z-50 ${
+        className={`lg:hidden fixed top-24 rounded-xl mx-4 left-0 right-0 bg-white/95 backdrop-blur-lg shadow-lg border-t border-gray-200 transition-all duration-300 z-50 ${
           isMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
         }`}
       >
