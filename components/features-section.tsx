@@ -12,12 +12,6 @@ export default function FeaturesSection() {
     <section ref={ref} className="relative bg-white py-24 overflow-hidden">
       <div ref={contentRef} className="container-max section-padding">
         <div className="flex flex-col items-center text-center space-y-12">
-          {/* Glass Badge */}
-          {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
-            <div className="glass-badge">
-              <span className="text-sm font-medium text-gray-600">Features</span>
-            </div>
-          </div> */}
 
           {/* Description with Bold Black Text */}
           <div
