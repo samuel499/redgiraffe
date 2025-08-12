@@ -2,45 +2,7 @@
 
 import Image from "next/image"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
-
-const solutions = [
-  {
-    id: "paypulse",
-    category: "Payment Solution",
-    title: "PayPulse",
-    description:
-      "Unified AP & Payments: Ingests all invoices, Automates workflows, RedGirraffe acts as Merchant of Record (MOR), eliminating all supplier onboarding friction.",
-    image: "/images/pay1.png",
-    imageAlt: "Office workspace showing payment processing on laptop and mobile device",
-  },
-  {
-    id: "leasecore",
-    category: "Property Management",
-    title: "LeaseCore",
-    description:
-      "Centralized Lease Intelligence: Digitizes all property/asset leases, manages critical dates, and automates payments via the PayPulse engine.",
-    image: "/images/lease-core.png",
-    imageAlt: "Property management visualization with house-shaped objects",
-  },
-  {
-    id: "esg-horizon",
-    category: "Sustainability Reporting",
-    title: "ESG Horizon",
-    description:
-      "Automated Scope 3 Reporting: Automatically captures and maps emissions data from payment and utility flows, providing board-ready reports.",
-    image: "/images/horizon.png",
-    imageAlt: "ESG sustainability reporting dashboard with various charts and metrics",
-  },
-  {
-    id: "flowforge",
-    category: "IoT Solutions",
-    title: "FlowForge",
-    description:
-      "IoT-Driven Efficiency: Integrates with utility meters to identify waste, optimise consumption, and validate hard-dollar energy savings.",
-    image: "/images/flowforge3.png",
-    imageAlt: "IOT devices on a surface",
-  },
-]
+import { solutions } from "@/lib/constants"
 
 export default function SolutionsSection() {
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })

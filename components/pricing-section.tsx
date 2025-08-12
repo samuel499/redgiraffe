@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Star, Mail } from "lucide-react"
+import { Check, Mail } from "lucide-react"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
 
 const pricingPlans = [

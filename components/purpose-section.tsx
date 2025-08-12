@@ -7,71 +7,10 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Shield,
-  BarChart3,
-  FileText,
-  CheckCircle,
-  Smartphone,
-  Brain,
-  Zap,
 } from "lucide-react"
 import Image from "next/image"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
-
-const bankAdvantages = [
-  "Capture low-risk B2B card spend, reduce fraud with PSP-backed security, and scale globally",
-  "Increase Revenue Streams: Earn higher transaction fees with secure high-volume B2B payments",
-  "Enhanced Reporting: Access detailed analytics to optimize operations and compliance",
-]
-
-const pspAdvantages = [
-  "Leverage our platform to offer secure, scalable payment solutions to enterprises worldwide",
-  "Expand Market Reach: Tap into RedGirraffe's global network of 97+ countries",
-  "Reduce Operational Costs: Streamline Payment Processing with integrated APIs",
-]
-
-const carouselItems = [
-  {
-    icon: Shield,
-    title: "Enterprise Grade Security",
-    description: "End-to-end encryption for all transactions",
-  },
-  {
-    icon: Shield,
-    title: "Fraud Detection by PSPs",
-    description: "Top-grade PSP prevents fraud",
-  },
-  {
-    icon: BarChart3,
-    title: "Unified Dashboards",
-    description: "Real-time analytics for spend control",
-  },
-  {
-    icon: FileText,
-    title: "ISO 27001 Certified",
-    description: "Globally recognized data security framework",
-  },
-  {
-    icon: CheckCircle,
-    title: "PCI-DSS Compliance",
-    description: "Adheres to secure card transactions standards",
-  },
-  {
-    icon: Zap,
-    title: "ERP & API Ready",
-    description: "Seamless integration with 50+ business tools",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile First",
-    description: "Full platform access on your phone",
-  },
-  {
-    icon: Brain,
-    title: "AI-Powered Smarts",
-    description: "Smart fraud detection and spend optimization",
-  },
-]
+import { bankAdvantages, carouselItems, pspAdvantages } from "@/lib/constants"
 
 export default function PurposeSection() {
   const [currentSlide, setCurrentSlide] = useState(0)

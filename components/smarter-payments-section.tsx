@@ -3,30 +3,7 @@
 import { Check, Rocket } from "lucide-react"
 import RequestDemoButton from "./ui/request-demo-button"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
-
-const bankFeatures = [
-  "Capture B2B card spend with low-risk, high-volume transactions",
-  "Build lasting customer loyalty through smarter payment experiences",
-  "Prevent fraud with enterprise grade security infrastructure",
-  "Pay seamlessly with over 97 countries worldwide",
-  "Enable real-time transaction monitoring and reporting",
-  "Integrate with existing banking infrastructure seamlessly",
-  "Provide white-label payment solutions to clients",
-  "Scale operations with automated compliance management",
-  "Offer competitive interchange rates and fee structures",
-]
-
-const enterpriseFeatures = [
-  "Offer early payments through intelligent bill discounting",
-  "Improve cash flow with dynamic invoice financing",
-  "Gain control with secure Maker-Checker workflows",
-  "Lower transaction costs through streamlined fee structures",
-  "Reach suppliers and partners across 97+ countries",
-  "Automate recurring payment schedules and approvals",
-  "Access detailed analytics and spending insights",
-  "Manage multi-entity payment operations efficiently",
-  "Integrate with existing ERP and accounting systems",
-]
+import { bankFeatures, enterpriseFeatures } from "@/lib/constants"
 
 export default function SmarterPaymentsSection() {
   const { ref, inView } = useScrollAnimations({ triggerOnce: true })

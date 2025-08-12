@@ -9,7 +9,6 @@ import VideoErrorOverlay from "./main/hero/video-error-overlay"
 import VideoLoadingOverlay from "./main/hero/video-loading-overlay"
 import HeroToggle from "./main/hero/toggle-buttons"
 
-
 export default function HeroSection() {
   // State
   const [activeToggle, setActiveToggle] = useState<"commercial" | "platforms">("commercial")
