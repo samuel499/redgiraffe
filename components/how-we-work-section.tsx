@@ -5,56 +5,7 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Play, X, Pause, Volume2, VolumeX, Maximize, AlertCircle } from "lucide-react"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
-
-const processSteps = [
-  {
-    id: "01",
-    title: "Setup",
-    content: {
-      title:
-        "We begin by aligning with your compliance needs, integrating KYC, due diligence, and credit assessment to ensure secure onboarding.",
-      description:
-        "Whether through your ERP or our intuitive interface, setup is instant, seamless, and requires no code.",
-    },
-  },
-  {
-    id: "02",
-    title: "Approval",
-    content: {
-      title:
-        "Our automated approval system processes applications in real-time using advanced risk assessment algorithms.",
-      description:
-        "Multi-layered verification ensures compliance while maintaining speed and efficiency for your business operations.",
-    },
-  },
-  {
-    id: "03",
-    title: "Layout",
-    content: {
-      title: "Customize your payment interface with our flexible layout system designed for optimal user experience.",
-      description:
-        "Drag-and-drop components, white-label options, and responsive design ensure perfect integration with your brand.",
-    },
-  },
-  {
-    id: "04",
-    title: "Execute",
-    content: {
-      title: "Process payments instantly across 97+ countries with enterprise-grade security and real-time monitoring.",
-      description:
-        "Automated workflows, smart routing, and failover systems ensure 99.9% uptime for critical transactions.",
-    },
-  },
-  {
-    id: "05",
-    title: "Monitor",
-    content: {
-      title: "Track all transactions with comprehensive analytics, reporting, and compliance monitoring tools.",
-      description:
-        "Real-time dashboards, automated alerts, and detailed audit trails provide complete visibility and control.",
-    },
-  },
-]
+import { processSteps } from "@/lib/constants"
 
 export default function HowWeWorkSection() {
   const [activeStep, setActiveStep] = useState("01")
@@ -71,26 +22,11 @@ export default function HowWeWorkSection() {
         <div className="space-y-16">
           {/* Header Section */}
           <div className="space-y-8">
-            {/* How It Works Button - Centered */}
-            {/* <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
-              <div className="flex justify-center">
-                <button className="glass-badge hover:bg-white/90 transition-all duration-300 hover:scale-105">
-                  <span className="text-sm font-medium text-gray-700">How It Works</span>
-                </button>
-              </div>
-            </div> */}
-
             {/* Badge */}
             <div
               className={`fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
               style={{ transitionDelay: "100ms" }}
             >
-              {/* <div className="inline-flex">
-                <div className="bg-primary text-white px-4 py-2 rounded-full text-lg font-medium">
-                  Our Seamless Process
-                </div>
-              </div> */}
-
               <div className="inline-flex">
                 <button className="glass-badge hover:bg-white/90 transition-all duration-300 hover:scale-105">
                   <span className="text-sm font-medium text-gray-700">Our Seamless Process</span>
@@ -98,7 +34,7 @@ export default function HowWeWorkSection() {
               </div>
             </div>
 
-            {/* Title and Play Button */}
+            {/* Title */}
             <div
               className={`fade-in-up ${visibleItems.includes(2) ? "visible" : ""}`}
               style={{ transitionDelay: "200ms" }}

@@ -72,3 +72,91 @@ export const offices = [
   },
 ]
 
+export const processSteps = [
+  {
+    id: "01",
+    title: "Setup",
+    content: {
+      title:
+        "We begin by aligning with your compliance needs, integrating KYC, due diligence, and credit assessment to ensure secure onboarding.",
+      description:
+        "Whether through your ERP or our intuitive interface, setup is instant, seamless, and requires no code.",
+    },
+  },
+  {
+    id: "02",
+    title: "Approval",
+    content: {
+      title:
+        "Our automated approval system processes applications in real-time using advanced risk assessment algorithms.",
+      description:
+        "Multi-layered verification ensures compliance while maintaining speed and efficiency for your business operations.",
+    },
+  },
+  {
+    id: "03",
+    title: "Layout",
+    content: {
+      title: "Customize your payment interface with our flexible layout system designed for optimal user experience.",
+      description:
+        "Drag-and-drop components, white-label options, and responsive design ensure perfect integration with your brand.",
+    },
+  },
+  {
+    id: "04",
+    title: "Execute",
+    content: {
+      title: "Process payments instantly across 97+ countries with enterprise-grade security and real-time monitoring.",
+      description:
+        "Automated workflows, smart routing, and failover systems ensure 99.9% uptime for critical transactions.",
+    },
+  },
+  {
+    id: "05",
+    title: "Monitor",
+    content: {
+      title: "Track all transactions with comprehensive analytics, reporting, and compliance monitoring tools.",
+      description:
+        "Real-time dashboards, automated alerts, and detailed audit trails provide complete visibility and control.",
+    },
+  },
+]
+
+export const industries = [
+  {
+    id: "fintech",
+    title: "FinTech",
+    description: "Digital payment solutions for modern financial technology.",
+    image: "/images/fintech.jpg",
+  },
+  {
+    id: "healthcare",
+    title: "Healthcare",
+    description: "Secure HIPAA-compliant payment processing.",
+    image: "/images/healthcare.jpg",
+  },
+  {
+    id: "datacentre",
+    title: "Data Centre",
+    description: "Automated billing for global data operations.",
+    image: "/images/industries2.jpg",
+  },
+  {
+    id: "ecommerce",
+    title: "E-Commerce",
+    description: "Multi-currency solutions for online retailers.",
+    image: "/images/ecommerce.jpg",
+  },
+  {
+    id: "realestate",
+    title: "Real Estate",
+    description: "Streamlined property payment processing.",
+    image: "/images/real-estate.jpg",
+  },
+  {
+    id: "manufacturing",
+    title: "Manufacturing",
+    description: "B2B payment automation for supply chains.",
+    image: "/images/manufacturing.jpg",
+  },
+]

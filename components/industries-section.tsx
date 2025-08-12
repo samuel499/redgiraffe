@@ -4,45 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import RequestDemoButton from "./ui/request-demo-button"
 import { useScrollAnimations, useStaggeredAnimation } from "../hooks/use-scroll-animations"
-
-const industries = [
-  {
-    id: "fintech",
-    title: "FinTech",
-    description: "Digital payment solutions for modern financial technology.",
-    image: "/images/fintech.jpg",
-  },
-  {
-    id: "healthcare",
-    title: "Healthcare",
-    description: "Secure HIPAA-compliant payment processing.",
-    image: "/images/healthcare.jpg",
-  },
-  {
-    id: "datacentre",
-    title: "Data Centre",
-    description: "Automated billing for global data operations.",
-    image: "/images/industries2.jpg",
-  },
-  {
-    id: "ecommerce",
-    title: "E-Commerce",
-    description: "Multi-currency solutions for online retailers.",
-    image: "/images/ecommerce.jpg",
-  },
-  {
-    id: "realestate",
-    title: "Real Estate",
-    description: "Streamlined property payment processing.",
-    image: "/images/real-estate.jpg",
-  },
-  {
-    id: "manufacturing",
-    title: "Manufacturing",
-    description: "B2B payment automation for supply chains.",
-    image: "/images/manufacturing.jpg",
-  },
-]
+import { industries } from "@/lib/constants"
 
 export default function IndustriesSection() {
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null)
@@ -63,12 +25,6 @@ export default function IndustriesSection() {
           {/* Header Content */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
-              {/* Glass Badge */}
-              {/* <div className="inline-flex">
-                <div className="glass-badge">
-                  <span className="text-sm font-medium text-gray-600">Industries We Serve</span>
-                </div>
-              </div> */}
 
               {/* Title */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
@@ -87,7 +43,7 @@ export default function IndustriesSection() {
             </div>
           </div>
 
-          {/* Horizontal Scrolling Loop with Flippable Cards - All Screen Sizes */}
+          {/* Horizontal Scrolling Loop with Flippable Cards */}
           <div
             className={`w-full fade-in-up ${visibleItems.includes(1) ? "visible" : ""}`}
             style={{ transitionDelay: "200ms" }}
