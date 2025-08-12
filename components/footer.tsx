@@ -4,7 +4,7 @@ import { footerSections, offices } from "@/lib/constants"
 import type React from "react"
 import { useState } from "react"
 import { ChevronDown, ChevronUp, Mail, MapPin } from "lucide-react"
-import Copyright from "./main/copyright"
+import Copyright from "./main/footer/copyright"
 
 export default function Footer() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
