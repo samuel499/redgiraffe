@@ -39,7 +39,6 @@ export default function HeroSection() {
         (document as any).msFullscreenElement
       )
       setIsFullscreen(isCurrentlyFullscreen)
-      console.log("Fullscreen state changed:", isCurrentlyFullscreen)
       
       // Reset auto-exit flag when entering fullscreen
       if (isCurrentlyFullscreen) {
@@ -96,7 +95,6 @@ export default function HeroSection() {
 
   // Add debugging for duration
   useEffect(() => {
-    console.log("Duration updated:", duration, "Current time:", currentTime)
   }, [duration, currentTime])
 
   const togglePlayPause = () => {
@@ -120,7 +118,6 @@ export default function HeroSection() {
 
   // Extract fullscreen exit logic into separate function
   const exitFullscreen = async () => {
-    console.log("Auto-exiting fullscreen...")
     try {
       if (document.exitFullscreen) {
         await document.exitFullscreen()
@@ -143,7 +140,6 @@ export default function HeroSection() {
       
       // Check if video has reached the end and auto-exit fullscreen
       if (duration > 0 && Math.abs(newCurrentTime - duration) < END_OF_VIDEO_THRESHOLD && isFullscreen && !hasAutoExited) {
-        console.log("Video reached end, auto-exiting fullscreen")
         setHasAutoExited(true) // Prevent multiple calls
         exitFullscreen()
       }
@@ -228,10 +224,6 @@ export default function HeroSection() {
     e.preventDefault()
     e.stopPropagation()
     
-    console.log("Fullscreen button clicked!")
-    console.log("Container ref:", containerRef.current)
-    console.log("Current fullscreen state:", isFullscreen)
-
     if (!containerRef.current) {
       console.log("No container ref found")
       return
@@ -239,27 +231,21 @@ export default function HeroSection() {
 
     try {
       if (!isFullscreen) {
-        console.log("Attempting to enter fullscreen...")
         // Reset auto-exit flag when manually entering fullscreen
         setHasAutoExited(false)
         
         if (containerRef.current.requestFullscreen) {
           await containerRef.current.requestFullscreen()
-          console.log("requestFullscreen called")
         } else if ((containerRef.current as any).webkitRequestFullscreen) {
           await (containerRef.current as any).webkitRequestFullscreen()
-          console.log("webkitRequestFullscreen called")
         } else if ((containerRef.current as any).mozRequestFullScreen) {
           await (containerRef.current as any).mozRequestFullScreen()
-          console.log("mozRequestFullScreen called")
         } else if ((containerRef.current as any).msRequestFullscreen) {
           await (containerRef.current as any).msRequestFullscreen()
-          console.log("msRequestFullscreen called")
         } else {
           console.log("No fullscreen API available")
         }
       } else {
-        console.log("Attempting to exit fullscreen...")
         await exitFullscreen()
       }
     } catch (error) {
