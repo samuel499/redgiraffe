@@ -56,10 +56,14 @@ export default function PricingSection() {
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6">
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Flexible Pricing to Fit
+                RedGirraffe Global 
                 <br />
-                Your Needs
+                <span className="text-gray-400">Commercial Card Pricing</span>
               </h2>
+
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-5xl">
+                Pricing is subject to a commercial arrangement between your bank and RedGirraffe or its authorised PSPs. Please contact your commercial bank to confirm your RedGirraffe Pay-Pulse Commercial Credit Card high value recurring rates on Visa, MasterCard & other leading global Payment Networks.
+              </p>
             </div>
           </div>
 
