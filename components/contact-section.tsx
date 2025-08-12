@@ -229,7 +229,7 @@ export default function ContactSection() {
                             </a>
                           </InfoCard>
                           <InfoCard icon={<Mail className="w-5 h-5" />} title="Email">
-                            <a href="mailto:connect@redgirraffe.com" className="hover:opacity-90">
+                            <a href="mailto:connect@redgirraffe.com" className="hover:opacity-90 break-all">
                               connect@redgirraffe.com
                             </a>
                           </InfoCard>
