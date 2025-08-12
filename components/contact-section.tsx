@@ -45,7 +45,7 @@ export default function ContactSection() {
     children: React.ReactNode
   }) {
     return (
-      <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 rounded-lg">
+      <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 rounded-lg transition-all duration-300 hover:shadow-md hover:scale-105">
         <div className="flex-shrink-0 w-10 h-10 rounded-md bg-primary-600 flex items-center justify-center">
           <span className="w-5 h-5 text-white">{icon}</span>
         </div>
@@ -134,7 +134,7 @@ export default function ContactSection() {
                       />
                     </div>
 
-                    <div className="flex flex-col text-center sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
+                    <div className="flex flex-col text-center sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 hover:scale-105">
                       <button
                         type="submit"
                         disabled={!formData.agreeToTerms}
@@ -240,7 +240,7 @@ export default function ContactSection() {
                         <button
                           type="submit"
                           disabled={!formData.agreeToTerms}
-                          className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 transition"
+                          className="group inline-flex items-center gap-3 px-5 py-3 bg-white text-emerald-700 font-semibold rounded-lg shadow hover:opacity-95 hover:scale-105 transition"
                         >
                           <span className="text-sm font-semibold">Send a Message</span>
                           <ArrowRight className="w-4 h-4 text-emerald-700 transition-transform duration-200 group-hover:translate-x-1" />
