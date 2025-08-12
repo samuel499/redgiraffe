@@ -58,20 +58,22 @@ export default function ContactSection() {
   }
 
   const inputClass =
-    "w-full rounded-lg py-3 px-4 border border-white/30 bg-white text-emerald-900 placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-white/40"
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-primary-600/40"
 
   const textareaClass =
-    "w-full rounded-lg py-3 px-4 border border-white/30 bg-white text-emerald-900 placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
+    "w-full rounded-lg py-3 px-4 border border-white/30 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white placeholder-emerald-600 focus:outline-none focus:ring-2 focus:ring-primary-600/40 resize-none"
 
   return (
-    <section ref={ref} id="contact" className="relative bg-gray-50 py-6 pb-24 overflow-hidden w-full">
+    <section ref={ref} id="contact" className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-6 pb-24 overflow-hidden w-full">
       <div ref={contentRef} className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center space-y-16">
           {/* Header */}
           <div className={`fade-in-up ${visibleItems.includes(0) ? "visible" : ""}`}>
             <div className="text-center space-y-6 max-w-4xl">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Contact us</h2>
-              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white">
+                Contact <span className="text-primary-600">us</span>
+              </h2>
+              <p className="text-lg sm:text-xl text-white leading-relaxed">
                 We're here to help—share your thoughts or inquiries with us, and we'll get back to you soon!
               </p>
             </div>
@@ -82,10 +84,10 @@ export default function ContactSection() {
             <div className="w-full">
               {/* Mobile */}
               <div className="block md:hidden">
-                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8 mx-4">
+                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 rounded-2xl shadow-lg p-8 mx-4">
                   <form onSubmit={handleSubmit} className="space-y-4 mb-8">
                     <div className="space-y-2">
-                      <label htmlFor="name-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                      <label htmlFor="name-mobile" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                         NAME
                       </label>
                       <input
@@ -101,7 +103,7 @@ export default function ContactSection() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="email-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                      <label htmlFor="email-mobile" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                         EMAIL
                       </label>
                       <input
@@ -117,7 +119,7 @@ export default function ContactSection() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="message-mobile" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                      <label htmlFor="message-mobile" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                         MESSAGE
                       </label>
                       <textarea
@@ -164,13 +166,13 @@ export default function ContactSection() {
 
               {/* Desktop - Full Width */}
               <div className="hidden md:block">
-                <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-2xl shadow-lg p-8 lg:p-12 xl:p-16">
+                <div className="bg-gradient-to-br from-green-600/5 to-emerald-600/5 rounded-2xl shadow-lg p-8 lg:p-12 xl:p-16">
                   <div className="max-w-none mx-auto">
                     <form onSubmit={handleSubmit}>
                       <div className="grid grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
                         <div className="space-y-4">
                           <div className="space-y-2">
-                            <label htmlFor="name" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                            <label htmlFor="name" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                               NAME
                             </label>
                             <input
@@ -185,7 +187,7 @@ export default function ContactSection() {
                             />
                           </div>
                           <div className="space-y-2">
-                            <label htmlFor="email" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                            <label htmlFor="email" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                               EMAIL
                             </label>
                             <input
@@ -202,7 +204,7 @@ export default function ContactSection() {
                         </div>
 
                         <div className="space-y-2">
-                          <label htmlFor="message" className="text-sm font-medium text-emerald-50 uppercase tracking-wide">
+                          <label htmlFor="message" className="text-sm font-medium text-primary-600 uppercase tracking-wide">
                             MESSAGE
                           </label>
                           <textarea
